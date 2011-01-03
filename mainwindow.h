@@ -5,28 +5,27 @@
 #include <QList>
 
 class QGraphicsScene;
+class QGraphicsView;
 
-namespace Ui {
-	class MainWindow;
-}
+namespace DJ {
+	namespace View {
+		class ProblemGraphicsItem;
 
-namespace BAPC {
-	class ProblemGraphicsItem;
+		class MainWindow : public QWidget
+		{
+			Q_OBJECT
 
-	class MainWindow : public QWidget
-	{
-		Q_OBJECT
+		public:
+			explicit MainWindow(QWidget *parent = 0);
+			~MainWindow();
 
-	public:
-		explicit MainWindow(QWidget *parent = 0);
-		~MainWindow();
+		private:
+			QGraphicsScene *scene;
+			QGraphicsView *view;
 
-	private:
-		Ui::MainWindow *ui;
-		QGraphicsScene *scene;
-
-		QList<ProblemGraphicsItem *> items;
-	};
+			QList<ProblemGraphicsItem *> items;
+		};
+	}
 }
 
 #endif // MAINWINDOW_H

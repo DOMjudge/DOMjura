@@ -1,38 +1,45 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 #include <QGraphicsScene>
+#include <QGraphicsView>
+
 #include "problemgraphicsitem.h"
 
-namespace BAPC {
-	MainWindow::MainWindow(QWidget *parent) :
-		QWidget(parent),
-		ui(new Ui::MainWindow) {
-		ui->setupUi(this);
+namespace DJ {
+	namespace View {
+		MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
+			this->setMinimumSize(QSize(1024, 768));
+			this->setMaximumSize(QSize(1024, 768));
+			this->setGeometry(QRect(0, 0, 1024, 768));
+			this->setWindowTitle("DJ::MainWindow");
 
-		this->scene = new QGraphicsScene(this);
+			this->view = new QGraphicsView(this);
+			this->view->setGeometry(0, 0, 1024, 768);
+			this->view->setStyleSheet("background-color: black");
 
-		this->ui->graphicsView->setScene(this->scene);
+			this->scene = new QGraphicsScene(this);
 
-		QList<QString> problems;
-		problems.append("A");
-		problems.append("B");
-		problems.append("C");
-		problems.append("D");
+			this->view->setScene(this->scene);
 
-		for (int i = 0; i < 4; i++) {
-			ProblemGraphicsItem *item = new ProblemGraphicsItem();
-			item->setState((ProblemState)i);
-			item->setPos(i * 100, 0);
-			item->setNumTries(i*4);
-			item->setTime(i * 60);
-			item->setProblemId(problems.at(i));
-			this->items.append(item);
-			this->scene->addItem(item);
+			QList<QString> problems;
+			problems.append("A");
+			problems.append("B");
+			problems.append("C");
+			problems.append("D");
+
+			for (int i = 0; i < 4; i++) {
+				ProblemGraphicsItem *item = new ProblemGraphicsItem();
+				item->setState((Model::ProblemState)i);
+				item->setPos(i * 100, 0);
+				item->setNumTries(i*4);
+				item->setTime(i * 60);
+				item->setProblemId(problems.at(i));
+				this->items.append(item);
+				this->scene->addItem(item);
+			}
 		}
-	}
 
-	MainWindow::~MainWindow() {
-		delete ui;
+		MainWindow::~MainWindow() {
+		}
 	}
 }

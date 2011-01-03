@@ -7,36 +7,37 @@
 
 class QGraphicsSimpleTextItem;
 
-namespace BAPC {
+namespace DJ {
+	namespace View {
+		class ProblemGraphicsItem : public QGraphicsItem {
+		public:
+			ProblemGraphicsItem(double height = 40.0, double width = 90.0);
+			QRectF boundingRect() const;
+			void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+					   QWidget *widget);
 
-	class ProblemGraphicsItem : public QGraphicsItem {
-	public:
-		ProblemGraphicsItem(double height = 40.0, double width = 90.0);
-		QRectF boundingRect() const;
-		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-				   QWidget *widget);
+			void setHeight(double height);
+			void setWidth(double width);
+			void setState(Model::ProblemState state);
+			void setProblemId(QString problemId);
+			void setNumTries(int numTries);
+			void setTime(int time);
 
-		void setHeight(double height);
-		void setWidth(double width);
-		void setState(ProblemState state);
-		void setProblemId(QString problemId);
-		void setNumTries(int numTries);
-		void setTime(int time);
+		signals:
 
-	signals:
+		public slots:
 
-	public slots:
+		private:
+			double height;
+			double width;
+			Model::ProblemState state;
+			QString problemId;
+			int numTries;
+			int time;
+			QGraphicsSimpleTextItem *textItem;
 
-	private:
-		double height;
-		double width;
-		ProblemState state;
-		QString problemId;
-		int numTries;
-		int time;
-		QGraphicsSimpleTextItem *textItem;
-
-	};
+		};
+	}
 }
 
 #endif // PROBLEMGRAPHICSITEM_H

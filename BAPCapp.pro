@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml network
 
 TARGET = BAPCapp
 TEMPLATE = app
@@ -12,10 +12,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
 		mainwindow.cpp \
-	problemgraphicsitem.cpp
+	problemgraphicsitem.cpp \
+    contest.cpp \
+    model.cpp \
+    scoreboard.cpp \
+    problem.cpp \
+    language.cpp
 
 HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
-    defines.h
-
-FORMS    += mainwindow.ui
+    defines.h \
+    contest.h \
+    model.h \
+    scoreboard.h \
+    problem.h \
+    language.h

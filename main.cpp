@@ -1,11 +1,12 @@
 #include <QtGui/QApplication>
-#include "mainwindow.h"
+
+#include "model.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-	BAPC::MainWindow w;
-    w.show();
+	DJ::Model::Model m("http://dj.nicky-en-anne.nl/", "plugin", "plugin");
+	m.refresh();
 
     return a.exec();
 }
