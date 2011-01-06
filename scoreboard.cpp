@@ -16,6 +16,7 @@ namespace DJ {
 
 		void Scoreboard::addProblem(Problem *problem) {
 			this->problems.append(problem);
+			this->problemHash[problem->getId()] = this->problems.size() - 1;
 		}
 
 		int Scoreboard::getNumProblems() {
@@ -26,8 +27,17 @@ namespace DJ {
 			return this->problems.at(i);
 		}
 
+		Problem *Scoreboard::getProblemById(QString id) {
+			if (this->problemHash.contains(id)) {
+				return this->problems.at(this->problemHash[id]);
+			} else {
+				return NULL;
+			}
+		}
+
 		void Scoreboard::addLanguage(Language *language) {
 			this->languages.append(language);
+			this->languageHash[language->getId()] = this->languages.size() - 1;
 		}
 
 		int Scoreboard::getNumLanguages() {
@@ -38,8 +48,17 @@ namespace DJ {
 			return this->languages.at(i);
 		}
 
+		Language *Scoreboard::getLanguageById(QString id) {
+			if (this->languageHash.contains(id)) {
+				return this->languages.at(this->languageHash[id]);
+			} else {
+				return NULL;
+			}
+		}
+
 		void Scoreboard::addAffiliation(Affiliation *affiliation) {
 			this->affiliations.append(affiliation);
+			this->affiliationHash[affiliation->getId()] = this->affiliations.size() - 1;
 		}
 
 		int Scoreboard::getNumAffiliations() {
@@ -50,8 +69,17 @@ namespace DJ {
 			return this->affiliations.at(i);
 		}
 
+		Affiliation *Scoreboard::getAffiliationById(QString id) {
+			if (this->affiliationHash.contains(id)) {
+				return this->affiliations.at(this->affiliationHash[id]);
+			} else {
+				return NULL;
+			}
+		}
+
 		void Scoreboard::addCategory(Category *category) {
 			this->categories.append(category);
+			this->categoryHash[category->getId()] = this->categories.size() - 1;
 		}
 
 		int Scoreboard::getNumCategories() {
@@ -60,6 +88,35 @@ namespace DJ {
 
 		Category *Scoreboard::getCategory(int i) {
 			return this->categories.at(i);
+		}
+
+		Category *Scoreboard::getCategoryById(QString id) {
+			if (this->categoryHash.contains(id)) {
+				return this->categories.at(this->categoryHash[id]);
+			} else {
+				return NULL;
+			}
+		}
+
+		void Scoreboard::addTeam(Team *team) {
+			this->teams.append(team);
+			this->teamHash[team->getId()] = this->teams.size() - 1;
+		}
+
+		int Scoreboard::getNumTeams() {
+			return this->teams.size();
+		}
+
+		Team *Scoreboard::getTeam(int i) {
+			return this->teams.at(i);
+		}
+
+		Team *Scoreboard::getTeamById(QString id) {
+			if (this->teamHash.contains(id)) {
+				return this->teams.at(this->teamHash[id]);
+			} else {
+				return NULL;
+			}
 		}
 
 		QString Scoreboard::toString() {

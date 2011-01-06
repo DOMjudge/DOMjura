@@ -12,6 +12,10 @@ namespace DJ {
 			this->name = name;
 		}
 
+		QString Affiliation::getId() {
+			return this->id;
+		}
+
 		QString Affiliation::toString() {
 			QString s;
 			s += "    id      = " + this->id + "\n";

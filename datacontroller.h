@@ -49,7 +49,10 @@ namespace DJ {
 					AFFILIATION_LEGEND,
 					AFFILIATION,
 					CATEGORY_LEGEND,
-					CATEGORY
+					CATEGORY,
+					ROWS,
+					ROW,
+					TEAM
 				};
 
 				Parsestate parseState;

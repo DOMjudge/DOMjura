@@ -10,6 +10,10 @@ namespace DJ {
 			this->name = name;
 		}
 
+		QString Language::getId() {
+			return this->id;
+		}
+
 		QString Language::toString() {
 			QString s;
 			s += "    id   = " + this->id + "\n";

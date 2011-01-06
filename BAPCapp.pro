@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     problem.cpp \
     language.cpp \
     affiliation.cpp \
-    category.cpp
+    category.cpp \
+    team.cpp
 
 HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
@@ -30,4 +31,5 @@ HEADERS  += mainwindow.h \
     problem.h \
     language.h \
     affiliation.h \
-    category.h
+    category.h \
+    team.h

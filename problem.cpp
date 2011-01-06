@@ -11,6 +11,10 @@ namespace DJ {
 			this->name = name;
 		}
 
+		QString Problem::getId() {
+			return this->id;
+		}
+
 		QString Problem::toString() {
 			QString s;
 			s += "    id = " + this->id + "\n";
