@@ -14,16 +14,20 @@ SOURCES += main.cpp\
 		mainwindow.cpp \
 	problemgraphicsitem.cpp \
     contest.cpp \
-    model.cpp \
+	datacontroller.cpp \
     scoreboard.cpp \
     problem.cpp \
-    language.cpp
+    language.cpp \
+    affiliation.cpp \
+    category.cpp
 
 HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
     defines.h \
     contest.h \
-    model.h \
+	datacontroller.h \
     scoreboard.h \
     problem.h \
-    language.h
+    language.h \
+    affiliation.h \
+    category.h

@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef DATACONTROLLER_H
+#define DATACONTROLLER_H
 
 #include <QObject>
 #include <QXmlDefaultHandler>
@@ -9,18 +9,18 @@
 #include <QNetworkAccessManager>
 
 namespace DJ {
-	namespace Model {
-		class Model : public QObject {
+	namespace Controller {
+		class DataController : public QObject {
 			Q_OBJECT
 		public:
-			explicit Model(QString url, QString username = "", QString password = "", QObject *parent = 0);
-			~Model();
+			explicit DataController(QString url, QString username = "", QString password = "", QObject *parent = 0);
+			~DataController();
 
 			void setUrl(QString url);
 			void setUsername(QString username);
 			void setPassword(QString password);
 			void refresh();
-			Scoreboard *getScoreboard();
+			Model::Scoreboard *getScoreboard();
 
 		private:
 			// Class for reading XML data
@@ -33,10 +33,10 @@ namespace DJ {
 				bool endElement(const QString &, const QString &, const QString &qName);
 				bool startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts);
 				bool characters(const QString &ch);
-				Scoreboard *getScoreboard();
+				Model::Scoreboard *getScoreboard();
 
 			private:
-				Scoreboard *scoreboard;
+				Model::Scoreboard *scoreboard;
 
 				enum Parsestate {
 					NOT_STARTED,
@@ -65,7 +65,7 @@ namespace DJ {
 
 			QNetworkAccessManager *manager;
 
-			Scoreboard *scoreboard;
+			Model::Scoreboard *scoreboard;
 
 		private slots:
 			void finish(QNetworkReply *reply);
@@ -74,4 +74,4 @@ namespace DJ {
 	}
 }
 
-#endif // MODEL_H
+#endif // DATACONTROLLER_H

@@ -7,6 +7,8 @@
 #include "contest.h"
 #include "problem.h"
 #include "language.h"
+#include "affiliation.h"
+#include "category.h"
 
 namespace DJ {
 	namespace Model {
@@ -22,6 +24,12 @@ namespace DJ {
 			void addLanguage(Language *language);
 			int getNumLanguages();
 			Language *getLanguage(int i);
+			void addAffiliation(Affiliation *affiliation);
+			int getNumAffiliations();
+			Affiliation *getAffiliation(int i);
+			void addCategory(Category *category);
+			int getNumCategories();
+			Category *getCategory(int i);
 
 			QString toString();
 
@@ -29,6 +37,8 @@ namespace DJ {
 			Contest *contest;
 			QList<Problem *> problems;
 			QList<Language *> languages;
+			QList<Affiliation *> affiliations;
+			QList<Category *> categories;
 		};
 	}
 }

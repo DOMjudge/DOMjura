@@ -1,4 +1,4 @@
-#include "model.h"
+#include "datacontroller.h"
 
 #include <QDebug>
 #include <QXmlInputSource>
@@ -8,8 +8,8 @@
 #include <QMessageBox>
 
 namespace DJ {
-	namespace Model {
-		Model::Model(QString url, QString username, QString password, QObject *parent) : QObject(parent) {
+	namespace Controller {
+		DataController::DataController(QString url, QString username, QString password, QObject *parent) : QObject(parent) {
 			this->url = url;
 			this->username = username;
 			this->password = password;
@@ -19,29 +19,29 @@ namespace DJ {
 			connect(this->manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finish(QNetworkReply*)));
 		}
 
-		Model::~Model() {
+		DataController::~DataController() {
 
 		}
 
-		void Model::setUrl(QString url) {
+		void DataController::setUrl(QString url) {
 			this->url = url;
 			this->read = false;
 		}
 
-		void Model::setUsername(QString username) {
+		void DataController::setUsername(QString username) {
 			this->username = username;
 		}
 
-		void Model::setPassword(QString password) {
+		void DataController::setPassword(QString password) {
 			this->password = password;
 		}
 
-		void Model::refresh() {
+		void DataController::refresh() {
 			this->read = false;
 			this->readData();
 		}
 
-		void Model::readData() {
+		void DataController::readData() {
 			if (this->scoreboard) {
 				delete this->scoreboard;
 				this->scoreboard = NULL;
@@ -49,13 +49,15 @@ namespace DJ {
 
 			QNetworkRequest request;
 			QUrl url(this->url + "plugin/scoreboard.php");
-			url.setUserName(this->username);
-			url.setPassword(this->password);
+			if (!this->username.isEmpty()) {
+				url.setUserName(this->username);
+				url.setPassword(this->password);
+			}
 			request.setUrl(url);
 			manager->get(request);
 		}
 
-		void Model::finish(QNetworkReply *reply) {
+		void DataController::finish(QNetworkReply *reply) {
 			reply->deleteLater();
 			if (reply->error()) {
 				QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/scoreboard.php!\n\nError was:\n\"%2\"").arg(this->url).arg(reply->errorString()));
@@ -79,29 +81,29 @@ namespace DJ {
 			}
 		}
 
-		Scoreboard *Model::getScoreboard() {
+		Model::Scoreboard *DataController::getScoreboard() {
 			if (!this->read) {
 				this->readData();
 			}
 			return this->scoreboard;
 		}
 
-		Model::ScoreboardParser::ScoreboardParser() {
-			this->scoreboard = new Scoreboard;
+		DataController::ScoreboardParser::ScoreboardParser() {
+			this->scoreboard = new Model::Scoreboard;
 			this->parseState = NOT_STARTED;
 		}
 
-		Model::ScoreboardParser::~ScoreboardParser() {
+		DataController::ScoreboardParser::~ScoreboardParser() {
 			if (this->scoreboard) {
 				delete this->scoreboard;
 			}
 		}
 
-		bool Model::ScoreboardParser::startDocument() {
+		bool DataController::ScoreboardParser::startDocument() {
 			return true;
 		}
 
-		bool Model::ScoreboardParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
+		bool DataController::ScoreboardParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
 			qDebug() << "start element:" << qName;
 			if (qName == "contest") {
 				this->parseState = CONTEST;
@@ -118,7 +120,7 @@ namespace DJ {
 						freeze = QDateTime::fromString(atts.value(i), "yyyy-MM-dd hh:mm:ss");
 					}
 				}
-				Contest *contest = new Contest(start, end, freeze, id, this->scoreboard);
+				Model::Contest *contest = new Model::Contest(start, end, freeze, id, this->scoreboard);
 				this->currentItem = (QObject *)contest;
 			} else if (qName == "problem_legend") {
 				this->parseState = PROBLEM_LEGEND;
@@ -133,7 +135,7 @@ namespace DJ {
 						color.setNamedColor(atts.value(i));
 					}
 				}
-				Problem *problem = new Problem(id, color, this->scoreboard);
+				Model::Problem *problem = new Model::Problem(id, color, this->scoreboard);
 				this->currentItem = (QObject *)problem;
 			} else if (qName == "language_legend") {
 				this->parseState = LANGUAGE_LEGEND;
@@ -145,53 +147,100 @@ namespace DJ {
 						id = atts.value(i);
 					}
 				}
-				Language *language = new Language(id, this->scoreboard);
+				Model::Language *language = new Model::Language(id, this->scoreboard);
 				this->currentItem = (QObject *)language;
+			} else if (qName == "affiliation_legend") {
+				this->parseState = AFFILIATION_LEGEND;
+			} else if (this->parseState == AFFILIATION_LEGEND && qName == "affiliation") {
+				this->parseState = AFFILIATION;
+				QString id, country;
+				for (int i = 0; i < atts.count(); i++) {
+					if (atts.localName(i) == "id") {
+						id = atts.value(i);
+					} else if (atts.localName(i) == "country") {
+						country = atts.value(i);
+					}
+				}
+				Model::Affiliation *affiliation = new Model::Affiliation(id, country, this->scoreboard);
+				this->currentItem = (QObject *)affiliation;
+			} else if (qName == "category_legend") {
+				this->parseState = CATEGORY_LEGEND;
+			} else if (this->parseState == CATEGORY_LEGEND && qName == "category") {
+				this->parseState = CATEGORY;
+				QString id;
+				QColor color;
+				for (int i = 0; i < atts.count(); i++) {
+					if (atts.localName(i) == "id") {
+						id = atts.value(i);
+					} else if (atts.localName(i) == "color") {
+						color.setNamedColor(atts.value(i).isEmpty() ? "white" : atts.value(i));
+					}
+				}
+				Model::Category *category = new Model::Category(id, color, this->scoreboard);
+				this->currentItem = (QObject *)category;
 			}
 			return true;
 		}
 
-		bool Model::ScoreboardParser::endElement(const QString &, const QString &, const QString &qName) {
+		bool DataController::ScoreboardParser::endElement(const QString &, const QString &, const QString &qName) {
 			qDebug() << "end element" << qName;
 			if (qName == "contest") {
-				Contest *contest = (Contest *)this->currentItem;
+				Model::Contest *contest = (Model::Contest *)this->currentItem;
 				this->currentItem = NULL;
 				this->scoreboard->setContest(contest);
 				this->parseState = OUTER_PART;
 			} else if (qName == "problem_legend") {
 				this->parseState = OUTER_PART;
 			} else if (this->parseState == PROBLEM && qName == "problem") {
-				Problem *problem = (Problem *)this->currentItem;
+				Model::Problem *problem = (Model::Problem *)this->currentItem;
 				this->currentItem = NULL;
 				this->scoreboard->addProblem(problem);
 				this->parseState = PROBLEM_LEGEND;
 			} else if (qName == "language_legend") {
 				this->parseState = OUTER_PART;
 			} else if (this->parseState == LANGUAGE && qName == "language") {
-				Language *language = (Language *)this->currentItem;
+				Model::Language *language = (Model::Language *)this->currentItem;
 				this->currentItem = NULL;
 				this->scoreboard->addLanguage(language);
 				this->parseState = LANGUAGE_LEGEND;
+			} else if (qName == "affiliation_legend") {
+				this->parseState = OUTER_PART;
+			} else if (this->parseState == AFFILIATION && qName == "affiliation") {
+				Model::Affiliation *affiliation = (Model::Affiliation *)this->currentItem;
+				this->currentItem = NULL;
+				this->scoreboard->addAffiliation(affiliation);
+				this->parseState = AFFILIATION_LEGEND;
+			} else if (this->parseState == CATEGORY && qName == "category") {
+				Model::Category *category = (Model::Category *)this->currentItem;
+				this->currentItem = NULL;
+				this->scoreboard->addCategory(category);
+				this->parseState = CATEGORY_LEGEND;
 			}
 			return true;
 		}
 
-		bool Model::ScoreboardParser::characters(const QString &ch) {
+		bool DataController::ScoreboardParser::characters(const QString &ch) {
 			qDebug() << "Characters" << ch;
 			if (this->parseState == CONTEST) {
-				Contest *contest = (Contest *)this->currentItem;
+				Model::Contest *contest = (Model::Contest *)this->currentItem;
 				contest->setName(ch);
 			} else if (this->parseState == PROBLEM) {
-				Problem *problem = (Problem *)this->currentItem;
+				Model::Problem *problem = (Model::Problem *)this->currentItem;
 				problem->setName(ch);
 			} else if (this->parseState == LANGUAGE) {
-				Language *language = (Language *)this->currentItem;
+				Model::Language *language = (Model::Language *)this->currentItem;
 				language->setName(ch);
+			} else if (this->parseState == AFFILIATION) {
+				Model::Affiliation *affiliation = (Model::Affiliation *)this->currentItem;
+				affiliation->setName(ch);
+			} else if (this->parseState == CATEGORY) {
+				Model::Category *category = (Model::Category *)this->currentItem;
+				category->setName(ch);
 			}
 			return true;
 		}
 
-		Scoreboard *Model::ScoreboardParser::getScoreboard() {
+		Model::Scoreboard *DataController::ScoreboardParser::getScoreboard() {
 			return this->scoreboard;
 		}
 

@@ -1,11 +1,11 @@
 #include <QtGui/QApplication>
 
-#include "model.h"
+#include "datacontroller.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-	DJ::Model::Model m("http://dj.nicky-en-anne.nl/", "plugin", "plugin");
+	DJ::Controller::DataController m("http://localhost/~nicky/", "", "");
 	m.refresh();
 
     return a.exec();

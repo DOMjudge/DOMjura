@@ -38,6 +38,30 @@ namespace DJ {
 			return this->languages.at(i);
 		}
 
+		void Scoreboard::addAffiliation(Affiliation *affiliation) {
+			this->affiliations.append(affiliation);
+		}
+
+		int Scoreboard::getNumAffiliations() {
+			return this->affiliations.size();
+		}
+
+		Affiliation *Scoreboard::getAffiliation(int i) {
+			return this->affiliations.at(i);
+		}
+
+		void Scoreboard::addCategory(Category *category) {
+			this->categories.append(category);
+		}
+
+		int Scoreboard::getNumCategories() {
+			return this->categories.size();
+		}
+
+		Category *Scoreboard::getCategory(int i) {
+			return this->categories.at(i);
+		}
+
 		QString Scoreboard::toString() {
 			QString s;
 			s += "-- Scoreboard --\n";
@@ -52,6 +76,16 @@ namespace DJ {
 			for (int i = 0; i < this->getNumLanguages(); i++) {
 				s += "  Language " + QString::number(i) + ":\n";
 				s += this->getLanguage(i)->toString();
+			}
+			s += "Affiliations (" + QString::number(this->getNumAffiliations()) + "):\n";
+			for (int i = 0; i < this->getNumAffiliations(); i++) {
+				s += "  Affiliation " + QString::number(i) + ":\n";
+				s += this->getAffiliation(i)->toString();
+			}
+			s += "Categories (" + QString::number(this->getNumCategories()) + "):\n";
+			for (int i = 0; i < this->getNumCategories(); i++) {
+				s += "  Category " + QString::number(i) + ":\n";
+				s += this->getCategory(i)->toString();
 			}
 			return s;
 		}
