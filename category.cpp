@@ -11,6 +11,10 @@ namespace DJ {
 			this->name = name;
 		}
 
+		QString Category::getName() {
+			return this->name;
+		}
+
 		QString Category::getId() {
 			return this->id;
 		}

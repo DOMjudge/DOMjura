@@ -5,13 +5,16 @@
 
 namespace DJ {
 	namespace Model {
+		class Scoreboard;
 		class Category;
 		class Affiliation;
 
 		class Team : public QObject {
 			Q_OBJECT
 		public:
-			explicit Team(QString id, Category *category, Affiliation *affiliation, QObject *parent = 0);
+			explicit Team(QString id, QString categoryid, QString affiliationid, QObject *parent = 0);
+			void updateIds(Scoreboard *scoreboard);
+
 			void setName(QString name);
 			QString getId();
 
@@ -19,7 +22,9 @@ namespace DJ {
 
 		private:
 			QString id;
+			QString categoryid;
 			Category *category;
+			QString affiliationid;
 			Affiliation* affiliation;
 			QString name;
 

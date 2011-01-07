@@ -12,6 +12,7 @@ namespace DJ {
 		public:
 			explicit Category(QString id, QColor color, QObject *parent = 0);
 			void setName(QString name);
+			QString getName();
 			QString getId();
 
 			QString toString();

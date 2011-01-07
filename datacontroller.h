@@ -5,6 +5,7 @@
 #include <QXmlDefaultHandler>
 
 #include "scoreboard.h"
+#include "events.h"
 
 #include <QNetworkAccessManager>
 
@@ -23,7 +24,7 @@ namespace DJ {
 			Model::Scoreboard *getScoreboard();
 
 		private:
-			// Class for reading XML data
+			// Class for reading scoreboard XML data
 			class ScoreboardParser : public QXmlDefaultHandler {
 			public:
 				ScoreboardParser();
@@ -59,6 +60,40 @@ namespace DJ {
 				QObject *currentItem;
 			};
 
+			// Class for reading events XML data
+			class EventsParser : public QXmlDefaultHandler {
+			public:
+				EventsParser(Model::Scoreboard *scoreboard);
+				~EventsParser();
+
+				bool startDocument();
+				bool endElement(const QString &, const QString &, const QString &qName);
+				bool startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts);
+				bool characters(const QString &ch);
+				Model::Events *getEvents();
+
+			private:
+				Model::Events *events;
+				Model::Scoreboard *scoreboard;
+
+				enum Parsestate {
+					NOT_STARTED,
+					OUTER_PART,
+					EVENTS,
+					EVENT,
+					SUBMISSION,
+					TEAM,
+					PROBLEM,
+					LANGUAGE,
+					JUDGING
+				};
+
+				Parsestate parseState;
+				QObject *currentItem;
+				QString currentEventId;
+				QDateTime currentEventTime;
+			};
+
 			void readData();
 
 			QString url;
@@ -69,6 +104,7 @@ namespace DJ {
 			QNetworkAccessManager *manager;
 
 			Model::Scoreboard *scoreboard;
+			Model::Events *events;
 
 		private slots:
 			void finish(QNetworkReply *reply);
