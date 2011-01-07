@@ -43,6 +43,7 @@ namespace DJ {
 			Category *getCategoryById(QString id);
 
 			void addTeam(Team *team);
+			void updateTeamRefs();
 			int getNumTeams();
 			Team *getTeam(int i);
 			Team *getTeamById(QString id);

@@ -10,6 +10,7 @@ namespace DJ {
 		public:
 			explicit Affiliation(QString id, QString country, QObject *parent = 0);
 			void setName(QString name);
+			QString getName();
 			QString getId();
 
 			QString toString();

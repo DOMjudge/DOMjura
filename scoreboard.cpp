@@ -103,6 +103,12 @@ namespace DJ {
 			this->teamHash[team->getId()] = this->teams.size() - 1;
 		}
 
+		void Scoreboard::updateTeamRefs() {
+			for (int i = 0; i < this->teams.size(); i++) {
+				this->teams.at(i)->updateIds(this);
+			}
+		}
+
 		int Scoreboard::getNumTeams() {
 			return this->teams.size();
 		}
@@ -143,6 +149,11 @@ namespace DJ {
 			for (int i = 0; i < this->getNumCategories(); i++) {
 				s += "  Category " + QString::number(i) + ":\n";
 				s += this->getCategory(i)->toString();
+			}
+			s += "Teams (" + QString::number(this->getNumTeams()) + "):\n";
+			for (int i = 0; i < this->getNumTeams(); i++) {
+				s += "  Team " + QString::number(i) + ":\n";
+				s += this->getTeam(i)->toString();
 			}
 			return s;
 		}

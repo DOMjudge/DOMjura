@@ -6,7 +6,7 @@
 
 QT       += core gui xml network
 
-TARGET = BAPCapp
+TARGET = DOMjura
 TEMPLATE = app
 
 
@@ -20,7 +20,11 @@ SOURCES += main.cpp\
     language.cpp \
     affiliation.cpp \
     category.cpp \
-    team.cpp
+    team.cpp \
+    events.cpp \
+    event.cpp \
+    submissionevent.cpp \
+    judgingevent.cpp
 
 HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
@@ -32,4 +36,8 @@ HEADERS  += mainwindow.h \
     language.h \
     affiliation.h \
     category.h \
-    team.h
+    team.h \
+    events.h \
+    event.h \
+    submissionevent.h \
+    judgingevent.h

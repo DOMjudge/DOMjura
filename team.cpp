@@ -2,13 +2,19 @@
 
 #include "category.h"
 #include "affiliation.h"
+#include "scoreboard.h"
 
 namespace DJ {
 	namespace Model {
-		Team::Team(QString id, Category *category, Affiliation *affiliation, QObject *parent) : QObject(parent) {
+		Team::Team(QString id, QString categoryid, QString affiliationid, QObject *parent) : QObject(parent) {
 			this->id = id;
-			this->category = category;
-			this->affiliation = affiliation;
+			this->categoryid = categoryid;
+			this->affiliationid = affiliationid;
+		}
+
+		void Team::updateIds(Scoreboard *scoreboard) {
+			this->category = scoreboard->getCategoryById(this->categoryid);
+			this->affiliation = scoreboard->getAffiliationById(this->affiliationid);
 		}
 
 		void Team::setName(QString name) {
@@ -22,9 +28,9 @@ namespace DJ {
 		QString Team::toString() {
 			QString s;
 			s += "    id          = " + this->id + "\n";
-			s += "    category    = " + this->category->getId() + "\n";
+			s += "    category    = " + this->category->getId() + " (" + this->category->getName() + ")\n";
 			if (this->affiliation) {
-				s += "    affiliation = " + this->affiliation->getId() + "\n";
+				s += "    affiliation = " + this->affiliation->getId() + " (" + this->affiliation->getName() + ")\n";
 			}
 			return s;
 		}
