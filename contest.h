@@ -13,6 +13,11 @@ namespace DJ {
 			~Contest();
 
 			void setName(QString name);
+
+			QDateTime getStart();
+			QDateTime getFreeze();
+			QDateTime getEnd();
+
 			QString toString();
 
 		private:
