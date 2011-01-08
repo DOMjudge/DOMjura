@@ -16,6 +16,10 @@ namespace DJ {
 		void MainController::dataRead() {
 			this->statsController = new StatsController(this->readDataController->getScoreboard(), this->readDataController->getEvents(), this);
 			qDebug() << "num submissions = " << this->statsController->getTotalSubmissions();
+			for (int i = 0; i < this->readDataController->getScoreboard()->getNumProblems(); i++) {
+				qDebug() << "submissions for problem" << this->readDataController->getScoreboard()->getProblem(i)->getId() << "=" <<
+							this->statsController->getNumSubmissionsOfProblem(this->readDataController->getScoreboard()->getProblem(i)->getId());
+			}
 		}
 	} // namespace Controller
 } // namespace DJ

@@ -20,5 +20,16 @@ namespace DJ {
 			}
 			return num;
 		}
+
+		int StatsController::getNumSubmissionsOfProblem(QString problemid) {
+			int num = 0;
+			for (int i = 0; i < this->events->getNumEvents(); i++) {
+				if (this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT &&
+						((Model::SubmissionEvent *)(this->events->getEvent(i)))->getProblem()->getId() == problemid) {
+					num++;
+				}
+			}
+			return num;
+		}
 	} // namespace Model
 } // namespace Controller

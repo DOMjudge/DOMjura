@@ -18,6 +18,5 @@ namespace DJ {
 		QDateTime Event::getDateTime() {
 			return this->datetime;
 		}
-
 	} // namespace Model
 } // namespace DJ

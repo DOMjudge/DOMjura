@@ -38,5 +38,9 @@ namespace DJ {
 		EventType SubmissionEvent::getType() {
 			return SUBMISSIONEVENT;
 		}
+
+		Problem *SubmissionEvent::getProblem() {
+			return this->problem;
+		}
 	} // namespace Model
 } // namespace DJ
