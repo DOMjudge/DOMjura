@@ -1,4 +1,4 @@
-#include "datacontroller.h"
+#include "readdatacontroller.h"
 
 #include <QDebug>
 #include <QXmlInputSource>
@@ -12,7 +12,7 @@
 
 namespace DJ {
 	namespace Controller {
-		DataController::DataController(QString url, QString username, QString password, QObject *parent) : QObject(parent) {
+		ReadDataController::ReadDataController(QString url, QString username, QString password, QObject *parent) : QObject(parent) {
 			this->url = url;
 			this->username = username;
 			this->password = password;
@@ -23,29 +23,29 @@ namespace DJ {
 			connect(this->manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finish(QNetworkReply*)));
 		}
 
-		DataController::~DataController() {
+		ReadDataController::~ReadDataController() {
 
 		}
 
-		void DataController::setUrl(QString url) {
+		void ReadDataController::setUrl(QString url) {
 			this->url = url;
 			this->read = false;
 		}
 
-		void DataController::setUsername(QString username) {
+		void ReadDataController::setUsername(QString username) {
 			this->username = username;
 		}
 
-		void DataController::setPassword(QString password) {
+		void ReadDataController::setPassword(QString password) {
 			this->password = password;
 		}
 
-		void DataController::refresh() {
+		void ReadDataController::refresh() {
 			this->read = false;
 			this->readData();
 		}
 
-		void DataController::readData() {
+		void ReadDataController::readData() {
 			if (this->scoreboard) {
 				delete this->scoreboard;
 				this->scoreboard = NULL;
@@ -66,7 +66,7 @@ namespace DJ {
 			manager->get(request);
 		}
 
-		void DataController::finish(QNetworkReply *reply) {
+		void ReadDataController::finish(QNetworkReply *reply) {
 			reply->deleteLater();
 			if (reply->request().rawHeader("what") == "scoreboard") {
 				if (reply->error()) {
@@ -123,26 +123,26 @@ namespace DJ {
 			}
 		}
 
-		Model::Scoreboard *DataController::getScoreboard() {
+		Model::Scoreboard *ReadDataController::getScoreboard() {
 			if (!this->read) {
 				this->readData();
 			}
 			return this->scoreboard;
 		}
 
-		DataController::ScoreboardParser::ScoreboardParser() {
+		ReadDataController::ScoreboardParser::ScoreboardParser() {
 			this->scoreboard = new Model::Scoreboard;
 			this->parseState = NOT_STARTED;
 		}
 
-		DataController::ScoreboardParser::~ScoreboardParser() {
+		ReadDataController::ScoreboardParser::~ScoreboardParser() {
 		}
 
-		bool DataController::ScoreboardParser::startDocument() {
+		bool ReadDataController::ScoreboardParser::startDocument() {
 			return true;
 		}
 
-		bool DataController::ScoreboardParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
+		bool ReadDataController::ScoreboardParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
 			qDebug() << "start element:" << qName;
 			if (qName == "contest") {
 				this->parseState = CONTEST;
@@ -241,7 +241,7 @@ namespace DJ {
 			return true;
 		}
 
-		bool DataController::ScoreboardParser::endElement(const QString &, const QString &, const QString &qName) {
+		bool ReadDataController::ScoreboardParser::endElement(const QString &, const QString &, const QString &qName) {
 			qDebug() << "end element" << qName;
 			if (qName == "contest") {
 				Model::Contest *contest = (Model::Contest *)this->currentItem;
@@ -289,7 +289,7 @@ namespace DJ {
 			return true;
 		}
 
-		bool DataController::ScoreboardParser::characters(const QString &ch) {
+		bool ReadDataController::ScoreboardParser::characters(const QString &ch) {
 			qDebug() << "Characters" << ch;
 			if (this->parseState == CONTEST) {
 				Model::Contest *contest = (Model::Contest *)this->currentItem;
@@ -313,24 +313,24 @@ namespace DJ {
 			return true;
 		}
 
-		Model::Scoreboard *DataController::ScoreboardParser::getScoreboard() {
+		Model::Scoreboard *ReadDataController::ScoreboardParser::getScoreboard() {
 			return this->scoreboard;
 		}
 
-		DataController::EventsParser::EventsParser(Model::Scoreboard *scoreboard) {
+		ReadDataController::EventsParser::EventsParser(Model::Scoreboard *scoreboard) {
 			this->scoreboard = scoreboard;
 			this->events = new Model::Events;
 			this->parseState = NOT_STARTED;
 		}
 
-		DataController::EventsParser::~EventsParser() {
+		ReadDataController::EventsParser::~EventsParser() {
 		}
 
-		bool DataController::EventsParser::startDocument() {
+		bool ReadDataController::EventsParser::startDocument() {
 			return true;
 		}
 
-		bool DataController::EventsParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
+		bool ReadDataController::EventsParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
 			qDebug() << "start element:" << qName;
 			if (qName == "events") {
 				this->parseState = EVENTS;
@@ -398,7 +398,7 @@ namespace DJ {
 			return true;
 		}
 
-		bool DataController::EventsParser::endElement(const QString &, const QString &, const QString &qName) {
+		bool ReadDataController::EventsParser::endElement(const QString &, const QString &, const QString &qName) {
 			qDebug() << "end element" << qName;
 			if (qName == "events") {
 				this->parseState = OUTER_PART;
@@ -421,7 +421,7 @@ namespace DJ {
 			return true;
 		}
 
-		bool DataController::EventsParser::characters(const QString &ch) {
+		bool ReadDataController::EventsParser::characters(const QString &ch) {
 			qDebug() << "Characters" << ch;
 			if (this->parseState == JUDGING) {
 				Model::JudgingEvent *event = (Model::JudgingEvent *)this->currentItem;
@@ -430,7 +430,7 @@ namespace DJ {
 			return true;
 		}
 
-		Model::Events *DataController::EventsParser::getEvents() {
+		Model::Events *ReadDataController::EventsParser::getEvents() {
 			return this->events;
 		}
 

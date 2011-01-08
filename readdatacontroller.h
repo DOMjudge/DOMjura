@@ -11,11 +11,11 @@
 
 namespace DJ {
 	namespace Controller {
-		class DataController : public QObject {
+		class ReadDataController : public QObject {
 			Q_OBJECT
 		public:
-			explicit DataController(QString url, QString username = "", QString password = "", QObject *parent = 0);
-			~DataController();
+			explicit ReadDataController(QString url, QString username = "", QString password = "", QObject *parent = 0);
+			~ReadDataController();
 
 			void setUrl(QString url);
 			void setUsername(QString username);
