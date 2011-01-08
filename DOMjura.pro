@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     events.cpp \
     event.cpp \
     submissionevent.cpp \
-    judgingevent.cpp
+    judgingevent.cpp \
+	statscontroller.cpp \
+    maincontroller.cpp
 
 HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
@@ -40,4 +42,6 @@ HEADERS  += mainwindow.h \
     events.h \
     event.h \
     submissionevent.h \
-    judgingevent.h
+    judgingevent.h \
+	statscontroller.h \
+    maincontroller.h

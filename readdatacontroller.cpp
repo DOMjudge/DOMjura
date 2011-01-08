@@ -117,6 +117,8 @@ namespace DJ {
 					this->read = true;
 
 					qDebug() << this->events->toString();
+
+					emit dataRead();
 				} else {
 					QMessageBox::warning(NULL, "Error!", "event.php could not be read correctly!");
 				}
@@ -128,6 +130,13 @@ namespace DJ {
 				this->readData();
 			}
 			return this->scoreboard;
+		}
+
+		Model::Events *ReadDataController::getEvents() {
+			if (!this->read) {
+				this->readData();
+			}
+			return this->events;
 		}
 
 		ReadDataController::ScoreboardParser::ScoreboardParser() {
