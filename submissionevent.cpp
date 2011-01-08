@@ -42,5 +42,9 @@ namespace DJ {
 		Problem *SubmissionEvent::getProblem() {
 			return this->problem;
 		}
+
+		Team *SubmissionEvent::getTeam() {
+			return this->team;
+		}
 	} // namespace Model
 } // namespace DJ

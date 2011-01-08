@@ -32,5 +32,9 @@ namespace DJ {
 		Event *JudgingEvent::getSubmissionEvent() {
 			return this->submissionEvent;
 		}
+
+		bool JudgingEvent::isCorrect() {
+			return this->correct;
+		}
 	} // namespace Model
 } // namespace DJ
