@@ -22,6 +22,7 @@ namespace DJ {
 			void setPassword(QString password);
 			void refresh();
 			Model::Scoreboard *getScoreboard();
+			Model::Events *getEvents();
 
 		private:
 			// Class for reading scoreboard XML data
@@ -108,6 +109,9 @@ namespace DJ {
 
 		private slots:
 			void finish(QNetworkReply *reply);
+
+		signals:
+			void dataRead();
 
 		};
 	}

@@ -14,6 +14,9 @@ namespace DJ {
 			explicit Events(QObject *parent = 0);
 			void addEvent(Event *event);
 			Event *eventBySubmitId(QString submitId);
+			int getNumEvents();
+			Event *getEvent(int i);
+			Event *getEventById(QString id);
 
 			QString toString();
 		private:

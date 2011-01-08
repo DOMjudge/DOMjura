@@ -26,6 +26,23 @@ namespace DJ {
 			return NULL;
 		}
 
+		int Events::getNumEvents() {
+			return this->events.size();
+		}
+
+		Event *Events::getEvent(int i) {
+			return this->events.at(i);
+		}
+
+		Event *Events::getEventById(QString id) {
+			for (int i = 0; i < this->events.size(); i++) {
+				if (this->events.at(i)->getId() == id) {
+					return this->events.at(i);
+				}
+			}
+			return NULL;
+		}
+
 		QString Events::toString() {
 			QString s;
 			s += "Events (" + QString::number(this->events.size()) + "):\n";
