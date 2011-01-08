@@ -2,8 +2,9 @@
 
 namespace DJ {
 	namespace Model {
-		SubmissionEvent::SubmissionEvent(QString id, QDateTime datetime, QString submissionId, QObject *parent) : Event(id, datetime, parent) {
+		SubmissionEvent::SubmissionEvent(QString id, QDateTime datetime, QString submissionId, bool inFreeze, QObject *parent) : Event(id, datetime, parent) {
 			this->submissionId = submissionId;
+			this->inFreeze = inFreeze;
 		}
 
 		void SubmissionEvent::setTeam(Team *team) {

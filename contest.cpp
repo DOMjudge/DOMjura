@@ -17,6 +17,18 @@ namespace DJ {
 			this->name = name;
 		}
 
+		QDateTime Contest::getStart() {
+			return this->start;
+		}
+
+		QDateTime Contest::getFreeze() {
+			return this->freeze;
+		}
+
+		QDateTime Contest::getEnd() {
+			return this->end;
+		}
+
 		QString Contest::toString() {
 			QString s;
 			s += "  id     = " + QString::number(this->id) + "\n";

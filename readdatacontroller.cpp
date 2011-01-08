@@ -57,7 +57,7 @@ namespace DJ {
 
 			QNetworkRequest request;
 			request.setRawHeader("what", "scoreboard");
-			QUrl url(this->url + "plugin/scoreboard.php");
+			QUrl url(this->url + "/plugin/scoreboard.php");
 			if (!this->username.isEmpty()) {
 				url.setUserName(this->username);
 				url.setPassword(this->password);
@@ -89,7 +89,7 @@ namespace DJ {
 
 					QNetworkRequest request;
 					request.setRawHeader("what", "event");
-					QUrl url(this->url + "plugin/event.php");
+					QUrl url(this->url + "/plugin/event.php");
 					if (!this->username.isEmpty()) {
 						url.setUserName(this->username);
 						url.setPassword(this->password);
@@ -360,7 +360,7 @@ namespace DJ {
 						submissionId = atts.value(i);
 					}
 				}
-				Model::Event *event = new Model::SubmissionEvent(this->currentEventId, this->currentEventTime, submissionId, this->events);
+				Model::Event *event = new Model::SubmissionEvent(this->currentEventId, this->currentEventTime, submissionId, this->currentEventTime >= this->scoreboard->getContest()->getFreeze(), this->events);
 				this->currentItem = (QObject *)event;
 			} else if (this->parseState == SUBMISSION && qName == "team") {
 				this->parseState = TEAM;
@@ -414,8 +414,18 @@ namespace DJ {
 			} else if (qName == "event") {
 				Model::Event *event = (Model::Event *)this->currentItem;
 				this->currentItem = NULL;
-				this->events->addEvent(event);
 				this->parseState = EVENTS;
+				if (event->getType() == Model::SUBMISSIONEVENT) {
+					// Now we need to be inside the contest time
+					if (event->getDateTime() >= this->scoreboard->getContest()->getStart() && event->getDateTime() <= this->scoreboard->getContest()->getEnd()) {
+						this->events->addEvent(event);
+					}
+				} else if (event->getType() == Model::JUDGINGEVENT) {
+					Model::JudgingEvent *judingEvent = (Model::JudgingEvent *)event;
+					if (judingEvent->getSubmissionEvent()->getDateTime() >= this->scoreboard->getContest()->getStart() && judingEvent->getSubmissionEvent()->getDateTime() <= this->scoreboard->getContest()->getEnd()) {
+						this->events->addEvent(event);
+					}
+				}
 			} else if (this->parseState == SUBMISSION && qName == "submission") {
 				this->parseState = EVENT;
 			} else if (this->parseState == TEAM && qName == "team") {

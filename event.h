@@ -19,6 +19,7 @@ namespace DJ {
 			virtual QString toString() = 0;
 			virtual EventType getType();
 			QString getId();
+			QDateTime getDateTime();
 
 		protected:
 			QString id;

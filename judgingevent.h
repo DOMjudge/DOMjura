@@ -11,6 +11,7 @@ namespace DJ {
 			void setCorrect(bool correct);
 			QString toString();
 			EventType getType();
+			Event *getSubmissionEvent();
 
 		private:
 			QString judgingId;

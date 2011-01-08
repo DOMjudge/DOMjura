@@ -8,7 +8,7 @@ namespace DJ {
 		}
 
 		void MainController::go() {
-			this->readDataController = new ReadDataController("http://localhost/~nicky/", "plugin", "plugin", this);
+			this->readDataController = new ReadDataController("http://dj.nicky-en-anne.nl", "plugin", "plugin", this);
 			connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(dataRead()));
 			this->readDataController->refresh();
 		}

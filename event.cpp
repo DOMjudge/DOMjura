@@ -15,5 +15,9 @@ namespace DJ {
 			return this->id;
 		}
 
+		QDateTime Event::getDateTime() {
+			return this->datetime;
+		}
+
 	} // namespace Model
 } // namespace DJ

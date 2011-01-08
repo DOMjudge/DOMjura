@@ -28,5 +28,9 @@ namespace DJ {
 		EventType JudgingEvent::getType() {
 			return JUDGINGEVENT;
 		}
+
+		Event *JudgingEvent::getSubmissionEvent() {
+			return this->submissionEvent;
+		}
 	} // namespace Model
 } // namespace DJ
