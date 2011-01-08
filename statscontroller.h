@@ -14,6 +14,7 @@ namespace DJ {
 			explicit StatsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent = 0);
 
 			int getTotalSubmissions();
+			int getNumSubmissionsOfProblem(QString problemid);
 
 		private:
 			Model::Scoreboard *scoreboard;
