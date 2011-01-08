@@ -11,10 +11,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-		mainwindow.cpp \
+	mainwindow.cpp \
 	problemgraphicsitem.cpp \
     contest.cpp \
-	datacontroller.cpp \
+	readdatacontroller.cpp \
     scoreboard.cpp \
     problem.cpp \
     language.cpp \
@@ -30,7 +30,7 @@ HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
     defines.h \
     contest.h \
-	datacontroller.h \
+	readdatacontroller.h \
     scoreboard.h \
     problem.h \
     language.h \
