@@ -15,6 +15,9 @@ namespace DJ {
 
 			int getTotalSubmissions();
 			int getNumSubmissionsOfProblem(QString problemid);
+			int getNumCorrectofProblem(QString problemid);
+			bool problemIsSolved(QString problemid);
+			QDateTime getFirstSolved(QString problemid);
 
 		private:
 			Model::Scoreboard *scoreboard;

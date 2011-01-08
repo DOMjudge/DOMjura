@@ -18,6 +18,7 @@ namespace DJ {
 			QString toString();
 			EventType getType();
 			Problem *getProblem();
+			Team *getTeam();
 
 		private:
 			bool inFreeze;
