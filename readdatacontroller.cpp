@@ -416,15 +416,9 @@ namespace DJ {
 				this->currentItem = NULL;
 				this->parseState = EVENTS;
 				if (event->getType() == Model::SUBMISSIONEVENT) {
-					// Now we need to be inside the contest time
-					if (event->getDateTime() >= this->scoreboard->getContest()->getStart() && event->getDateTime() <= this->scoreboard->getContest()->getEnd()) {
-						this->events->addEvent(event);
-					}
+					this->events->addEvent(event);
 				} else if (event->getType() == Model::JUDGINGEVENT) {
-					Model::JudgingEvent *judingEvent = (Model::JudgingEvent *)event;
-					if (judingEvent->getSubmissionEvent()->getDateTime() >= this->scoreboard->getContest()->getStart() && judingEvent->getSubmissionEvent()->getDateTime() <= this->scoreboard->getContest()->getEnd()) {
-						this->events->addEvent(event);
-					}
+					this->events->addEvent(event);
 				}
 			} else if (this->parseState == SUBMISSION && qName == "submission") {
 				this->parseState = EVENT;
