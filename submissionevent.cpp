@@ -51,5 +51,9 @@ namespace DJ {
 		bool SubmissionEvent::isValid() {
 			return true;
 		}
+
+		bool SubmissionEvent::isInFreeze() {
+			return this->inFreeze;
+		}
 	} // namespace Model
 } // namespace DJ

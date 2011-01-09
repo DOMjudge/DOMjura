@@ -14,8 +14,9 @@ namespace DJ {
 		public:
 			explicit StandingsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent = 0);
 			void initStandings(QString category);
-			void nextStanding();
+			bool nextStanding();
 			QString toString();
+			Model::RankedTeam *getTeamById(QString id);
 
 		private:
 
@@ -24,6 +25,7 @@ namespace DJ {
 			QList<Model::RankedTeam *> currentRanking;
 			// Helper variable to speed up the searching for the next change
 			int currentPos;
+			int currentProblem;
 			QString category;
 		};
 

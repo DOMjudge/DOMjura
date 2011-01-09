@@ -13,6 +13,15 @@ namespace DJ {
 			ProblemState problemState;
 			int tries;
 			int timeLastTry;
+
+			RankedProblem *copy() {
+				RankedProblem *c = new RankedProblem();
+				c->id = this->id;
+				c->problemState = this->problemState;
+				c->tries = this->tries;
+				c->timeLastTry = this->timeLastTry;
+				return c;
+			}
 		};
 
 		class RankedTeam : public QObject {
@@ -24,8 +33,10 @@ namespace DJ {
 			int getNumSolved();
 			int getTotalTime();
 			QString getName();
+			QString getId();
 			int getNumProblems();
 			RankedProblem *getProblem(int i);
+			RankedProblem *getProblemById(QString id);
 
 		private:
 			void recalculateData();

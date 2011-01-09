@@ -4,7 +4,7 @@
 #include "submissionevent.h"
 #include "judgingevent.h"
 
-#include <QHash>
+#include <QSet>
 
 namespace DJ {
 	namespace Controller {
@@ -20,6 +20,26 @@ namespace DJ {
 						&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT
 						&& ((Model::SubmissionEvent *)this->events->getEvent(i))->isValid()) {
 					num++;
+				}
+			}
+			return num;
+		}
+
+		int StatsController::getTotalCorrect() {
+			int num = 0;
+			// This is to make sure that when a team submits two correct solutions for a problem, only one gets countet
+			QSet<QString> done;
+			for (int i = 0; i < this->events->getNumEvents(); i++) {
+				if (this->events->getEvent(i)->inTime(this->scoreboard)
+						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
+					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
+					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
+					if (submissionEvent->isValid()
+							&& judgingEvent->isCorrect()
+							&& !done.contains(submissionEvent->getSubmissionId())) {
+						num++;
+						done.insert(submissionEvent->getSubmissionId());
+					}
 				}
 			}
 			return num;
@@ -41,7 +61,7 @@ namespace DJ {
 		int StatsController::getNumCorrectofProblem(QString problemid) {
 			int num = 0;
 			// This is to make sure that when a team submits two correct solutions for a problem, only one gets countet
-			QHash<QString, bool> done;
+			QSet<QString> done;
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
 				if (this->events->getEvent(i)->inTime(this->scoreboard)
 						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
@@ -52,7 +72,7 @@ namespace DJ {
 							&& judgingEvent->isCorrect()
 							&& !done.contains(submissionEvent->getTeam()->getId())) {
 						num++;
-						done[submissionEvent->getTeam()->getId()] = true;
+						done.insert(submissionEvent->getTeam()->getId());
 					}
 				}
 			}
