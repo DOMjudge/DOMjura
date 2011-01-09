@@ -20,7 +20,13 @@ ReadDataController::ReadDataController(QString url, QString username, QString pa
 	this->scoreboard = NULL;
 	this->events = NULL;
 	this->manager = new QNetworkAccessManager(this);
+	this->ofDir = false;
 	connect(this->manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finish(QNetworkReply*)));
+}
+
+ReadDataController::ReadDataController(QDir dir, QObject *parent) : QObject(parent) {
+	this->dir = dir;
+	this->ofDir = true;
 }
 
 ReadDataController::~ReadDataController() {
@@ -29,6 +35,7 @@ ReadDataController::~ReadDataController() {
 
 void ReadDataController::setUrl(QString url) {
 	this->url = url;
+	this->ofDir = false;
 	this->read = false;
 }
 
@@ -38,6 +45,10 @@ void ReadDataController::setUsername(QString username) {
 
 void ReadDataController::setPassword(QString password) {
 	this->password = password;
+}
+
+void ReadDataController::setDir(QDir dir) {
+	this->dir = dir;
 }
 
 void ReadDataController::refresh() {
@@ -55,15 +66,50 @@ void ReadDataController::readData() {
 		this->events = NULL;
 	}
 
-	QNetworkRequest request;
-	request.setRawHeader("what", "scoreboard");
-	QUrl url(this->url + "/plugin/scoreboard.php");
-	if (!this->username.isEmpty()) {
-		url.setUserName(this->username);
-		url.setPassword(this->password);
+	if (this->ofDir) {
+		ScoreboardParser parser;
+		QFile scoreboardFile(dir.filePath("scoreboard.xml"));
+		if (!scoreboardFile.open(QIODevice::ReadOnly)) {
+			return;
+		}
+		QXmlInputSource source(&scoreboardFile);
+		QXmlSimpleReader reader;
+		reader.setContentHandler(&parser);
+		reader.setErrorHandler(&parser);
+
+		if (reader.parse(&source)) {
+			this->scoreboard = parser.getScoreboard();
+			this->scoreboard->updateTeamRefs();
+
+			qDebug() << this->scoreboard->toString();
+
+			EventsParser eventsParser(this->scoreboard);
+			QFile eventsFile(dir.filePath("event.xml"));
+			if (!eventsFile.open(QIODevice::ReadOnly)) {
+				return;
+			}
+			QXmlInputSource eventsSource(&eventsFile);
+			QXmlSimpleReader eventsReader;
+			eventsReader.setContentHandler(&eventsParser);
+			eventsReader.setErrorHandler(&eventsParser);
+
+			if (eventsReader.parse(&eventsSource)) {
+				this->events = eventsParser.getEvents();
+
+				qDebug() << this->events->toString();
+			}
+		}
+	} else {
+		QNetworkRequest request;
+		request.setRawHeader("what", "scoreboard");
+		QUrl url(this->url + "/plugin/scoreboard.php");
+		if (!this->username.isEmpty()) {
+			url.setUserName(this->username);
+			url.setPassword(this->password);
+		}
+		request.setUrl(url);
+		manager->get(request);
 	}
-	request.setUrl(url);
-	manager->get(request);
 }
 
 void ReadDataController::finish(QNetworkReply *reply) {
