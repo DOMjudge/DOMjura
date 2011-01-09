@@ -16,7 +16,8 @@ namespace DJ {
 		int StatsController::getTotalSubmissions() {
 			int num = 0;
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
-				if (this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT) {
+				if (this->events->getEvent(i)->inTime(this->scoreboard)
+						&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT) {
 					num++;
 				}
 			}
@@ -26,8 +27,9 @@ namespace DJ {
 		int StatsController::getNumSubmissionsOfProblem(QString problemid) {
 			int num = 0;
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
-				if (this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT &&
-						((Model::SubmissionEvent *)(this->events->getEvent(i)))->getProblem()->getId() == problemid) {
+				if (this->events->getEvent(i)->inTime(this->scoreboard)
+						&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT
+						&& ((Model::SubmissionEvent *)(this->events->getEvent(i)))->getProblem()->getId() == problemid) {
 					num++;
 				}
 			}
@@ -39,7 +41,8 @@ namespace DJ {
 			// This is to make sure that when a team submits two correct solutions for a problem, only one gets countet
 			QHash<QString, bool> done;
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
-				if (this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
+				if (this->events->getEvent(i)->inTime(this->scoreboard)
+						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
 					if (submissionEvent->getProblem()->getId() == problemid && judgingEvent->isCorrect() && !done.contains(submissionEvent->getTeam()->getId())) {
@@ -53,7 +56,8 @@ namespace DJ {
 
 		bool StatsController::problemIsSolved(QString problemid) {
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
-				if (this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
+				if (this->events->getEvent(i)->inTime(this->scoreboard)
+						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
 					if (submissionEvent->getProblem()->getId() == problemid && judgingEvent->isCorrect()) {
@@ -66,7 +70,8 @@ namespace DJ {
 
 		QDateTime StatsController::getFirstSolved(QString problemid) {
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
-				if (this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
+				if (this->events->getEvent(i)->inTime(this->scoreboard)
+						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
 					if (submissionEvent->getProblem()->getId() == problemid && judgingEvent->isCorrect()) {
