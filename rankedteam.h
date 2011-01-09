@@ -21,6 +21,12 @@ namespace DJ {
 			explicit RankedTeam(QString id, QString name, QObject *parent = 0);
 			void setProblem(QString id, RankedProblem *problem);
 
+			int getNumSolved();
+			int getTotalTime();
+			QString getName();
+			int getNumProblems();
+			RankedProblem *getProblem(int i);
+
 		private:
 			void recalculateData();
 

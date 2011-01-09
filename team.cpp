@@ -21,8 +21,16 @@ namespace DJ {
 			this->name = name;
 		}
 
+		QString Team::getName() {
+			return this->name;
+		}
+
 		QString Team::getId() {
 			return this->id;
+		}
+
+		Category *Team::getCategory() {
+			return this->category;
 		}
 
 		QString Team::toString() {

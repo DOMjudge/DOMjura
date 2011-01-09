@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-#define PENALTY_TIME 20;
+#define PENALTY_TIME 20
 
 namespace DJ {
 	namespace Model {

@@ -5,6 +5,7 @@
 
 #include "readdatacontroller.h"
 #include "statscontroller.h"
+#include "standingscontroller.h"
 
 namespace DJ {
 	namespace Controller {
@@ -22,6 +23,7 @@ namespace DJ {
 		private:
 			ReadDataController *readDataController;
 			StatsController *statsController;
+			StandingsController *standingsController;
 		};
 	} // namespace Controller
 } // namespace DJ
