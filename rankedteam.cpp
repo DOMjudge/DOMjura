@@ -32,5 +32,25 @@ namespace DJ {
 				}
 			}
 		}
+
+		int RankedTeam::getNumSolved() {
+			return this->numSolved;
+		}
+
+		int RankedTeam::getTotalTime() {
+			return this->totalTime;
+		}
+
+		QString RankedTeam::getName() {
+			return this->name;
+		}
+
+		int RankedTeam::getNumProblems() {
+			return this->problems.size();
+		}
+
+		RankedProblem *RankedTeam::getProblem(int i) {
+			return this->problems.at(i);
+		}
 	} // namespace Model
 } // namespace DJ

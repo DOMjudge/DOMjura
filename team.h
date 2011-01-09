@@ -16,7 +16,9 @@ namespace DJ {
 			void updateIds(Scoreboard *scoreboard);
 
 			void setName(QString name);
+			QString getName();
 			QString getId();
+			Category *getCategory();
 
 			QString toString();
 
