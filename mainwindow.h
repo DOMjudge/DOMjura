@@ -8,24 +8,24 @@ class QGraphicsScene;
 class QGraphicsView;
 
 namespace DJ {
-	namespace View {
-		class ProblemGraphicsItem;
+namespace View {
+class ProblemGraphicsItem;
 
-		class MainWindow : public QWidget
-		{
-			Q_OBJECT
+class MainWindow : public QWidget
+{
+	Q_OBJECT
 
-		public:
-			explicit MainWindow(QWidget *parent = 0);
-			~MainWindow();
+public:
+	explicit MainWindow(QWidget *parent = 0);
+	~MainWindow();
 
-		private:
-			QGraphicsScene *scene;
-			QGraphicsView *view;
+private:
+	QGraphicsScene *scene;
+	QGraphicsView *view;
 
-			QList<ProblemGraphicsItem *> items;
-		};
-	}
+	QList<ProblemGraphicsItem *> items;
+};
+}
 }
 
 #endif // MAINWINDOW_H

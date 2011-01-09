@@ -8,24 +8,24 @@
 #include "standingscontroller.h"
 
 namespace DJ {
-	namespace Controller {
-		class MainController : public QObject {
-			Q_OBJECT
-		public:
-			explicit MainController(QObject *parent = 0);
-			void go();
+namespace Controller {
+class MainController : public QObject {
+	Q_OBJECT
+public:
+	explicit MainController(QObject *parent = 0);
+	void go();
 
-		signals:
+signals:
 
-		public slots:
-			void dataRead();
+public slots:
+	void dataRead();
 
-		private:
-			ReadDataController *readDataController;
-			StatsController *statsController;
-			StandingsController *standingsController;
-		};
-	} // namespace Controller
+private:
+	ReadDataController *readDataController;
+	StatsController *statsController;
+	StandingsController *standingsController;
+};
+} // namespace Controller
 } // namespace DJ
 
 #endif // MAINCONTROLLER_H

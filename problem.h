@@ -5,22 +5,22 @@
 #include <QColor>
 
 namespace DJ {
-	namespace Model {
-		class Problem : public QObject {
-			Q_OBJECT
-		public:
-			explicit Problem(QString id, QColor color, QObject *parent = 0);
-			void setName(QString name);
-			QString getId();
+namespace Model {
+class Problem : public QObject {
+	Q_OBJECT
+public:
+	explicit Problem(QString id, QColor color, QObject *parent = 0);
+	void setName(QString name);
+	QString getId();
 
-			QString toString();
+	QString toString();
 
-		private:
-			QString id;
-			QColor color;
-			QString name;
-		};
-	}
+private:
+	QString id;
+	QColor color;
+	QString name;
+};
+}
 }
 
 #endif // PROBLEM_H

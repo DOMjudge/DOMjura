@@ -4,21 +4,21 @@
 #include <QObject>
 
 namespace DJ {
-	namespace Model {
-		class Language : public QObject {
-			Q_OBJECT
-		public:
-			explicit Language(QString id, QObject *parent = 0);
-			void setName(QString name);
-			QString getId();
+namespace Model {
+class Language : public QObject {
+	Q_OBJECT
+public:
+	explicit Language(QString id, QObject *parent = 0);
+	void setName(QString name);
+	QString getId();
 
-			QString toString();
+	QString toString();
 
-		private:
-			QString id;
-			QString name;
-		};
-	}
+private:
+	QString id;
+	QString name;
+};
+}
 }
 
 #endif // LANGUAGE_H
