@@ -2,10 +2,9 @@
 
 namespace DJ {
 	namespace Model {
-		SubmissionEvent::SubmissionEvent(QString id, QDateTime datetime, QString submissionId, bool inFreeze, bool valid, QObject *parent) : Event(id, datetime, parent) {
+		SubmissionEvent::SubmissionEvent(QString id, QDateTime datetime, QString submissionId, bool inFreeze, QObject *parent) : Event(id, datetime, parent) {
 			this->submissionId = submissionId;
 			this->inFreeze = inFreeze;
-			this->valid = valid;
 		}
 
 		void SubmissionEvent::setTeam(Team *team) {
@@ -50,7 +49,7 @@ namespace DJ {
 		}
 
 		bool SubmissionEvent::isValid() {
-			return this->valid;
+			return true;
 		}
 	} // namespace Model
 } // namespace DJ
