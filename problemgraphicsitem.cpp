@@ -86,7 +86,8 @@ namespace DJ {
 				painter->drawRoundedRect(0, 0, width, height, 5, 5);
 				break;
 			}
-			case Model::PENDING: {
+			case Model::PENDING_FAILED:
+			case Model::PENDING_SOLVED:{
 				QLinearGradient gradient(0, 0, 0, height-10);
 				gradient.setColorAt(0, QColor(255, 223, 54));
 				gradient.setColorAt(1, QColor(143, 124, 29));
