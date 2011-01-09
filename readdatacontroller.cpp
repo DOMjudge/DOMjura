@@ -355,12 +355,15 @@ namespace DJ {
 			} else if (qName == "submission") {
 				this->parseState = SUBMISSION;
 				QString submissionId;
+				bool valid;
 				for (int i = 0; i < atts.count(); i++) {
 					if (atts.localName(i) == "id") {
 						submissionId = atts.value(i);
+					} else if (atts.localName(i) == "valid") {
+						valid = (atts.value(i) == "1");
 					}
 				}
-				Model::Event *event = new Model::SubmissionEvent(this->currentEventId, this->currentEventTime, submissionId, this->currentEventTime >= this->scoreboard->getContest()->getFreeze(), this->events);
+				Model::Event *event = new Model::SubmissionEvent(this->currentEventId, this->currentEventTime, submissionId, this->currentEventTime >= this->scoreboard->getContest()->getFreeze(), valid, this->events);
 				this->currentItem = (QObject *)event;
 			} else if (this->parseState == SUBMISSION && qName == "team") {
 				this->parseState = TEAM;
