@@ -8,29 +8,29 @@
 #include "rankedteam.h"
 
 namespace DJ {
-	namespace Controller {
-		class StandingsController : public QObject {
-			Q_OBJECT
-		public:
-			explicit StandingsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent = 0);
-			void initStandings(QString category);
-			bool nextStanding();
-			QString toString();
-			Model::RankedTeam *getTeamById(QString id);
+namespace Controller {
+class StandingsController : public QObject {
+	Q_OBJECT
+public:
+	explicit StandingsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent = 0);
+	void initStandings(QString category);
+	bool nextStanding();
+	QString toString();
+	Model::RankedTeam *getTeamById(QString id);
 
-		private:
+private:
 
-			Model::Scoreboard *scoreboard;
-			Model::Events *events;
-			QList<Model::RankedTeam *> currentRanking;
-			// Helper variable to speed up the searching for the next change
-			int currentPos;
-			int currentProblem;
-			QString category;
-		};
+	Model::Scoreboard *scoreboard;
+	Model::Events *events;
+	QList<Model::RankedTeam *> currentRanking;
+	// Helper variable to speed up the searching for the next change
+	int currentPos;
+	int currentProblem;
+	QString category;
+};
 
-		bool rankedTeamLessThan(Model::RankedTeam *team1, Model::RankedTeam *team2);
-	} // namespace Controller
+bool rankedTeamLessThan(Model::RankedTeam *team1, Model::RankedTeam *team2);
+} // namespace Controller
 } // namespace DJ
 
 #endif // STANDINGSCONTROLLER_H

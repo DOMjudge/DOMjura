@@ -4,23 +4,23 @@
 #include <QObject>
 
 namespace DJ {
-	namespace Model {
-		class Affiliation : public QObject {
-			Q_OBJECT
-		public:
-			explicit Affiliation(QString id, QString country, QObject *parent = 0);
-			void setName(QString name);
-			QString getName();
-			QString getId();
+namespace Model {
+class Affiliation : public QObject {
+	Q_OBJECT
+public:
+	explicit Affiliation(QString id, QString country, QObject *parent = 0);
+	void setName(QString name);
+	QString getName();
+	QString getId();
 
-			QString toString();
+	QString toString();
 
-		private:
-			QString id;
-			QString country;
-			QString name;
-		};
-	}
+private:
+	QString id;
+	QString country;
+	QString name;
+};
+}
 }
 
 
