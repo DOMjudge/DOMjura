@@ -1,5 +1,7 @@
 #include "rankedteam.h"
 
+#include <QDebug>
+
 namespace DJ {
 	namespace Model {
 		RankedTeam::RankedTeam(QString id, QString name, QObject *parent) : QObject(parent) {
@@ -45,12 +47,20 @@ namespace DJ {
 			return this->name;
 		}
 
+		QString RankedTeam::getId() {
+			return this->id;
+		}
+
 		int RankedTeam::getNumProblems() {
 			return this->problems.size();
 		}
 
 		RankedProblem *RankedTeam::getProblem(int i) {
 			return this->problems.at(i);
+		}
+
+		RankedProblem *RankedTeam::getProblemById(QString id){
+			return this->problems.at(this->problemsHash[id]);
 		}
 	} // namespace Model
 } // namespace DJ

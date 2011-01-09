@@ -20,6 +20,7 @@ namespace DJ {
 			Problem *getProblem();
 			Team *getTeam();
 			bool isValid();
+			bool isInFreeze();
 
 		private:
 			bool valid;
