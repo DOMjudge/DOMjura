@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QXmlDefaultHandler>
+#include <QDir>
 
 #include "scoreboard.h"
 #include "events.h"
@@ -15,11 +16,13 @@ class ReadDataController : public QObject {
 	Q_OBJECT
 public:
 	explicit ReadDataController(QString url, QString username = "", QString password = "", QObject *parent = 0);
+	explicit ReadDataController(QDir dir, QObject *parent = 0);
 	~ReadDataController();
 
 	void setUrl(QString url);
 	void setUsername(QString username);
 	void setPassword(QString password);
+	void setDir(QDir dir);
 	void refresh();
 	Model::Scoreboard *getScoreboard();
 	Model::Events *getEvents();
@@ -100,7 +103,9 @@ private:
 	QString url;
 	QString username;
 	QString password;
+	QDir dir;
 	bool read;
+	bool ofDir;
 
 	QNetworkAccessManager *manager;
 
