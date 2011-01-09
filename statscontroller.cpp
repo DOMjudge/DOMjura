@@ -17,7 +17,8 @@ namespace DJ {
 			int num = 0;
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
 				if (this->events->getEvent(i)->inTime(this->scoreboard)
-						&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT) {
+						&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT
+						&& ((Model::SubmissionEvent *)this->events->getEvent(i))->isValid()) {
 					num++;
 				}
 			}
@@ -29,7 +30,8 @@ namespace DJ {
 			for (int i = 0; i < this->events->getNumEvents(); i++) {
 				if (this->events->getEvent(i)->inTime(this->scoreboard)
 						&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT
-						&& ((Model::SubmissionEvent *)(this->events->getEvent(i)))->getProblem()->getId() == problemid) {
+						&& ((Model::SubmissionEvent *)this->events->getEvent(i))->isValid()
+						&& ((Model::SubmissionEvent *)this->events->getEvent(i))->getProblem()->getId() == problemid) {
 					num++;
 				}
 			}
@@ -45,7 +47,10 @@ namespace DJ {
 						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-					if (submissionEvent->getProblem()->getId() == problemid && judgingEvent->isCorrect() && !done.contains(submissionEvent->getTeam()->getId())) {
+					if (submissionEvent->isValid()
+							&& submissionEvent->getProblem()->getId() == problemid
+							&& judgingEvent->isCorrect()
+							&& !done.contains(submissionEvent->getTeam()->getId())) {
 						num++;
 						done[submissionEvent->getTeam()->getId()] = true;
 					}
@@ -60,7 +65,9 @@ namespace DJ {
 						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-					if (submissionEvent->getProblem()->getId() == problemid && judgingEvent->isCorrect()) {
+					if (submissionEvent->isValid()
+							&& submissionEvent->getProblem()->getId() == problemid
+							&& judgingEvent->isCorrect()) {
 						return true;
 					}
 				}
@@ -74,7 +81,9 @@ namespace DJ {
 						&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 					Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 					Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-					if (submissionEvent->getProblem()->getId() == problemid && judgingEvent->isCorrect()) {
+					if (submissionEvent->isValid()
+							&& submissionEvent->getProblem()->getId() == problemid
+							&& judgingEvent->isCorrect()) {
 						return submissionEvent->getDateTime();
 					}
 				}

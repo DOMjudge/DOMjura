@@ -30,6 +30,7 @@ namespace DJ {
 			s += "    id           = " + this->id + "\n";
 			s += "    time         = " + this->datetime.toString("yyyy-MM-dd hh:mm:ss") + "\n";
 			s += "    submissionid = " + this->submissionId + "\n";
+			s += "    valid        = " + QString(this->valid ? "yes" : "no") + "\n";
 			s += "    team         = " + this->team->getId() + "\n";
 			s += "    problem      = " + this->problem->getId() + "\n";
 			s += "    language     = " + this->language->getId() + "\n";
@@ -49,7 +50,7 @@ namespace DJ {
 		}
 
 		bool SubmissionEvent::isValid() {
-			return this->isValid();
+			return this->valid;
 		}
 	} // namespace Model
 } // namespace DJ

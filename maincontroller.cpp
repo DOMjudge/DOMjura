@@ -14,6 +14,17 @@ namespace DJ {
 		}
 
 		void MainController::dataRead() {
+			this->statsController = new StatsController(this->readDataController->getScoreboard(), this->readDataController->getEvents(), this);
+			qDebug() << "num submissions = " << this->statsController->getTotalSubmissions();
+			for (int i = 0; i < this->readDataController->getScoreboard()->getNumProblems(); i++) {
+				QString problemid = this->readDataController->getScoreboard()->getProblem(i)->getId();
+				qDebug() << "problem" << problemid;
+				qDebug() << "num submissions =" << this->statsController->getNumSubmissionsOfProblem(problemid);
+				qDebug() << "solved =" << this->statsController->problemIsSolved(problemid);
+				qDebug() << "first solve time =" << this->statsController->getFirstSolved(problemid).toString("yyyy-MM-dd hh:mm:ss");
+				qDebug() << "total correct =" << this->statsController->getNumCorrectofProblem(problemid);
+			}
+
 			this->standingsController = new StandingsController(this->readDataController->getScoreboard(), this->readDataController->getEvents(), this);
 			this->standingsController->initStandings("Participants");
 			qDebug() << this->standingsController->toString();
