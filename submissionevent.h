@@ -10,7 +10,7 @@ namespace DJ {
 	namespace Model {
 		class SubmissionEvent : public Event {
 		public:
-			SubmissionEvent(QString id, QDateTime datetime, QString submissionId, bool inFreeze, QObject *parent = NULL);
+			SubmissionEvent(QString id, QDateTime datetime, QString submissionId, bool inFreeze, bool valid, QObject *parent = NULL);
 			void setTeam(Team *team);
 			void setProblem(Problem *problem);
 			void setLanguage(Language *language);
@@ -19,8 +19,10 @@ namespace DJ {
 			EventType getType();
 			Problem *getProblem();
 			Team *getTeam();
+			bool isValid();
 
 		private:
+			bool valid;
 			bool inFreeze;
 			QString submissionId;
 			Team *team;
