@@ -12,9 +12,13 @@ namespace DJ {
 		class StandingsController : public QObject {
 			Q_OBJECT
 		public:
-			explicit StandingsController(QObject *parent = 0);
+			explicit StandingsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent = 0);
+			void initStandings();
+			void nextStanding();
 
 		private:
+			Model::Scoreboard *scoreboard;
+			Model::Events *events;
 			QList<Model::RankedTeam *> currentRanking;
 		};
 	} // namespace Controller
