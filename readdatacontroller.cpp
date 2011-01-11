@@ -6,27 +6,19 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QMessageBox>
+#include <QXmlStreamWriter>
 
 #include "submissionevent.h"
 #include "judgingevent.h"
 
 namespace DJ {
 namespace Controller {
-ReadDataController::ReadDataController(QString url, QString username, QString password, QObject *parent) : QObject(parent) {
-	this->url = url;
-	this->username = username;
-	this->password = password;
+ReadDataController::ReadDataController(QObject *parent) : QObject(parent) {
 	this->read = false;
+	this->manager = new QNetworkAccessManager(this);
 	this->scoreboard = NULL;
 	this->events = NULL;
-	this->manager = new QNetworkAccessManager(this);
-	this->ofDir = false;
 	connect(this->manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finish(QNetworkReply*)));
-}
-
-ReadDataController::ReadDataController(QDir dir, QObject *parent) : QObject(parent) {
-	this->dir = dir;
-	this->ofDir = true;
 }
 
 ReadDataController::~ReadDataController() {
@@ -51,6 +43,10 @@ void ReadDataController::setDir(QDir dir) {
 	this->dir = dir;
 }
 
+void ReadDataController::setOfDir(bool ofDir) {
+	this->ofDir = ofDir;
+}
+
 void ReadDataController::refresh() {
 	this->read = false;
 	this->readData();
@@ -70,6 +66,7 @@ void ReadDataController::readData() {
 		ScoreboardParser parser;
 		QFile scoreboardFile(dir.filePath("scoreboard.xml"));
 		if (!scoreboardFile.open(QIODevice::ReadOnly)) {
+			QMessageBox::warning(NULL, "Error!", QString("Error reading scoreboard.xml!\n\nError was:\n\%1\"").arg(scoreboardFile.errorString()));
 			return;
 		}
 		QXmlInputSource source(&scoreboardFile);
@@ -86,6 +83,7 @@ void ReadDataController::readData() {
 			EventsParser eventsParser(this->scoreboard);
 			QFile eventsFile(dir.filePath("event.xml"));
 			if (!eventsFile.open(QIODevice::ReadOnly)) {
+				QMessageBox::warning(NULL, "Error!", QString("Error reading event.xml!\n\nError was:\n\"%1\"").arg(eventsFile.errorString()));
 				return;
 			}
 			QXmlInputSource eventsSource(&eventsFile);
@@ -97,7 +95,13 @@ void ReadDataController::readData() {
 				this->events = eventsParser.getEvents();
 
 				qDebug() << this->events->toString();
+
+				emit dataRead();
+			} else {
+				QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
 			}
+		} else {
+			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
 		}
 	} else {
 		QNetworkRequest request;
@@ -143,7 +147,7 @@ void ReadDataController::finish(QNetworkReply *reply) {
 			request.setUrl(url);
 			manager->get(request);
 		} else {
-			QMessageBox::warning(NULL, "Error!", "scoreboard.php could not be read correctly!");
+			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.php!\nError was:\n\"%1\"").arg(parser.errorString()));
 		}
 	} else if (reply->request().rawHeader("what") == "event") {
 		if (reply->error()) {
@@ -166,7 +170,7 @@ void ReadDataController::finish(QNetworkReply *reply) {
 
 			emit dataRead();
 		} else {
-			QMessageBox::warning(NULL, "Error!", "event.php could not be read correctly!");
+			QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
 		}
 	}
 }
@@ -174,6 +178,7 @@ void ReadDataController::finish(QNetworkReply *reply) {
 Model::Scoreboard *ReadDataController::getScoreboard() {
 	if (!this->read) {
 		this->readData();
+		return NULL;
 	}
 	return this->scoreboard;
 }
@@ -181,8 +186,161 @@ Model::Scoreboard *ReadDataController::getScoreboard() {
 Model::Events *ReadDataController::getEvents() {
 	if (!this->read) {
 		this->readData();
+		return NULL;
 	}
 	return this->events;
+}
+
+void ReadDataController::saveXML(QString dir) {
+	// Save xml files to "dir"
+	if (dir.at(dir.size()-1) != '/') {
+		dir += "/";
+	}
+	QFile scorebaordXMLfile(dir + "scoreboard.xml");
+	if (!scorebaordXMLfile.open(QIODevice::WriteOnly)) {
+		QMessageBox::warning(NULL, "Error!", "Can not open scoreboard.xml for writing!");
+	}
+	QXmlStreamWriter scoreboardXMLWriter(&scorebaordXMLfile);
+	scoreboardXMLWriter.setAutoFormatting(true);
+	scoreboardXMLWriter.setAutoFormattingIndent(-1);
+
+	scoreboardXMLWriter.writeStartDocument();
+	scoreboardXMLWriter.writeStartElement("root");
+	scoreboardXMLWriter.writeStartElement("scoreboard");
+	scoreboardXMLWriter.writeStartElement("contest");
+	scoreboardXMLWriter.writeAttribute("id", QString::number(this->scoreboard->getContest()->getId()));
+	scoreboardXMLWriter.writeAttribute("start", this->scoreboard->getContest()->getStart().toString("yyyy-MM-dd hh:mm:ss"));
+	scoreboardXMLWriter.writeAttribute("end", this->scoreboard->getContest()->getEnd().toString("yyyy-MM-dd hh:mm:ss"));
+	scoreboardXMLWriter.writeAttribute("freeze", this->scoreboard->getContest()->getFreeze().toString("yyyy-MM-dd hh:mm:ss"));
+	scoreboardXMLWriter.writeCharacters(this->scoreboard->getContest()->getName());
+	scoreboardXMLWriter.writeEndElement(); // contest
+
+	scoreboardXMLWriter.writeStartElement("rows");
+	for (int i = 0; i < this->scoreboard->getNumTeams(); i++) {
+		scoreboardXMLWriter.writeStartElement("row");
+		// Rank attribute ignored
+		scoreboardXMLWriter.writeStartElement("team");
+		scoreboardXMLWriter.writeAttribute("id", this->scoreboard->getTeam(i)->getId());
+		Model::Category *category = this->scoreboard->getTeam(i)->getCategory();
+		scoreboardXMLWriter.writeAttribute("categoryid", category ? category->getId() : "");
+		Model::Affiliation *affiliation = this->scoreboard->getTeam(i)->getAffiliation();
+		scoreboardXMLWriter.writeAttribute("affillid", affiliation ? affiliation->getId() : "");
+		// Country ignored (can be found using affiliation)
+		scoreboardXMLWriter.writeCharacters(this->scoreboard->getTeam(i)->getName());
+		scoreboardXMLWriter.writeEndElement(); // team
+		// num_solved ignored
+		// totaltime ignored
+		// problems ignored
+		scoreboardXMLWriter.writeEndElement(); // row
+	}
+	scoreboardXMLWriter.writeEndElement(); // rows
+	// summary ignored
+	scoreboardXMLWriter.writeStartElement("problem_legend");
+	for (int i = 0; i < this->scoreboard->getNumProblems(); i++) {
+		Model::Problem *problem = this->scoreboard->getProblem(i);
+		scoreboardXMLWriter.writeStartElement("problem");
+		scoreboardXMLWriter.writeAttribute("id", problem->getId());
+		scoreboardXMLWriter.writeAttribute("color", problem->getColor().name());
+		scoreboardXMLWriter.writeCharacters(problem->getName());
+		scoreboardXMLWriter.writeEndElement(); // problem
+	}
+	scoreboardXMLWriter.writeEndElement(); // problem_legend
+
+	scoreboardXMLWriter.writeStartElement("language_legend");
+	for (int i = 0; i < this->scoreboard->getNumLanguages(); i++) {
+		Model::Language *language = this->scoreboard->getLanguage(i);
+		scoreboardXMLWriter.writeStartElement("language");
+		scoreboardXMLWriter.writeAttribute("id", language->getId());
+		scoreboardXMLWriter.writeCharacters(language->getName());
+		scoreboardXMLWriter.writeEndElement(); // language
+	}
+	scoreboardXMLWriter.writeEndElement(); // language_legend
+
+	scoreboardXMLWriter.writeStartElement("affiliation_legend");
+	for (int i = 0; i < this->scoreboard->getNumAffiliations(); i++) {
+		Model::Affiliation *affiliation = this->scoreboard->getAffiliation(i);
+		scoreboardXMLWriter.writeStartElement("affiliation");
+		scoreboardXMLWriter.writeAttribute("id", affiliation->getId());
+		scoreboardXMLWriter.writeAttribute("country", affiliation->getCountry());
+		scoreboardXMLWriter.writeCharacters(affiliation->getName());
+		scoreboardXMLWriter.writeEndElement(); // affiliation
+	}
+	scoreboardXMLWriter.writeEndElement(); // affiliation_legend
+
+	scoreboardXMLWriter.writeStartElement("category_legend");
+	for (int i = 0; i < this->scoreboard->getNumCategories(); i++) {
+		Model::Category *category = this->scoreboard->getCategory(i);
+		scoreboardXMLWriter.writeStartElement("category");
+		scoreboardXMLWriter.writeAttribute("id", category->getId());
+		scoreboardXMLWriter.writeAttribute("color", category->getColor().name());
+		scoreboardXMLWriter.writeCharacters(category->getName());
+		scoreboardXMLWriter.writeEndElement(); // category
+	}
+	scoreboardXMLWriter.writeEndElement(); // category_legend
+
+	scoreboardXMLWriter.writeEndElement(); // scorebaord
+	scoreboardXMLWriter.writeEndElement(); // root
+	scoreboardXMLWriter.writeEndDocument();
+
+	scorebaordXMLfile.close();
+
+	QFile eventXMLfile(dir + "event.xml");
+	if (!eventXMLfile.open(QIODevice::WriteOnly)) {
+		QMessageBox::warning(NULL, "Error!", "Can not open event.xml for writing!");
+	}
+	QXmlStreamWriter eventXMLWriter(&eventXMLfile);
+	eventXMLWriter.setAutoFormatting(true);
+	eventXMLWriter.setAutoFormattingIndent(-1);
+
+	eventXMLWriter.writeStartDocument();
+
+	eventXMLWriter.writeStartElement("root");
+	eventXMLWriter.writeStartElement("events");
+	for (int i = 0; i < this->events->getNumEvents(); i++) {
+		Model::Event *event = this->events->getEvent(i);
+		eventXMLWriter.writeStartElement("event");
+		eventXMLWriter.writeAttribute("id", event->getId());
+		eventXMLWriter.writeAttribute("time", event->getDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+		if (event->getType() == Model::SUBMISSIONEVENT) {
+			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)event;
+			eventXMLWriter.writeStartElement("submission");
+			eventXMLWriter.writeAttribute("id", submissionEvent->getSubmissionId());
+
+			eventXMLWriter.writeStartElement("team");
+			eventXMLWriter.writeAttribute("id", submissionEvent->getTeam()->getId());
+			eventXMLWriter.writeCharacters(submissionEvent->getTeam()->getName());
+			eventXMLWriter.writeEndElement(); // team
+
+			eventXMLWriter.writeStartElement("problem");
+			eventXMLWriter.writeAttribute("id", submissionEvent->getProblem()->getId());
+			eventXMLWriter.writeCharacters(submissionEvent->getProblem()->getName());
+			eventXMLWriter.writeEndElement(); // problem
+
+			eventXMLWriter.writeStartElement("language");
+			eventXMLWriter.writeAttribute("id", submissionEvent->getLangugage()->getId());
+			eventXMLWriter.writeCharacters(submissionEvent->getLangugage()->getName());
+			eventXMLWriter.writeEndElement(); // language
+
+			eventXMLWriter.writeEndElement(); // submission
+		} else if (event->getType() == Model::JUDGINGEVENT) {
+			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
+			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
+			eventXMLWriter.writeStartElement("judging");
+			eventXMLWriter.writeAttribute("id", judgingEvent->getJudgingId());
+			eventXMLWriter.writeAttribute("submitid", submissionEvent->getSubmissionId());
+
+			eventXMLWriter.writeCharacters(judgingEvent->getResult());
+
+			eventXMLWriter.writeEndElement(); // judging
+		} // else ignore (other events)
+		eventXMLWriter.writeEndElement(); // event
+	}
+	eventXMLWriter.writeEndElement(); // events
+	eventXMLWriter.writeEndElement(); // root
+
+	eventXMLWriter.writeEndDocument();
+
+	eventXMLfile.close();
 }
 
 ReadDataController::ScoreboardParser::ScoreboardParser() {
@@ -198,7 +356,6 @@ bool ReadDataController::ScoreboardParser::startDocument() {
 }
 
 bool ReadDataController::ScoreboardParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
-	qDebug() << "start element:" << qName;
 	if (qName == "contest") {
 		this->parseState = CONTEST;
 		QDateTime start, end, freeze;
@@ -297,7 +454,6 @@ bool ReadDataController::ScoreboardParser::startElement(const QString &, const Q
 }
 
 bool ReadDataController::ScoreboardParser::endElement(const QString &, const QString &, const QString &qName) {
-	qDebug() << "end element" << qName;
 	if (qName == "contest") {
 		Model::Contest *contest = (Model::Contest *)this->currentItem;
 		this->currentItem = NULL;
@@ -345,7 +501,6 @@ bool ReadDataController::ScoreboardParser::endElement(const QString &, const QSt
 }
 
 bool ReadDataController::ScoreboardParser::characters(const QString &ch) {
-	qDebug() << "Characters" << ch;
 	if (this->parseState == CONTEST) {
 		Model::Contest *contest = (Model::Contest *)this->currentItem;
 		contest->setName(ch);
@@ -386,7 +541,6 @@ bool ReadDataController::EventsParser::startDocument() {
 }
 
 bool ReadDataController::EventsParser::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts) {
-	qDebug() << "start element:" << qName;
 	if (qName == "events") {
 		this->parseState = EVENTS;
 	} else if (qName == "event") {
@@ -431,7 +585,6 @@ bool ReadDataController::EventsParser::startElement(const QString &, const QStri
 		for (int i = 0; i < atts.count(); i++) {
 			if (atts.localName(i) == "id") {
 				Model::Language *language = this->scoreboard->getLanguageById(atts.value(i));
-				qDebug() << language->getId();
 				Model::SubmissionEvent *event = (Model::SubmissionEvent *)this->currentItem;
 				event->setLanguage(language);
 			}
@@ -454,7 +607,6 @@ bool ReadDataController::EventsParser::startElement(const QString &, const QStri
 }
 
 bool ReadDataController::EventsParser::endElement(const QString &, const QString &, const QString &qName) {
-	qDebug() << "end element" << qName;
 	if (qName == "events") {
 		this->parseState = OUTER_PART;
 	} else if (qName == "event") {
@@ -481,10 +633,10 @@ bool ReadDataController::EventsParser::endElement(const QString &, const QString
 }
 
 bool ReadDataController::EventsParser::characters(const QString &ch) {
-	qDebug() << "Characters" << ch;
 	if (this->parseState == JUDGING) {
 		Model::JudgingEvent *event = (Model::JudgingEvent *)this->currentItem;
 		event->setCorrect(ch == "correct");
+		event->setResult(ch);
 	}
 	return true;
 }

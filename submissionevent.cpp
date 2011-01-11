@@ -48,6 +48,10 @@ Team *SubmissionEvent::getTeam() {
 	return this->team;
 }
 
+Language *SubmissionEvent::getLangugage() {
+	return this->language;
+}
+
 bool SubmissionEvent::isValid() {
 	return true;
 }

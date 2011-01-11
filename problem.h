@@ -12,6 +12,8 @@ public:
 	explicit Problem(QString id, QColor color, QObject *parent = 0);
 	void setName(QString name);
 	QString getId();
+	QString getName();
+	QColor getColor();
 
 	QString toString();
 

@@ -15,6 +15,14 @@ QString Problem::getId() {
 	return this->id;
 }
 
+QString Problem::getName() {
+	return this->name;
+}
+
+QColor Problem::getColor() {
+	return this->color;
+}
+
 QString Problem::toString() {
 	QString s;
 	s += "    id = " + this->id + "\n";

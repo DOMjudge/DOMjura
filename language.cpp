@@ -14,6 +14,10 @@ QString Language::getId() {
 	return this->id;
 }
 
+QString Language::getName() {
+	return this->name;
+}
+
 QString Language::toString() {
 	QString s;
 	s += "    id   = " + this->id + "\n";

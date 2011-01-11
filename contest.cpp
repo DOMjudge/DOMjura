@@ -29,6 +29,14 @@ QDateTime Contest::getEnd() {
 	return this->end;
 }
 
+int Contest::getId() {
+	return this->id;
+}
+
+QString Contest::getName() {
+	return this->name;
+}
+
 QString Contest::toString() {
 	QString s;
 	s += "  id     = " + QString::number(this->id) + "\n";

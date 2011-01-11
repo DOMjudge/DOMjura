@@ -19,6 +19,7 @@ public:
 	QString getName();
 	QString getId();
 	Category *getCategory();
+	Affiliation *getAffiliation();
 
 	QString toString();
 

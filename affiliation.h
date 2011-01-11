@@ -12,6 +12,7 @@ public:
 	void setName(QString name);
 	QString getName();
 	QString getId();
+	QString getCountry();
 
 	QString toString();
 

@@ -19,6 +19,7 @@ public:
 	EventType getType();
 	Problem *getProblem();
 	Team *getTeam();
+	Language *getLangugage();
 	bool isValid();
 	bool isInFreeze();
 

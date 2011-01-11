@@ -19,6 +19,10 @@ QString Category::getId() {
 	return this->id;
 }
 
+QColor Category::getColor() {
+	return this->color;
+}
+
 QString Category::toString() {
 	QString s;
 	s += "    id    = " + this->id + "\n";

@@ -17,6 +17,8 @@ public:
 	QDateTime getStart();
 	QDateTime getFreeze();
 	QDateTime getEnd();
+	int getId();
+	QString getName();
 
 	QString toString();
 

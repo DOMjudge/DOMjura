@@ -15,17 +15,18 @@ namespace Controller {
 class ReadDataController : public QObject {
 	Q_OBJECT
 public:
-	explicit ReadDataController(QString url, QString username = "", QString password = "", QObject *parent = 0);
-	explicit ReadDataController(QDir dir, QObject *parent = 0);
+	explicit ReadDataController(QObject *parent = 0);
 	~ReadDataController();
 
 	void setUrl(QString url);
 	void setUsername(QString username);
 	void setPassword(QString password);
 	void setDir(QDir dir);
+	void setOfDir(bool ofDir);
 	void refresh();
 	Model::Scoreboard *getScoreboard();
 	Model::Events *getEvents();
+	void saveXML(QString dir);
 
 private:
 	// Class for reading scoreboard XML data
