@@ -21,6 +21,7 @@ QString JudgingEvent::toString() {
 	s += "    judgingid    = " + this->judgingId + "\n";
 	SubmissionEvent *submissionEvent = (SubmissionEvent *)this->submissionEvent;
 	s += "    submissionid = " + submissionEvent->getId() + "\n";
+	s += "    result       = " + this->result + "\n";
 	s += "    correct      = " + QString(this->correct ? "yes" : "no") + "\n";
 	return s;
 }
@@ -31,6 +32,18 @@ EventType JudgingEvent::getType() {
 
 Event *JudgingEvent::getSubmissionEvent() {
 	return this->submissionEvent;
+}
+
+void JudgingEvent::setResult(QString result) {
+	this->result = result;
+}
+
+QString JudgingEvent::getResult() {
+	return this->result;
+}
+
+QString JudgingEvent::getJudgingId() {
+	return this->judgingId;
 }
 
 bool JudgingEvent::isCorrect() {

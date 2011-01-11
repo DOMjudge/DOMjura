@@ -14,6 +14,7 @@ public:
 	void setName(QString name);
 	QString getName();
 	QString getId();
+	QColor getColor();
 
 	QString toString();
 

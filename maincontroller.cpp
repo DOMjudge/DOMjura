@@ -4,39 +4,72 @@
 
 namespace DJ {
 namespace Controller {
+
 MainController::MainController(QObject *parent) : QObject(parent) {
+	this->readDataController = new ReadDataController(this);
+
+	this->mainDialog = new View::MainDialog;
+	this->aboutDialog = new View::AboutDialog(this->mainDialog);
+
+	connect(this->mainDialog, SIGNAL(URLChanged(QString)), this, SLOT(updateURL(QString)));
+	connect(this->mainDialog, SIGNAL(usernameChanged(QString)), this, SLOT(updateUsername(QString)));
+	connect(this->mainDialog, SIGNAL(passwordChanged(QString)), this, SLOT(updatePassword(QString)));
+	connect(this->mainDialog, SIGNAL(switchedToDir()), this, SLOT(switchToDir()));
+	connect(this->mainDialog, SIGNAL(switchedToURL()), this, SLOT(switchToURL()));
+	connect(this->mainDialog, SIGNAL(loadDataClicked()), this, SLOT(loadData()));
+	connect(this->mainDialog, SIGNAL(saveXMLclicked(QString)), this, SLOT(saveXML(QString)));
+	connect(this->mainDialog, SIGNAL(dirChanged(QDir)), this, SLOT(updateDir(QDir)));
+
+	connect(this->mainDialog, SIGNAL(aboutClicked()), this->aboutDialog, SLOT(exec()));
+
+	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableSave()));
 }
 
-void MainController::go() {
-	this->readDataController = new ReadDataController("http://dj.nicky-en-anne.nl", "plugin", "plugin", this);
-	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(dataRead()));
+MainController::~MainController() {
+	delete this->mainDialog;
+}
+
+void MainController::showMainWindow() {
+	this->mainDialog->show();
+}
+
+void MainController::updateURL(QString url) {
+	this->readDataController->setUrl(url);
+}
+
+void MainController::updateUsername(QString username) {
+	this->readDataController->setUsername(username);
+}
+
+void MainController::updatePassword(QString password) {
+	this->readDataController->setPassword(password);
+}
+
+void MainController::switchToDir() {
+	this->readDataController->setOfDir(true);
+	this->mainDialog->setSaveXMLEnabled(false);
+}
+
+void MainController::switchToURL() {
+	this->readDataController->setOfDir(false);
+	this->mainDialog->setSaveXMLEnabled(false);
+}
+
+void MainController::loadData() {
 	this->readDataController->refresh();
 }
 
-void MainController::dataRead() {
-	this->statsController = new StatsController(this->readDataController->getScoreboard(), this->readDataController->getEvents(), this);
-	qDebug() << "total num submissions =" << this->statsController->getTotalSubmissions();
-	qDebug() << "total num correct =" << this->statsController->getTotalCorrect();
-	for (int i = 0; i < this->readDataController->getScoreboard()->getNumProblems(); i++) {
-		QString problemid = this->readDataController->getScoreboard()->getProblem(i)->getId();
-		qDebug() << "problem" << problemid;
-		qDebug() << "num submissions =" << this->statsController->getNumSubmissionsOfProblem(problemid);
-		qDebug() << "solved =" << this->statsController->problemIsSolved(problemid);
-		qDebug() << "first solve time =" << this->statsController->getFirstSolved(problemid).toString("yyyy-MM-dd hh:mm:ss");
-		qDebug() << "correct =" << this->statsController->getNumCorrectofProblem(problemid);
-	}
-
-	this->standingsController = new StandingsController(this->readDataController->getScoreboard(), this->readDataController->getEvents(), this);
-	this->standingsController->initStandings("Participants");
-	qDebug() << "Initial ranking...";
-	qDebug() << this->standingsController->toString();
-	int i = 1;
-	while (this->standingsController->nextStanding()) {
-		qDebug() << "Ranking after" << i << "times nextStanding()...";
-		qDebug() << this->standingsController->toString();
-		i++;
-	}
-	qDebug() << "Done!";
+void MainController::enableSave() {
+	this->mainDialog->setSaveXMLEnabled(true);
 }
+
+void MainController::saveXML(QString dir) {
+	this->readDataController->saveXML(dir);
+}
+
+void MainController::updateDir(QDir dir) {
+	this->readDataController->setDir(dir);
+}
+
 } // namespace Controller
 } // namespace DJ

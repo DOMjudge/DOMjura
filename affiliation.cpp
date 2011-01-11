@@ -20,6 +20,10 @@ QString Affiliation::getId() {
 	return this->id;
 }
 
+QString Affiliation::getCountry() {
+	return this->country;
+}
+
 QString Affiliation::toString() {
 	QString s;
 	s += "    id      = " + this->id + "\n";

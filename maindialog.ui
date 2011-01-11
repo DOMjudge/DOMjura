@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DJ::View::MainDialog</class>
- <widget class="QDialog" name="DJ::View::MainDialog">
+ <widget class="QWidget" name="DJ::View::MainDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>460</height>
+    <height>525</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>460</height>
+    <height>525</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>DOMjura</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
+  <layout class="QGridLayout" name="gridLayout_5">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>1: Source</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <property name="verticalSpacing">
-         <number>0</number>
-        </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QRadioButton" name="radioDOMjudge">
           <property name="text">
@@ -72,19 +69,50 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
+        <item row="1" column="1">
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelUsername">
+            <property name="text">
+             <string>Username</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditUsername"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelPassword">
+            <property name="text">
+             <string>Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEditPassword">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
          <widget class="QRadioButton" name="radioLocalXML">
           <property name="text">
            <string>Local XML files from directory</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="2" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QLineEdit" name="lineEditLocalDir">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -100,7 +128,7 @@
           </item>
          </layout>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QLabel" name="labelDirInfo">
           <property name="enabled">
            <bool>false</bool>
@@ -112,7 +140,7 @@
         </item>
        </layout>
       </item>
-      <item>
+      <item row="1" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <spacer name="horizontalSpacer_2">
@@ -242,6 +270,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>radioDOMjudge</tabstop>
+  <tabstop>comboProtocol</tabstop>
+  <tabstop>lineEditURL</tabstop>
+  <tabstop>lineEditUsername</tabstop>
+  <tabstop>lineEditPassword</tabstop>
+  <tabstop>radioLocalXML</tabstop>
+  <tabstop>lineEditLocalDir</tabstop>
+  <tabstop>buttonBrowseLocal</tabstop>
+  <tabstop>buttonLoadData</tabstop>
+  <tabstop>buttonSaveXMLData</tabstop>
+  <tabstop>buttonViewStats</tabstop>
+  <tabstop>buttonStartResultsPresentation</tabstop>
+  <tabstop>lineEditBrandingImag</tabstop>
+  <tabstop>buttonBrowseBrandingImage</tabstop>
+  <tabstop>buttonQuit</tabstop>
+  <tabstop>buttonAbout</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -299,12 +345,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>131</x>
-     <y>88</y>
+     <x>158</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
-     <x>468</x>
-     <y>85</y>
+     <x>682</x>
+     <y>164</y>
     </hint>
    </hints>
   </connection>
@@ -315,12 +361,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>131</x>
-     <y>88</y>
+     <x>158</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
-     <x>729</x>
-     <y>87</y>
+     <x>771</x>
+     <y>171</y>
     </hint>
    </hints>
   </connection>
@@ -331,8 +377,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>670</x>
-     <y>401</y>
+     <x>704</x>
+     <y>512</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
@@ -347,12 +393,76 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>133</x>
-     <y>90</y>
+     <x>160</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
-     <x>510</x>
-     <y>124</y>
+     <x>760</x>
+     <y>198</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioDOMjudge</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelUsername</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>282</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioDOMjudge</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelPassword</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>262</x>
+     <y>118</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioDOMjudge</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditUsername</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>109</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioDOMjudge</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEditPassword</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>375</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>

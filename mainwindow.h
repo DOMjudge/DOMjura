@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+// TODO REMOVE
+
 #include <QWidget>
 #include <QList>
 

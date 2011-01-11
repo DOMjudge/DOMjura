@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     maincontroller.cpp \
     standingscontroller.cpp \
     rankedteam.cpp \
-    maindialog.cpp
+    maindialog.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
 	problemgraphicsitem.h \
@@ -50,7 +51,9 @@ HEADERS  += mainwindow.h \
     maincontroller.h \
     standingscontroller.h \
     rankedteam.h \
-    maindialog.h
+    maindialog.h \
+    aboutdialog.h
 
 FORMS += \
-    maindialog.ui
+    maindialog.ui \
+    aboutdialog.ui

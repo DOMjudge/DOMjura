@@ -11,6 +11,7 @@ public:
 	explicit Language(QString id, QObject *parent = 0);
 	void setName(QString name);
 	QString getId();
+	QString getName();
 
 	QString toString();
 

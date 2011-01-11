@@ -33,6 +33,10 @@ Category *Team::getCategory() {
 	return this->category;
 }
 
+Affiliation *Team::getAffiliation() {
+	return this->affiliation;
+}
+
 QString Team::toString() {
 	QString s;
 	s += "    id          = " + this->id + "\n";
