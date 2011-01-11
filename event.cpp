@@ -23,6 +23,9 @@ QDateTime Event::getDateTime() {
 }
 
 bool Event::inTime(Scoreboard *scoreboard) {
+	if (!scoreboard->getContest()->getEnd().isValid()) {
+		return true;
+	}
 	if (this->getType() == SUBMISSIONEVENT) {
 		return (this->getDateTime() >= scoreboard->getContest()->getStart() && this->getDateTime() <= scoreboard->getContest()->getEnd());
 	} else if (this->getType() == JUDGINGEVENT) {

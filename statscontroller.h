@@ -19,6 +19,7 @@ public:
 	int getNumCorrectofProblem(QString problemid);
 	bool problemIsSolved(QString problemid);
 	QDateTime getFirstSolved(QString problemid);
+	QDateTime getLastSubmission(QString problemid);
 
 private:
 	Model::Scoreboard *scoreboard;
