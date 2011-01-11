@@ -20,6 +20,7 @@ public:
 	~MainDialog();
 
 	void setSaveXMLEnabled(bool enabled);
+	void setActionsEnabled(bool enabled);
 
 signals:
 	void aboutClicked();
@@ -31,6 +32,7 @@ signals:
 	void passwordChanged(QString password);
 	void loadDataClicked();
 	void saveXMLclicked(QString dir);
+	void statsClicked();
 
 private slots:
 	void on_buttonBrowseLocal_clicked();
@@ -43,6 +45,8 @@ private slots:
 	void on_radioDOMjudge_clicked();
 	void on_radioLocalXML_clicked();
 	void on_buttonSaveXMLData_clicked();
+
+	void on_buttonViewStats_clicked();
 
 private:
 	Ui::MainDialog *ui;

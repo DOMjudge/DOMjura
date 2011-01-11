@@ -110,5 +110,21 @@ QDateTime StatsController::getFirstSolved(QString problemid) {
 	}
 	return QDateTime();
 }
+
+QDateTime StatsController::getLastSubmission(QString problemid) {
+	for (int i = this->events->getNumEvents() - 1; i >= 0; i--) {
+		if (this->events->getEvent(i)->inTime(this->scoreboard)
+				&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
+			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
+			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
+			if (submissionEvent->isValid()
+					&& submissionEvent->getProblem()->getId() == problemid) {
+				return submissionEvent->getDateTime();
+			}
+		}
+	}
+	return QDateTime();
+}
+
 } // namespace Model
 } // namespace Controller

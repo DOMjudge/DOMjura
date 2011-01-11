@@ -10,6 +10,7 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 
 	this->mainDialog = new View::MainDialog;
 	this->aboutDialog = new View::AboutDialog(this->mainDialog);
+	this->statsDialog = new View::StatsDialog(this->mainDialog);
 
 	connect(this->mainDialog, SIGNAL(URLChanged(QString)), this, SLOT(updateURL(QString)));
 	connect(this->mainDialog, SIGNAL(usernameChanged(QString)), this, SLOT(updateUsername(QString)));
@@ -21,8 +22,10 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	connect(this->mainDialog, SIGNAL(dirChanged(QDir)), this, SLOT(updateDir(QDir)));
 
 	connect(this->mainDialog, SIGNAL(aboutClicked()), this->aboutDialog, SLOT(exec()));
+	connect(this->mainDialog, SIGNAL(statsClicked()), this, SLOT(showStats()));
 
 	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableSave()));
+	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableActions()));
 }
 
 MainController::~MainController() {
@@ -48,11 +51,13 @@ void MainController::updatePassword(QString password) {
 void MainController::switchToDir() {
 	this->readDataController->setOfDir(true);
 	this->mainDialog->setSaveXMLEnabled(false);
+	this->mainDialog->setActionsEnabled(false);
 }
 
 void MainController::switchToURL() {
 	this->readDataController->setOfDir(false);
 	this->mainDialog->setSaveXMLEnabled(false);
+	this->mainDialog->setActionsEnabled(false);
 }
 
 void MainController::loadData() {
@@ -63,12 +68,43 @@ void MainController::enableSave() {
 	this->mainDialog->setSaveXMLEnabled(true);
 }
 
+void MainController::enableActions() {
+	this->mainDialog->setActionsEnabled(true);
+}
+
 void MainController::saveXML(QString dir) {
 	this->readDataController->saveXML(dir);
 }
 
 void MainController::updateDir(QDir dir) {
 	this->readDataController->setDir(dir);
+}
+
+void MainController::showStats() {
+	QString stats;
+
+	StatsController *statsController = new StatsController(this->readDataController->getScoreboard(), this->readDataController->getEvents());
+
+	stats += "Total number of submissions: " + QString::number(statsController->getTotalSubmissions()) + "\n";
+	stats += "Total number of correct submissions: " + QString::number(statsController->getTotalCorrect()) + "\n";
+	for (int i = 0; i < this->readDataController->getScoreboard()->getNumProblems(); i++) {
+		QString problemid = this->readDataController->getScoreboard()->getProblem(i)->getId();
+		stats += "\n== Problem " + problemid + " ==\n";
+		stats += "Number of submissions: " + QString::number(statsController->getNumSubmissionsOfProblem(problemid)) + "\n";
+		if (statsController->getNumSubmissionsOfProblem(problemid) > 0) {
+			stats += "Last submission time: " + statsController->getLastSubmission(problemid).toString("dd-MM-yyyy hh:mm:ss") + "\n";
+		}
+		stats += "Is solved? " + QString(statsController->problemIsSolved(problemid) ? "Yes" : "No") + "\n";
+		if (statsController->problemIsSolved(problemid)) {
+			stats += "First solve time: " + statsController->getFirstSolved(problemid).toString("dd-MM-yyyy hh:mm:ss") + "\n";
+			stats += "Number of correct submissions: " + QString::number(statsController->getNumCorrectofProblem(problemid)) + "\n";
+		}
+	}
+
+	delete statsController;
+
+	this->statsDialog->setStats(stats);
+	this->statsDialog->exec();
 }
 
 } // namespace Controller

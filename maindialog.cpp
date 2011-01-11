@@ -20,6 +20,10 @@ void MainDialog::setSaveXMLEnabled(bool enabled) {
 	this->ui->buttonSaveXMLData->setEnabled(enabled);
 }
 
+void MainDialog::setActionsEnabled(bool enabled) {
+	this->ui->groupBoxActions->setEnabled(enabled);
+}
+
 void MainDialog::on_buttonBrowseLocal_clicked() {
 	QString dir = QFileDialog::getExistingDirectory(this, "Select XML directory",
 													ui->lineEditLocalDir->text().isEmpty() ? QDir().homePath() : ui->lineEditLocalDir->text(),
@@ -72,6 +76,10 @@ void MainDialog::on_buttonSaveXMLData_clicked() {
 	if (!dir.isEmpty()) {
 		emit saveXMLclicked(dir);
 	}
+}
+
+void MainDialog::on_buttonViewStats_clicked() {
+	emit statsClicked();
 }
 
 } // namespace View

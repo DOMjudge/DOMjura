@@ -1,6 +1,4 @@
 #include "readdatacontroller.h"
-
-#include <QDebug>
 #include <QXmlInputSource>
 #include <QFile>
 #include <QNetworkReply>
@@ -78,8 +76,6 @@ void ReadDataController::readData() {
 			this->scoreboard = parser.getScoreboard();
 			this->scoreboard->updateTeamRefs();
 
-			qDebug() << this->scoreboard->toString();
-
 			EventsParser eventsParser(this->scoreboard);
 			QFile eventsFile(dir.filePath("event.xml"));
 			if (!eventsFile.open(QIODevice::ReadOnly)) {
@@ -92,10 +88,8 @@ void ReadDataController::readData() {
 			eventsReader.setErrorHandler(&eventsParser);
 
 			if (eventsReader.parse(&eventsSource)) {
+				this->read = true;
 				this->events = eventsParser.getEvents();
-
-				qDebug() << this->events->toString();
-
 				emit dataRead();
 			} else {
 				QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
@@ -134,9 +128,6 @@ void ReadDataController::finish(QNetworkReply *reply) {
 		if (reader.parse(&source)) {
 			this->scoreboard = parser.getScoreboard();
 			this->scoreboard->updateTeamRefs();
-
-			qDebug() << this->scoreboard->toString();
-
 			QNetworkRequest request;
 			request.setRawHeader("what", "event");
 			QUrl url(this->url + "/plugin/event.php");
@@ -165,9 +156,6 @@ void ReadDataController::finish(QNetworkReply *reply) {
 		if (reader.parse(&source)) {
 			this->events = parser.getEvents();
 			this->read = true;
-
-			qDebug() << this->events->toString();
-
 			emit dataRead();
 		} else {
 			QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
@@ -614,9 +602,18 @@ bool ReadDataController::EventsParser::endElement(const QString &, const QString
 		this->currentItem = NULL;
 		this->parseState = EVENTS;
 		if (event->getType() == Model::SUBMISSIONEVENT) {
-			this->events->addEvent(event);
+			// Check if team exists
+			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)event;
+			if (submissionEvent->getTeam()) {
+				this->events->addEvent(event);
+			}
 		} else if (event->getType() == Model::JUDGINGEVENT) {
-			this->events->addEvent(event);
+			// Check if team exists
+			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
+			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
+			if (submissionEvent && submissionEvent->getTeam()) {
+				this->events->addEvent(event);
+			}
 		}
 	} else if (this->parseState == SUBMISSION && qName == "submission") {
 		this->parseState = EVENT;

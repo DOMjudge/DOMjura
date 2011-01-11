@@ -5,8 +5,10 @@
 
 #include "maindialog.h"
 #include "aboutdialog.h"
+#include "statsdialog.h"
 
 #include "readdatacontroller.h"
+#include "statscontroller.h"
 
 namespace DJ {
 namespace Controller {
@@ -23,6 +25,7 @@ signals:
 private:
 	View::MainDialog *mainDialog;
 	View::AboutDialog *aboutDialog;
+	View::StatsDialog *statsDialog;
 	ReadDataController *readDataController;
 
 private slots:
@@ -34,7 +37,9 @@ private slots:
 	void switchToURL();
 	void loadData();
 	void enableSave();
+	void enableActions();
 	void saveXML(QString dir);
+	void showStats();
 };
 } // namespace Controller
 } // namespace DJ
