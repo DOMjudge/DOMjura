@@ -329,6 +329,8 @@ void ReadDataController::saveXML(QString dir) {
 	eventXMLWriter.writeEndDocument();
 
 	eventXMLfile.close();
+
+	QMessageBox::information(NULL, "Success!", "Files saved successfully");
 }
 
 ReadDataController::ScoreboardParser::ScoreboardParser() {
