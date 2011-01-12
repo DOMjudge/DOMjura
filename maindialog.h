@@ -33,8 +33,13 @@ signals:
 	void loadDataClicked();
 	void saveXMLclicked(QString dir);
 	void statsClicked();
+	void resultsClicked();
+	void brandingImageSelected(QString image);
 
 private slots:
+	void on_pushButton_clicked();
+ void on_buttonBrowseBrandingImage_clicked();
+	void on_buttonStartResultsPresentation_clicked();
 	void on_buttonBrowseLocal_clicked();
 	void on_buttonAbout_clicked();
 	void on_comboProtocol_currentIndexChanged(QString text);
@@ -45,7 +50,6 @@ private slots:
 	void on_radioDOMjudge_clicked();
 	void on_radioLocalXML_clicked();
 	void on_buttonSaveXMLData_clicked();
-
 	void on_buttonViewStats_clicked();
 
 private:

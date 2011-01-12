@@ -82,5 +82,20 @@ void MainDialog::on_buttonViewStats_clicked() {
 	emit statsClicked();
 }
 
+void MainDialog::on_buttonStartResultsPresentation_clicked() {
+	emit resultsClicked();
+}
+
+void MainDialog::on_buttonBrowseBrandingImage_clicked() {
+	QString image = QFileDialog::getOpenFileName(this, "Select image", QDir().homePath(), "Images (*.png *.xpm *.jpg)");
+	this->ui->lineEditBrandingImage->setText(image);
+	emit brandingImageSelected(image);
+}
+
+void MainDialog::on_pushButton_clicked() {
+	this->ui->lineEditBrandingImage->setText("");
+	emit brandingImageSelected("");
+}
+
 } // namespace View
 } // namespace DJ

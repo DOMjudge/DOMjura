@@ -1,6 +1,7 @@
 #include "maincontroller.h"
 
 #include <QDebug>
+#include <QMessageBox>
 
 namespace DJ {
 namespace Controller {
@@ -11,6 +12,7 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	this->mainDialog = new View::MainDialog;
 	this->aboutDialog = new View::AboutDialog(this->mainDialog);
 	this->statsDialog = new View::StatsDialog(this->mainDialog);
+	this->resultsWindow = new View::ResultsWindow;
 
 	connect(this->mainDialog, SIGNAL(URLChanged(QString)), this, SLOT(updateURL(QString)));
 	connect(this->mainDialog, SIGNAL(usernameChanged(QString)), this, SLOT(updateUsername(QString)));
@@ -20,6 +22,8 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	connect(this->mainDialog, SIGNAL(loadDataClicked()), this, SLOT(loadData()));
 	connect(this->mainDialog, SIGNAL(saveXMLclicked(QString)), this, SLOT(saveXML(QString)));
 	connect(this->mainDialog, SIGNAL(dirChanged(QDir)), this, SLOT(updateDir(QDir)));
+	connect(this->mainDialog, SIGNAL(resultsClicked()), this, SLOT(showResults()));
+	connect(this->mainDialog, SIGNAL(brandingImageSelected(QString)), this, SLOT(setBrandingImage(QString)));
 
 	connect(this->mainDialog, SIGNAL(aboutClicked()), this->aboutDialog, SLOT(exec()));
 	connect(this->mainDialog, SIGNAL(statsClicked()), this, SLOT(showStats()));
@@ -29,6 +33,7 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 }
 
 MainController::~MainController() {
+	delete this->resultsWindow;
 	delete this->mainDialog;
 }
 
@@ -105,6 +110,14 @@ void MainController::showStats() {
 
 	this->statsDialog->setStats(stats);
 	this->statsDialog->exec();
+}
+
+void MainController::showResults() {
+	this->resultsWindow->showFullScreen();
+}
+
+void MainController::setBrandingImage(QString image) {
+	this->resultsWindow->setBrandingImageFile(image);
 }
 
 } // namespace Controller
