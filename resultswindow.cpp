@@ -44,19 +44,13 @@ void ResultsWindow::updateBrandingRect() {
 	}
 	QRect screenSize = this->geometry();
 	QRect labelRect;
-	int height;
-	int width;
 	labelRect.setLeft(screenSize.width() - size.width());
 	labelRect.setTop(screenSize.height() - size.height());
 	labelRect.setWidth(size.width());
-	labelRect.setHeight(size.width());
+	labelRect.setHeight(size.height());
 	this->imageLabel->setMinimumSize(labelRect.size());
 	this->imageLabel->setMaximumSize(labelRect.size());
 	this->imageLabel->setGeometry(labelRect);
-
-	qDebug() << "sizes";
-	qDebug() << screenSize;
-	qDebug() << labelRect;
 }
 
 } // namespace View
