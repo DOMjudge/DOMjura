@@ -20,167 +20,6 @@
    <string>DOMjura</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>1: Source</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <widget class="QRadioButton" name="radioDOMjudge">
-          <property name="text">
-           <string>DOMjudge</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QComboBox" name="comboProtocol">
-            <item>
-             <property name="text">
-              <string>http://</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>https://</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEditURL"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelDOMjudgePath">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>/plugin/{scoreboard,event}.php</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="1">
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="labelUsername">
-            <property name="text">
-             <string>Username</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEditUsername"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="labelPassword">
-            <property name="text">
-             <string>Password</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEditPassword">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QRadioButton" name="radioLocalXML">
-          <property name="text">
-           <string>Local XML files from directory</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLineEdit" name="lineEditLocalDir">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonBrowseLocal">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Browse</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="labelDirInfo">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>(this directory should contain a &quot;scoreboard.xml&quot; and a &quot;event.xml&quot; file)</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QPushButton" name="buttonLoadData">
-            <property name="text">
-             <string>Load data</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonSaveXMLData">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Save XML files</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBoxActions">
      <property name="enabled">
@@ -208,10 +47,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>To close the results window, press the &quot;escape&quot;, &quot;q&quot; or &quot;x&quot; key</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <string>To close the results window, press the escape, q or x key</string>
           </property>
          </widget>
         </item>
@@ -234,11 +70,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEditBrandingImage">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <widget class="QLineEdit" name="lineEditBrandingImage"/>
         </item>
         <item>
          <widget class="QPushButton" name="buttonBrowseBrandingImage">
@@ -250,7 +82,7 @@
         <item>
          <widget class="QPushButton" name="pushButton">
           <property name="text">
-           <string>Clear</string>
+           <string>PushButton</string>
           </property>
          </widget>
         </item>
@@ -302,6 +134,173 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>1: Source</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioDOMjudge">
+        <property name="text">
+         <string>DOMjudge</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="comboProtocol">
+          <item>
+           <property name="text">
+            <string>http://</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>https://</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="lineEditURL"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelDOMjudgePath">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>/plugin/{scoreboard,event}.php</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="labelUsername">
+          <property name="text">
+           <string>Username</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineEditUsername"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="labelPassword">
+          <property name="text">
+           <string>Password</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="lineEditPassword">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioLocalXML">
+        <property name="text">
+         <string>Local XML files from directory</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLineEdit" name="lineEditLocalDir">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonBrowseLocal">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Browse</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelDirInfo">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>(this directory should contain a &quot;scoreboard.xml&quot; and a &quot;event.xml&quot; file)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QPushButton" name="buttonLoadData">
+            <property name="text">
+             <string>Load data</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonSaveXMLData">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Save XML files</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>
