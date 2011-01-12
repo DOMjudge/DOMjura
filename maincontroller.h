@@ -6,6 +6,7 @@
 #include "maindialog.h"
 #include "aboutdialog.h"
 #include "statsdialog.h"
+#include "resultswindow.h"
 
 #include "readdatacontroller.h"
 #include "statscontroller.h"
@@ -26,6 +27,8 @@ private:
 	View::MainDialog *mainDialog;
 	View::AboutDialog *aboutDialog;
 	View::StatsDialog *statsDialog;
+	View::ResultsWindow *resultsWindow;
+
 	ReadDataController *readDataController;
 
 private slots:
@@ -40,6 +43,8 @@ private slots:
 	void enableActions();
 	void saveXML(QString dir);
 	void showStats();
+	void showResults();
+	void setBrandingImage(QString image);
 };
 } // namespace Controller
 } // namespace DJ
