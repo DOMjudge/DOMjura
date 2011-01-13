@@ -13,6 +13,7 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	this->aboutDialog = new View::AboutDialog(this->mainDialog);
 	this->statsDialog = new View::StatsDialog(this->mainDialog);
 	this->resultsWindow = new View::ResultsWindow;
+	this->standingsController = NULL;
 
 	connect(this->mainDialog, SIGNAL(URLChanged(QString)), this, SLOT(updateURL(QString)));
 	connect(this->mainDialog, SIGNAL(usernameChanged(QString)), this, SLOT(updateUsername(QString)));
@@ -35,6 +36,10 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 MainController::~MainController() {
 	delete this->resultsWindow;
 	delete this->mainDialog;
+	if (this->standingsController) {
+		delete this->standingsController;
+		this->standingsController = NULL;
+	}
 }
 
 void MainController::showMainWindow() {
@@ -74,6 +79,12 @@ void MainController::enableSave() {
 }
 
 void MainController::enableActions() {
+	QList<QString> categories;
+	Model::Scoreboard *scoreboard = this->readDataController->getScoreboard();
+	for (int i = 0; i < scoreboard->getNumCategories(); i++) {
+		categories.append(scoreboard->getCategory(i)->getName());
+	}
+	this->mainDialog->setCategories(categories);
 	this->mainDialog->setActionsEnabled(true);
 }
 
@@ -113,6 +124,49 @@ void MainController::showStats() {
 }
 
 void MainController::showResults() {
+	if (this->standingsController) {
+		delete this->standingsController;
+		this->standingsController = NULL;
+	}
+	this->standingsController = new StandingsController(this->readDataController->getScoreboard(),
+														this->readDataController->getEvents());
+	this->standingsController->initStandings(this->mainDialog->getSelectedCategory());
+	int curRank = 1;
+	QList<ResultTeam> teams;
+	QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
+	for (int i = 0; i < ranking.size(); i++) {
+		ResultTeam team;
+		Model::RankedTeam *rankedTeam = ranking.at(i);
+		team.name = rankedTeam->getName();
+		team.solved = rankedTeam->getNumSolved();
+		if (i > 0) {
+			Model::RankedTeam *prevTeam = ranking.at(i - 1);
+			if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
+					&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
+				team.rank = curRank;
+			} else {
+				curRank = i + 1;
+				team.rank = curRank;
+			}
+		} else {
+			team.rank = 1;
+			curRank = 1;
+		}
+		team.time = rankedTeam->getTotalTime();
+		QList<ResultProblem> problems;
+		for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
+			Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
+			ResultProblem problem;
+			problem.numTries = rankedProblem->tries;
+			problem.state = rankedProblem->problemState;
+			problem.problemId = rankedProblem->id;
+			problem.time = rankedProblem->timeLastTry;
+			problems.append(problem);
+		}
+		team.problems = problems;
+		teams.append(team);
+	}
+	this->resultsWindow->setTeams(teams);
 	this->resultsWindow->showFullScreen();
 }
 

@@ -9,6 +9,8 @@
 #include <QGraphicsPixmapItem>
 
 #include "headergraphicsitem.h"
+#include "teamgraphicsitem.h"
+#include "defines.h"
 
 namespace DJ {
 namespace View {
@@ -17,8 +19,8 @@ class ResultsWindow : public QWidget {
 	Q_OBJECT
 public:
 	explicit ResultsWindow(QWidget *parent = 0);
-	~ResultsWindow();
 	void setBrandingImageFile(QString filename);
+	void setTeams(QList<ResultTeam> teams);
 
 protected:
 	void keyPressEvent(QKeyEvent *event);
@@ -31,6 +33,8 @@ private:
 	QGraphicsView *view;
 	QGraphicsScene *scene;
 	HeaderGraphicsItem *headerItem;
+	QList<TeamGraphicsItem *> teamItems;
+	QList<ResultTeam> teams;
 };
 
 } // namespace View

@@ -30,7 +30,7 @@ void StandingsController::initStandings(QString category) {
 				Model::Problem *problem = this->scoreboard->getProblem(j);
 				Model::RankedProblem *rankedProblem = new Model::RankedProblem();
 				rankedProblem->id = problem->getId();
-				rankedProblem->problemState = Model::NOTSUBMITTED;
+				rankedProblem->problemState = NOTSUBMITTED;
 				rankedProblem->tries = 0;
 				rankedProblem->timeLastTry = 0;
 				rankedTeam->setProblem(rankedProblem->id, rankedProblem);
@@ -57,39 +57,43 @@ void StandingsController::initStandings(QString category) {
 					Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
 					Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
 					if (submissionEvent->isInFreeze()) {
-						if (problem->problemState != Model::PENDING_SOLVED && judgingEvent->isCorrect()) {
-							problem->problemState = Model::PENDING_SOLVED;
+						if (problem->problemState != PENDING_SOLVED && judgingEvent->isCorrect()) {
+							problem->problemState = PENDING_SOLVED;
 						}
 					} else {
-						if (problem->problemState != Model::SOLVED && judgingEvent->isCorrect()) {
-							problem->problemState = Model::SOLVED;
+						if (problem->problemState != SOLVED && judgingEvent->isCorrect()) {
+							problem->problemState = SOLVED;
 						}
 					}
 					team->setProblem(problemId, problem);
 				} else {
 					// We always need to consider this event
 					Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
+					if (!team) {
+						// team is of wrong category, skip
+						continue;
+					}
 					Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
-					if (!(problem->problemState == Model::SOLVED || problem->problemState == Model::PENDING_SOLVED)) {
+					if (!(problem->problemState == SOLVED || problem->problemState == PENDING_SOLVED)) {
 						if (submissionEvent->isInFreeze()) {
 							if (judgingEvent->isCorrect()) {
-								problem->problemState = Model::PENDING_SOLVED;
+								problem->problemState = PENDING_SOLVED;
 								problem->tries++;
-								problem->timeLastTry = this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) / 60;;
+								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 							} else {
-								problem->problemState = Model::PENDING_FAILED;
+								problem->problemState = PENDING_FAILED;
 								problem->tries++;
-								problem->timeLastTry = this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) / 60;;
+								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 							}
 						} else {
 							if (judgingEvent->isCorrect()) {
-								problem->problemState = Model::SOLVED;
+								problem->problemState = SOLVED;
 								problem->tries++;
-								problem->timeLastTry = this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) / 60;;
+								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 							} else {
-								problem->problemState = Model::FAILED;
+								problem->problemState = FAILED;
 								problem->tries++;
-								problem->timeLastTry = this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) / 60;;
+								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 							}
 						}
 					}
@@ -110,11 +114,11 @@ bool StandingsController::nextStanding() {
 		Model::RankedTeam *team = this->currentRanking.at(this->currentPos);
 		Model::RankedProblem *problem = team->getProblem(this->currentProblem)->copy();
 		bool doneSomething = false;
-		if (problem->problemState == Model::PENDING_FAILED) {
-			problem->problemState = Model::FAILED;
+		if (problem->problemState == PENDING_FAILED) {
+			problem->problemState = FAILED;
 			doneSomething = true;
-		} else if (problem->problemState == Model::PENDING_SOLVED) {
-			problem->problemState = Model::SOLVED;
+		} else if (problem->problemState == PENDING_SOLVED) {
+			problem->problemState = SOLVED;
 			doneSomething = true;
 		}
 		if (doneSomething) {
@@ -159,17 +163,17 @@ QString StandingsController::toString() {
 			Model::RankedProblem *problem = team->getProblem(j);
 			s += problem->id + ": " + QString::number(problem->tries) + " - " + QString::number(problem->timeLastTry) + " ";
 			switch(problem->problemState) {
-			case Model::NOTSUBMITTED:
+			case NOTSUBMITTED:
 				s += "_";
 				break;
-			case Model::FAILED:
+			case FAILED:
 				s += "F";
 				break;
-			case Model::SOLVED:
+			case SOLVED:
 				s += "S";
 				break;
-			case Model::PENDING_FAILED:
-			case Model::PENDING_SOLVED:
+			case PENDING_FAILED:
+			case PENDING_SOLVED:
 				s += "?";
 				break;
 			}
@@ -191,12 +195,21 @@ Model::RankedTeam *StandingsController::getTeamById(QString id) {
 	return NULL;
 }
 
+QList<Model::RankedTeam *> StandingsController::getCurrentRanking() {
+	return this->currentRanking;
+}
+
 bool rankedTeamLessThan(Model::RankedTeam *team1, Model::RankedTeam *team2) {
 	if (team1->getNumSolved() == team2->getNumSolved()) {
-		return team1->getName() < team2->getName();
+		if (team1->getTotalTime() == team2->getTotalTime()) {
+			return team1->getName() < team2->getName();
+		} else {
+			return team1->getTotalTime() < team2->getTotalTime();
+		}
 	} else {
 		return team1->getNumSolved() > team2->getNumSolved();
 	}
 }
+
 } // namespace Controller
 } // namespace DJ

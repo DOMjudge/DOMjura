@@ -18,7 +18,8 @@ public:
 
 	void setHeight(double height);
 	void setWidth(double width);
-	void setState(Model::ProblemState state);
+	double getWidth();
+	void setState(ProblemState state);
 	void setProblemId(QString problemId);
 	void setNumTries(int numTries);
 	void setTime(int time);
@@ -30,7 +31,7 @@ public slots:
 private:
 	double height;
 	double width;
-	Model::ProblemState state;
+	ProblemState state;
 	QString problemId;
 	int numTries;
 	int time;

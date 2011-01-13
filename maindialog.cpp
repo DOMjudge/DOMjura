@@ -24,6 +24,15 @@ void MainDialog::setActionsEnabled(bool enabled) {
 	this->ui->groupBoxActions->setEnabled(enabled);
 }
 
+void MainDialog::setCategories(QList<QString> categories) {
+	this->ui->comboBoxCategory->clear();
+	this->ui->comboBoxCategory->addItems(categories);
+}
+
+QString MainDialog::getSelectedCategory() {
+	return this->ui->comboBoxCategory->currentText();
+}
+
 void MainDialog::on_buttonBrowseLocal_clicked() {
 	QString dir = QFileDialog::getExistingDirectory(this, "Select XML directory",
 													ui->lineEditLocalDir->text().isEmpty() ? QDir().homePath() : ui->lineEditLocalDir->text(),

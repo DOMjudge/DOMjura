@@ -90,6 +90,7 @@ void ReadDataController::readData() {
 			if (eventsReader.parse(&eventsSource)) {
 				this->read = true;
 				this->events = eventsParser.getEvents();
+				this->events->sort();
 				emit dataRead();
 			} else {
 				QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
@@ -155,6 +156,7 @@ void ReadDataController::finish(QNetworkReply *reply) {
 
 		if (reader.parse(&source)) {
 			this->events = parser.getEvents();
+			this->events->sort();
 			this->read = true;
 			emit dataRead();
 		} else {
@@ -550,7 +552,7 @@ bool ReadDataController::EventsParser::startElement(const QString &, const QStri
 				submissionId = atts.value(i);
 			}
 		}
-		Model::Event *event = new Model::SubmissionEvent(this->currentEventId, this->currentEventTime, submissionId, this->currentEventTime >= this->scoreboard->getContest()->getFreeze(), this->events);
+		Model::Event *event = new Model::SubmissionEvent(this->currentEventId, this->currentEventTime, submissionId, this->scoreboard->getContest()->getFreeze().isValid() && this->currentEventTime >= this->scoreboard->getContest()->getFreeze(), this->events);
 		this->currentItem = (QObject *)event;
 	} else if (this->parseState == SUBMISSION && qName == "team") {
 		this->parseState = TEAM;
