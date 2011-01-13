@@ -13,7 +13,7 @@ ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
 										 QGraphicsItem *parent) : QGraphicsItem(parent) {
 	this->height = height;
 	this->width = width;
-	this->state = Model::NOTSUBMITTED;
+	this->state = NOTSUBMITTED;
 	this->time = 0;
 	this->numTries = 0;
 
@@ -29,7 +29,7 @@ QRectF ProblemGraphicsItem::boundingRect() const {
 
 void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 	switch (this->state) {
-	case Model::NOTSUBMITTED: {
+	case NOTSUBMITTED: {
 		QBrush brush;
 		painter->setPen(QColor(192, 192, 192));
 		brush.setStyle(Qt::SolidPattern);
@@ -47,7 +47,7 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		painter->drawRoundedRect(0, 0, width, height, 5, 5);
 		break;
 	}
-	case Model::SOLVED: {
+	case SOLVED: {
 		QLinearGradient gradient(0, 0, 0, height-10);
 		gradient.setColorAt(0, QColor(0, 230, 0));
 		gradient.setColorAt(1, QColor(0, 128, 0));
@@ -67,7 +67,7 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		painter->drawRoundedRect(0, 0, width, height, 5, 5);
 		break;
 	}
-	case Model::FAILED: {
+	case FAILED: {
 		QLinearGradient gradient(0, 0, 0, height);
 		gradient.setColorAt(0, QColor(240, 0, 0));
 		gradient.setColorAt(1, QColor(133, 0, 0));
@@ -87,8 +87,8 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		painter->drawRoundedRect(0, 0, width, height, 5, 5);
 		break;
 	}
-	case Model::PENDING_FAILED:
-	case Model::PENDING_SOLVED:{
+	case PENDING_FAILED:
+	case PENDING_SOLVED:{
 		QLinearGradient gradient(0, 0, 0, height-10);
 		gradient.setColorAt(0, QColor(255, 223, 54));
 		gradient.setColorAt(1, QColor(143, 124, 29));
@@ -119,7 +119,11 @@ void ProblemGraphicsItem::setWidth(double width) {
 	this->width = width;
 }
 
-void ProblemGraphicsItem::setState(Model::ProblemState state) {
+double ProblemGraphicsItem::getWidth() {
+	return this->width;
+}
+
+void ProblemGraphicsItem::setState(ProblemState state) {
 	this->state = state;
 }
 

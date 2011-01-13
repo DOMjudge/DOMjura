@@ -21,6 +21,8 @@ public:
 
 	void setSaveXMLEnabled(bool enabled);
 	void setActionsEnabled(bool enabled);
+	void setCategories(QList<QString> categories);
+	QString getSelectedCategory();
 
 signals:
 	void aboutClicked();

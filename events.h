@@ -15,13 +15,18 @@ public:
 	void addEvent(Event *event);
 	Event *eventBySubmitId(QString submitId);
 	int getNumEvents();
+	void sort();
 	Event *getEvent(int i);
 	Event *getEventById(QString id);
 
 	QString toString();
 private:
 	QList<Event *> events;
+	bool sorted;
 };
+
+bool SortBySubTime(Model::Event *event1, Model::Event *event2);
+
 }
 }
 

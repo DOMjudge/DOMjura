@@ -10,6 +10,7 @@
 
 #include "readdatacontroller.h"
 #include "statscontroller.h"
+#include "standingscontroller.h"
 
 namespace DJ {
 namespace Controller {
@@ -30,6 +31,7 @@ private:
 	View::ResultsWindow *resultsWindow;
 
 	ReadDataController *readDataController;
+	StandingsController *standingsController;
 
 private slots:
 	void updateURL(QString url);
