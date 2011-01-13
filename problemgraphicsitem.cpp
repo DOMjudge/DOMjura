@@ -9,7 +9,8 @@
 
 namespace DJ {
 namespace View {
-ProblemGraphicsItem::ProblemGraphicsItem(double height, double width) {
+ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
+										 QGraphicsItem *parent) : QGraphicsItem(parent) {
 	this->height = height;
 	this->width = width;
 	this->state = Model::NOTSUBMITTED;

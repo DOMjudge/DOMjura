@@ -11,10 +11,10 @@ namespace DJ {
 namespace View {
 class ProblemGraphicsItem : public QGraphicsItem {
 public:
-	ProblemGraphicsItem(double height = 40.0, double width = 90.0);
+	ProblemGraphicsItem(double height = 40.0, double width = 90.0, QGraphicsItem *parent = NULL);
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-			   QWidget *widget);
+				   QWidget *widget);
 
 	void setHeight(double height);
 	void setWidth(double width);

@@ -1,24 +1,47 @@
 #include "resultswindow.h"
 
 #include <QKeyEvent>
-
-#include <QDebug>
+#include <QApplication>
+#include <QDesktopWidget>
 
 namespace DJ {
 namespace View {
 
 ResultsWindow::ResultsWindow(QWidget *parent) : QWidget(parent) {
-	setStyleSheet("background-color: black;");
-	this->imageLabel = new QLabel(this);
+	this->view = new QGraphicsView(this);
+
+	this->scene = new QGraphicsScene(this);
+	this->scene->setSceneRect(QApplication::desktop()->screenGeometry());
+
+	this->view->setScene(this->scene);
+	this->view->setGeometry(QApplication::desktop()->screenGeometry());
+
+	this->view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->view->setStyleSheet("background-color: black; border: none;");
+	this->view->centerOn(0, 0);
+
+	this->headerItem = new HeaderGraphicsItem(QApplication::desktop()->screenGeometry().width());
+	this->headerItem->setPos(0, 0);
+
+	this->pixmap = new QGraphicsPixmapItem;
+
+	this->scene->addItem(this->pixmap);
+	this->scene->addItem(this->headerItem);
+}
+
+ResultsWindow::~ResultsWindow() {
+	delete this->headerItem;
 }
 
 void ResultsWindow::setBrandingImageFile(QString filename) {
 	if (!filename.isEmpty()) {
 		QPixmap pixmap(filename);
-		this->imageLabel->setPixmap(pixmap);
+		this->pixmap->setPixmap(pixmap);
 	} else {
-		this->imageLabel->clear();
+		this->pixmap->setPixmap(QPixmap());
 	}
+	resizeImage();
 }
 
 void ResultsWindow::keyPressEvent(QKeyEvent *event) {
@@ -30,27 +53,18 @@ void ResultsWindow::keyPressEvent(QKeyEvent *event) {
 	}
 }
 
-void ResultsWindow::showFullScreen() {
-	QWidget::showFullScreen();
-	updateBrandingRect();
-}
-
-void ResultsWindow::updateBrandingRect() {
+void ResultsWindow::resizeImage() {
 	QSize size;
-	if (this->imageLabel->pixmap()) {
-		size = this->imageLabel->pixmap()->size();
+	if (!this->pixmap->pixmap().isNull()) {
+		size = this->pixmap->pixmap().size();
 	} else {
 		size = QSize(0, 0);
 	}
-	QRect screenSize = this->geometry();
-	QRect labelRect;
-	labelRect.setLeft(screenSize.width() - size.width());
-	labelRect.setTop(screenSize.height() - size.height());
-	labelRect.setWidth(size.width());
-	labelRect.setHeight(size.height());
-	this->imageLabel->setMinimumSize(labelRect.size());
-	this->imageLabel->setMaximumSize(labelRect.size());
-	this->imageLabel->setGeometry(labelRect);
+	QRect screenSize = QApplication::desktop()->screenGeometry();
+	QPointF labelPos;
+	labelPos.setX(screenSize.width() - size.width());
+	labelPos.setY(screenSize.height() - size.height());
+	this->pixmap->setPos(labelPos);
 }
 
 } // namespace View
