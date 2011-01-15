@@ -23,12 +23,14 @@ public:
 	void setProblemId(QString problemId);
 	void setNumTries(int numTries);
 	void setTime(int time);
+	void setHighlighted(bool highlighted);
 
 signals:
 
 public slots:
 
 private:
+	bool highlighted;
 	double height;
 	double width;
 	ProblemState state;

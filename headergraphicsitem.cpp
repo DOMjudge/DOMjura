@@ -51,6 +51,15 @@ QRectF HeaderGraphicsItem::boundingRect() const {
 }
 
 void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	QLinearGradient gradient(0, 0, screenWidth, 0);
+	gradient.setColorAt(0, QColor(0, 0, 0));
+	gradient.setColorAt(0.5, QColor(56, 56, 56));
+	gradient.setColorAt(1, QColor(0, 0, 0));
+	QBrush brush(gradient);
+	brush.setStyle(Qt::LinearGradientPattern);
+	painter->setBrush(brush);
+	painter->setPen(Qt::NoPen);
+	painter->drawRect(0, 0, screenWidth, TEAMITEM_HEIGHT);
 }
 
 } // namespace View

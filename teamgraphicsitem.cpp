@@ -17,6 +17,7 @@ TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QG
 	: QGraphicsItem(parent) {
 	this->screenWidth = QApplication::desktop()->screenGeometry().width();
 	this->problemItems = problemItems;
+	this->highlighted = false;
 
 	QFont font("Courier new", 24);
 	font.setBold(true);
@@ -67,21 +68,33 @@ QRectF TeamGraphicsItem::boundingRect() const {
 
 void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 							 QWidget *widget) {
-	if (even) {
+	if (this->highlighted) {
+		painter->setBrush(QColor(92, 138, 221));
+	} else {
 		QLinearGradient gradient(0, 0, screenWidth, 0);
-		gradient.setColorAt(0, QColor(30, 30, 30));
-		gradient.setColorAt(0.5, QColor(86, 86, 86));
-		gradient.setColorAt(1, QColor(30, 30, 30));
+		if (even) {
+			gradient.setColorAt(0, QColor(30, 30, 30));
+			gradient.setColorAt(0.5, QColor(86, 86, 86));
+			gradient.setColorAt(1, QColor(30, 30, 30));
+		} else {
+			gradient.setColorAt(0, QColor(0, 0, 0));
+			gradient.setColorAt(0.5, QColor(56, 56, 56));
+			gradient.setColorAt(1, QColor(0, 0, 0));
+		}
 		QBrush brush(gradient);
 		brush.setStyle(Qt::LinearGradientPattern);
 		painter->setBrush(brush);
-		painter->setPen(Qt::NoPen);
-		painter->drawRect(0, 0, screenWidth, TEAMITEM_HEIGHT);
 	}
+	painter->setPen(Qt::NoPen);
+	painter->drawRect(0, 0, screenWidth, TEAMITEM_HEIGHT);
 }
 
 void TeamGraphicsItem::setEven(bool even) {
 	this->even = even;
+}
+
+void TeamGraphicsItem::setHighlighted(bool highlighted) {
+	this->highlighted = highlighted;
 }
 
 void TeamGraphicsItem::setRank(int rank) {
