@@ -22,8 +22,10 @@ public:
 	void setSolved(int solved);
 	void setTime(int time);
 	void setEven(bool even);
+	void setHighlighted(bool highlighted);
 
 private:
+	bool highlighted;
 	int screenWidth;
 	bool even;
 

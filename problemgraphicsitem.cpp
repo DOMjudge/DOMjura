@@ -16,6 +16,7 @@ ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
 	this->state = NOTSUBMITTED;
 	this->time = 0;
 	this->numTries = 0;
+	this->highlighted = false;
 
 	textItem = new QGraphicsSimpleTextItem(this);
 	QFont font("Courier new", 24);
@@ -28,10 +29,18 @@ QRectF ProblemGraphicsItem::boundingRect() const {
 }
 
 void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	QPen pen;
+	if (this->highlighted) {
+		pen.setColor(QColor(255, 255, 0));
+		pen.setWidth(2);
+	} else {
+		pen.setColor(QColor(192, 192, 192));
+		pen.setWidth(1);
+	}
 	switch (this->state) {
 	case NOTSUBMITTED: {
 		QBrush brush;
-		painter->setPen(QColor(192, 192, 192));
+		painter->setPen(pen);
 		brush.setStyle(Qt::SolidPattern);
 		brush.setColor(QColor(64, 64, 64));
 		painter->setBrush(brush);
@@ -52,7 +61,7 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		gradient.setColorAt(0, QColor(0, 230, 0));
 		gradient.setColorAt(1, QColor(0, 128, 0));
 		QBrush brush(gradient);
-		painter->setPen(QColor(192, 192, 192));
+		painter->setPen(pen);
 		brush.setStyle(Qt::LinearGradientPattern);
 		painter->setBrush(brush);
 
@@ -72,7 +81,7 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		gradient.setColorAt(0, QColor(240, 0, 0));
 		gradient.setColorAt(1, QColor(133, 0, 0));
 		QBrush brush(gradient);
-		painter->setPen(QColor(192, 192, 192));
+		painter->setPen(pen);
 		brush.setStyle(Qt::LinearGradientPattern);
 		painter->setBrush(brush);
 
@@ -93,7 +102,7 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		gradient.setColorAt(0, QColor(255, 223, 54));
 		gradient.setColorAt(1, QColor(143, 124, 29));
 		QBrush brush(gradient);
-		painter->setPen(QColor(192, 192, 192));
+		painter->setPen(pen);
 		brush.setStyle(Qt::LinearGradientPattern);
 		painter->setBrush(brush);
 
@@ -133,6 +142,10 @@ void ProblemGraphicsItem::setNumTries(int numTries) {
 
 void ProblemGraphicsItem::setTime(int time) {
 	this->time = time;
+}
+
+void ProblemGraphicsItem::setHighlighted(bool highlighted) {
+	this->highlighted = highlighted;
 }
 
 void ProblemGraphicsItem::setProblemId(QString problemId) {
