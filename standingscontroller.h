@@ -16,6 +16,7 @@ public:
 	void initStandings(QString category);
 	bool nextStanding();
 	QString toString();
+	int getCurrentPos();
 	Model::RankedTeam *getTeamById(QString id);
 	QList<Model::RankedTeam *> getCurrentRanking();
 

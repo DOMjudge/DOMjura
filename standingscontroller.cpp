@@ -131,6 +131,7 @@ bool StandingsController::nextStanding() {
 			if (this->currentProblem == team->getNumProblems() - 1) {
 				this->currentPos--;
 				this->currentProblem = 0;
+				return true;
 			} else {
 				this->currentProblem++;
 			}
@@ -197,6 +198,10 @@ Model::RankedTeam *StandingsController::getTeamById(QString id) {
 
 QList<Model::RankedTeam *> StandingsController::getCurrentRanking() {
 	return this->currentRanking;
+}
+
+int StandingsController::getCurrentPos() {
+	return this->currentPos;
 }
 
 bool rankedTeamLessThan(Model::RankedTeam *team1, Model::RankedTeam *team2) {
