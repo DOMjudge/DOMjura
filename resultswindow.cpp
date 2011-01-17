@@ -3,7 +3,7 @@
 #include <QKeyEvent>
 #include <QApplication>
 #include <QDesktopWidget>
-
+#include <QPropertyAnimation>
 #include <QDebug>
 
 #include "defines.h"
@@ -28,10 +28,22 @@ ResultsWindow::ResultsWindow(QWidget *parent) : QWidget(parent) {
 	this->headerItem = new HeaderGraphicsItem(QApplication::desktop()->screenGeometry().width());
 	this->headerItem->setPos(0, 0);
 
+	this->legendaItem = new LegendaGraphicsItem();
+	QRectF legendaRect = this->legendaItem->boundingRect();
+	this->legendaItem->setPos(QApplication::desktop()->screenGeometry().width() - legendaRect.width() - LEGENDA_RIGHT_OFFSET,
+							  QApplication::desktop()->screenGeometry().height() - legendaRect.height() - LEGENDA_BOTTOM_OFFSET);
+	this->legendaItem->setZValue(1);
+
 	this->pixmap = new QGraphicsPixmapItem;
+	this->pixmap->setZValue(1);
 
 	this->scene->addItem(this->pixmap);
 	this->scene->addItem(this->headerItem);
+	this->scene->addItem(this->legendaItem);
+
+	this->legendaTimer = new QTimer(this);
+	this->legendaTimer->setSingleShot(true);
+	connect(this->legendaTimer, SIGNAL(timeout()), this, SLOT(hideLegenda()));
 }
 
 void ResultsWindow::setBrandingImageFile(QString filename) {
@@ -92,7 +104,13 @@ void ResultsWindow::keyPressEvent(QKeyEvent *event) {
 	case Qt::Key_Q:
 	case Qt::Key_X:
 		close();
+		break;
 	}
+}
+
+void ResultsWindow::hideLegendAfterTimeout() {
+	this->legendaItem->setOpacity(1);
+	this->legendaTimer->start(5000);
 }
 
 void ResultsWindow::resizeImage() {
@@ -107,6 +125,17 @@ void ResultsWindow::resizeImage() {
 	labelPos.setX(screenSize.width() - size.width());
 	labelPos.setY(screenSize.height() - size.height());
 	this->pixmap->setPos(labelPos);
+}
+
+void ResultsWindow::hideLegenda() {
+	qDebug() << "hiding legenda";
+	QPropertyAnimation *animation = new QPropertyAnimation(this->legendaItem, "opacity");
+	animation->setDuration(2000);
+	animation->setEasingCurve(QEasingCurve::InOutExpo);
+	animation->setStartValue(1);
+	animation->setEndValue(0);
+
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 } // namespace View

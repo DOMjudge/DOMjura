@@ -13,6 +13,9 @@
 #define RIGHT_MARGIN 10
 #define NAME_WIDTH (QApplication::desktop()->screenGeometry().width() - LEFT_MARGIN - RIGHT_MARGIN - RANK_WIDTH - SOLVED_WIDTH - TIME_WIDTH)
 
+#define LEGENDA_RIGHT_OFFSET 90
+#define LEGENDA_BOTTOM_OFFSET 90
+
 #define PROB_MARGIN 15
 #define NAME_PROBS_MARGIN 0
 #define PROBS_BELOW_MARGIN 5
