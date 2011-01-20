@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QLinearGradient>
+#include <QStyleOptionGraphicsItem>
 
 #include "defines.h"
 
@@ -14,7 +15,7 @@ namespace DJ {
 namespace View {
 
 TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QGraphicsItem *parent)
-	: QGraphicsItem(parent) {
+	: QObject(), QGraphicsItem(parent) {
 	this->screenWidth = QApplication::desktop()->screenGeometry().width();
 	this->problemItems = problemItems;
 	this->highlighted = false;
@@ -63,11 +64,13 @@ TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QG
 }
 
 QRectF TeamGraphicsItem::boundingRect() const {
-	return QRectF(0, 0, screenWidth, TEAMITEM_HEIGHT - 1);
+	return QRectF(0, 0, screenWidth, TEAMITEM_HEIGHT);
 }
 
 void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 							 QWidget *widget) {
+	painter->setRenderHints(0);
+	painter->setClipRect(option->exposedRect);
 	if (this->highlighted) {
 		painter->setBrush(QColor(92, 138, 221));
 	} else {

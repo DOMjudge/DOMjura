@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml network
+QT       += core gui xml network opengl
 
 TARGET = DOMjura
 TEMPLATE = app
@@ -33,8 +33,8 @@ SOURCES += main.cpp \
 	statsdialog.cpp \
 	resultswindow.cpp \
 	headergraphicsitem.cpp \
-    teamgraphicsitem.cpp \
-    legendagraphicsitem.cpp
+	teamgraphicsitem.cpp \
+	legendagraphicsitem.cpp
 
 HEADERS  += problemgraphicsitem.h \
 	defines.h \
@@ -59,8 +59,8 @@ HEADERS  += problemgraphicsitem.h \
 	statsdialog.h \
 	resultswindow.h \
 	headergraphicsitem.h \
-    teamgraphicsitem.h \
-    legendagraphicsitem.h
+	teamgraphicsitem.h \
+	legendagraphicsitem.h
 
 FORMS += \
 	maindialog.ui \

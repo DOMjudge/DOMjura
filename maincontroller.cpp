@@ -168,7 +168,7 @@ void MainController::showResults() {
 	}
 	this->resultsWindow->setTeams(teams);
 	this->resultsWindow->showFullScreen();
-	this->resultsWindow->hideLegendAfterTimeout();
+	this->resultsWindow->reload();
 }
 
 void MainController::setBrandingImage(QString image) {

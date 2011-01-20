@@ -9,8 +9,11 @@
 namespace DJ {
 namespace View {
 
-class TeamGraphicsItem : public QGraphicsItem
-{
+class TeamGraphicsItem : public QObject, public QGraphicsItem {
+	Q_OBJECT
+	Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+	Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+	Q_INTERFACES(QGraphicsItem)
 public:
 	TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QGraphicsItem *parent = NULL);
 	QRectF boundingRect() const;
