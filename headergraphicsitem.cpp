@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QStyleOptionGraphicsItem>
 
 #include "defines.h"
 
@@ -11,9 +12,9 @@ namespace DJ {
 namespace View {
 
 HeaderGraphicsItem::HeaderGraphicsItem(double screenWidth, QGraphicsItem *parent)
-	: QGraphicsItem(parent) {
+	: QObject(), QGraphicsItem(parent){
 	this->screenWidth = screenWidth;
-	this->lineItem = new QGraphicsLineItem(0, HEADER_HEIGHT, screenWidth, HEADER_HEIGHT, this);
+	this->lineItem = new QGraphicsLineItem(0, HEADER_HEIGHT-1, screenWidth, HEADER_HEIGHT-1, this);
 	this->lineItem->setPen(QPen(Qt::white));
 
 	QFont font("Courier new", 16);
@@ -47,10 +48,12 @@ HeaderGraphicsItem::HeaderGraphicsItem(double screenWidth, QGraphicsItem *parent
 }
 
 QRectF HeaderGraphicsItem::boundingRect() const {
-	return QRectF(0, 0, screenWidth, HEADER_HEIGHT/1);
+	return QRectF(0, 0, screenWidth, HEADER_HEIGHT);
 }
 
 void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	painter->setRenderHints(0);
+	painter->setClipRect(option->exposedRect);
 	QLinearGradient gradient(0, 0, screenWidth, 0);
 	gradient.setColorAt(0, QColor(0, 0, 0));
 	gradient.setColorAt(0.5, QColor(56, 56, 56));
@@ -59,7 +62,7 @@ void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 	brush.setStyle(Qt::LinearGradientPattern);
 	painter->setBrush(brush);
 	painter->setPen(Qt::NoPen);
-	painter->drawRect(0, 0, screenWidth, TEAMITEM_HEIGHT);
+	painter->drawRect(0, 0, screenWidth, HEADER_HEIGHT);
 }
 
 } // namespace View

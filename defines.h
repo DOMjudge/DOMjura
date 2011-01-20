@@ -6,6 +6,12 @@
 #define HEADER_HEIGHT 30
 #define TEAMITEM_HEIGHT 80
 
+#define SCROLL_BELOW_OFFSET 40
+
+// We need to click to resolve the NEED_TO_CLICK top rows
+// The other rows resolve automatically
+#define NEED_TO_CLICK 10
+
 #define RANK_WIDTH 100
 #define SOLVED_WIDTH 100
 #define TIME_WIDTH 70

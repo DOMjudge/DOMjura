@@ -8,6 +8,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
 
 #include "headergraphicsitem.h"
 #include "teamgraphicsitem.h"
@@ -24,15 +26,19 @@ public:
 	explicit ResultsWindow(QWidget *parent = 0);
 	void setBrandingImageFile(QString filename);
 	void setTeams(QList<ResultTeam> teams);
-	void hideLegendAfterTimeout();
+	void reload();
 
 protected:
 	void keyPressEvent(QKeyEvent *event);
+	void mousePressEvent(QMouseEvent *event);
 
 private slots:
 	void hideLegenda();
+	void animationDone();
 
 private:
+	void hideLegendAfterTimeout();
+	void doNextStep();
 	void resizeImage();
 
 	QGraphicsPixmapItem *pixmap;
@@ -45,6 +51,10 @@ private:
 	QList<TeamGraphicsItem *> teamItems;
 	QList<ResultTeam> teams;
 	QTimer *legendaTimer;
+	bool started;
+
+	QParallelAnimationGroup *scrollToBottomAnim;
+	QPropertyAnimation *legendaAnim;
 };
 
 } // namespace View
