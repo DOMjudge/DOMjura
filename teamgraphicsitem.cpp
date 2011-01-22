@@ -67,10 +67,12 @@ QRectF TeamGraphicsItem::boundingRect() const {
 	return QRectF(0, 0, screenWidth, TEAMITEM_HEIGHT);
 }
 
+ProblemGraphicsItem *TeamGraphicsItem::getProblemGraphicsItem(int i) {
+	return this->problemItems.at(i);
+}
+
 void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 							 QWidget *widget) {
-	painter->setRenderHints(0);
-	painter->setClipRect(option->exposedRect);
 	if (this->highlighted) {
 		painter->setBrush(QColor(92, 138, 221));
 	} else {

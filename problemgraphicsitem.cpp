@@ -5,12 +5,16 @@
 #include <QPen>
 #include <QLinearGradient>
 #include <QGraphicsSimpleTextItem>
+#include <QStyleOptionGraphicsItem>
 #include <QFontMetrics>
+
+#include <QDebug>
 
 namespace DJ {
 namespace View {
 ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
-										 QGraphicsItem *parent) : QGraphicsItem(parent) {
+										 QGraphicsItem *parent)
+	: QObject(), QGraphicsItem(parent) {
 	this->height = height;
 	this->width = width;
 	this->state = NOTSUBMITTED;
@@ -99,8 +103,14 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 	case PENDING_FAILED:
 	case PENDING_SOLVED:{
 		QLinearGradient gradient(0, 0, 0, height-10);
-		gradient.setColorAt(0, QColor(255, 223, 54));
-		gradient.setColorAt(1, QColor(143, 124, 29));
+
+		if (this->highlighted) {
+			gradient.setColorAt(0, this->finalColor);
+			gradient.setColorAt(1, this->highlightColor);
+		} else {
+			gradient.setColorAt(0, QColor(255, 223, 54));
+			gradient.setColorAt(1, QColor(143, 124, 29));
+		}
 		QBrush brush(gradient);
 		painter->setPen(pen);
 		brush.setStyle(Qt::LinearGradientPattern);
@@ -150,6 +160,26 @@ void ProblemGraphicsItem::setHighlighted(bool highlighted) {
 
 void ProblemGraphicsItem::setProblemId(QString problemId) {
 	this->problemId = problemId;
+}
+
+void ProblemGraphicsItem::setHighlightColor(QColor color) {
+	this->highlightColor = color;
+}
+
+QColor ProblemGraphicsItem::getHighlightColor() {
+	return this->highlightColor;
+}
+
+void ProblemGraphicsItem::setFinalColor(QColor color) {
+	this->finalColor = color;
+}
+
+QColor ProblemGraphicsItem::getFinalColor() {
+	return this->finalColor;
+}
+
+bool ProblemGraphicsItem::isSolved() {
+	return (this->state == SOLVED || this->state == PENDING_SOLVED);
 }
 }
 }

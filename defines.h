@@ -7,6 +7,7 @@
 #define TEAMITEM_HEIGHT 80
 
 #define SCROLL_BELOW_OFFSET 40
+#define RESOLV_BELOW_OFFSET 80
 
 // We need to click to resolve the NEED_TO_CLICK top rows
 // The other rows resolve automatically
@@ -49,6 +50,7 @@ struct ResultProblem {
 
 struct ResultTeam {
 	QString name;
+	QString id;
 	int rank;
 	int solved;
 	int time;

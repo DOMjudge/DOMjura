@@ -122,6 +122,8 @@ bool StandingsController::nextStanding() {
 			doneSomething = true;
 		}
 		if (doneSomething) {
+			this->lastResolvedTeam = this->currentPos;
+			this->lastResolvedProblem = this->currentProblem;
 			// Update problem
 			team->setProblem(problem->id, problem);
 			qSort(this->currentRanking.begin(), this->currentRanking.end(), rankedTeamLessThan);
@@ -129,6 +131,7 @@ bool StandingsController::nextStanding() {
 			return true;
 		} else {
 			if (this->currentProblem == team->getNumProblems() - 1) {
+				this->lastResolvedTeam = this->currentPos;
 				this->currentPos--;
 				this->currentProblem = 0;
 				return true;
@@ -138,6 +141,14 @@ bool StandingsController::nextStanding() {
 		}
 	}
 	return false;
+}
+
+int StandingsController::getLastResolvedTeam() {
+	return this->lastResolvedTeam;
+}
+
+int StandingsController::getLastResolvedProblem() {
+	return this->lastResolvedProblem;
 }
 
 QString StandingsController::toString() {

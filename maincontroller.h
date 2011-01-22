@@ -47,6 +47,7 @@ private slots:
 	void showStats();
 	void showResults();
 	void setBrandingImage(QString image);
+	void updateStanding();
 };
 } // namespace Controller
 } // namespace DJ
