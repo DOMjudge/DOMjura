@@ -31,6 +31,8 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 
 	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableSave()));
 	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableActions()));
+
+	connect(this->resultsWindow, SIGNAL(newStandingNeeded()), this, SLOT(updateStanding()));
 }
 
 MainController::~MainController() {
@@ -138,6 +140,7 @@ void MainController::showResults() {
 		ResultTeam team;
 		Model::RankedTeam *rankedTeam = ranking.at(i);
 		team.name = rankedTeam->getName();
+		team.id = rankedTeam->getId();
 		team.solved = rankedTeam->getNumSolved();
 		if (i > 0) {
 			Model::RankedTeam *prevTeam = ranking.at(i - 1);
@@ -166,13 +169,58 @@ void MainController::showResults() {
 		team.problems = problems;
 		teams.append(team);
 	}
+	this->resultsWindow->reload();
 	this->resultsWindow->setTeams(teams);
 	this->resultsWindow->showFullScreen();
-	this->resultsWindow->reload();
 }
 
 void MainController::setBrandingImage(QString image) {
 	this->resultsWindow->setBrandingImageFile(image);
+}
+
+void MainController::updateStanding() {
+	if (this->standingsController->nextStanding()) {
+		QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
+		QList<ResultTeam> teams;
+		int curRank = 1;
+		for (int i = 0; i < ranking.size(); i++) {
+			ResultTeam team;
+			Model::RankedTeam *rankedTeam = ranking.at(i);
+			team.name = rankedTeam->getName();
+			team.id = rankedTeam->getId();
+			team.solved = rankedTeam->getNumSolved();
+			if (i > 0) {
+				Model::RankedTeam *prevTeam = ranking.at(i - 1);
+				if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
+						&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
+					team.rank = curRank;
+				} else {
+					curRank = i + 1;
+					team.rank = curRank;
+				}
+			} else {
+				team.rank = 1;
+				curRank = 1;
+			}
+			team.time = rankedTeam->getTotalTime();
+			QList<ResultProblem> problems;
+			for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
+				Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
+				ResultProblem problem;
+				problem.numTries = rankedProblem->tries;
+				problem.state = rankedProblem->problemState;
+				problem.problemId = rankedProblem->id;
+				problem.time = rankedProblem->timeLastTry;
+				problems.append(problem);
+			}
+			team.problems = problems;
+			teams.append(team);
+		}
+		this->resultsWindow->setTeams(teams, true,
+									  this->standingsController->getLastResolvedTeam(),
+									  this->standingsController->getLastResolvedProblem(),
+									  this->standingsController->getCurrentPos());
+	}
 }
 
 } // namespace Controller

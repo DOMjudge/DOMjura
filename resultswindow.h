@@ -1,7 +1,6 @@
 #ifndef RESULTSWINDOW_H
 #define RESULTSWINDOW_H
 
-#include <QWidget>
 #include <QLabel>
 #include <QImage>
 #include <QGraphicsView>
@@ -20,13 +19,20 @@
 namespace DJ {
 namespace View {
 
-class ResultsWindow : public QWidget {
+class ResultsWindow : public QGraphicsView {
 	Q_OBJECT
 public:
 	explicit ResultsWindow(QWidget *parent = 0);
 	void setBrandingImageFile(QString filename);
-	void setTeams(QList<ResultTeam> teams);
+	void setTeams(QList<ResultTeam> teams, bool animated = false, int lastResolvedTeam = -1,
+				  int lastResolvedProblem = -1, int currentTeam = -1);
 	void reload();
+	int getCurrentResolvIndex();
+	ResultTeam getResultTeam(int i);
+	void showFullScreen();
+
+signals:
+	void newStandingNeeded();
 
 protected:
 	void keyPressEvent(QKeyEvent *event);
@@ -35,6 +41,7 @@ protected:
 private slots:
 	void hideLegenda();
 	void animationDone();
+	void timerDone();
 
 private:
 	void hideLegendAfterTimeout();
@@ -44,7 +51,6 @@ private:
 	QGraphicsPixmapItem *pixmap;
 	QGraphicsProxyWidget *proxyImage;
 	QGraphicsProxyWidget *legendaProxy;
-	QGraphicsView *view;
 	QGraphicsScene *scene;
 	HeaderGraphicsItem *headerItem;
 	LegendaGraphicsItem *legendaItem;
@@ -52,6 +58,13 @@ private:
 	QList<ResultTeam> teams;
 	QTimer *legendaTimer;
 	bool started;
+	bool canDoNextStep;
+	int currentResolvIndex;
+	QList<ResultTeam> teamsToSet;
+	int lastResolvTeam;
+	int lastResolvProblem;
+	qreal offset;
+	bool windowClosed;
 
 	QParallelAnimationGroup *scrollToBottomAnim;
 	QPropertyAnimation *legendaAnim;

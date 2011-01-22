@@ -17,6 +17,8 @@ public:
 	bool nextStanding();
 	QString toString();
 	int getCurrentPos();
+	int getLastResolvedTeam();
+	int getLastResolvedProblem();
 	Model::RankedTeam *getTeamById(QString id);
 	QList<Model::RankedTeam *> getCurrentRanking();
 
@@ -28,6 +30,8 @@ private:
 	// Helper variable to speed up the searching for the next change
 	int currentPos;
 	int currentProblem;
+	int lastResolvedTeam;
+	int lastResolvedProblem;
 	QString category;
 };
 

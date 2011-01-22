@@ -52,8 +52,6 @@ QRectF HeaderGraphicsItem::boundingRect() const {
 }
 
 void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-	painter->setRenderHints(0);
-	painter->setClipRect(option->exposedRect);
 	QLinearGradient gradient(0, 0, screenWidth, 0);
 	gradient.setColorAt(0, QColor(0, 0, 0));
 	gradient.setColorAt(0.5, QColor(56, 56, 56));

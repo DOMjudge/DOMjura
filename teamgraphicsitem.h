@@ -26,6 +26,7 @@ public:
 	void setTime(int time);
 	void setEven(bool even);
 	void setHighlighted(bool highlighted);
+	ProblemGraphicsItem *getProblemGraphicsItem(int i);
 
 private:
 	bool highlighted;
