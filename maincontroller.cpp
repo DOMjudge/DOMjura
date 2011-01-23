@@ -169,6 +169,7 @@ void MainController::showResults() {
 		team.problems = problems;
 		teams.append(team);
 	}
+	this->resultsWindow->stopAnimations();
 	this->resultsWindow->reload();
 	this->resultsWindow->setTeams(teams);
 	this->resultsWindow->showFullScreen();

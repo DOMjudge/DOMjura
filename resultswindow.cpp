@@ -15,10 +15,6 @@ namespace DJ {
 namespace View {
 
 ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
-	this->scrollToBottomAnim = NULL;
-	this->legendaAnim = NULL;
-	this->windowClosed = true;
-
 	this->started = false;
 	this->offset = 0.0;
 	this->canDoNextStep = true;
@@ -56,10 +52,6 @@ ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
 	this->scene->addItem(this->pixmap);
 	this->scene->addItem(this->headerItem);
 	this->scene->addItem(this->legendaItem);
-
-	this->legendaTimer = new QTimer(this);
-	this->legendaTimer->setSingleShot(true);
-	connect(this->legendaTimer, SIGNAL(timeout()), this, SLOT(hideLegenda()));
 }
 
 void ResultsWindow::setBrandingImageFile(QString filename) {
@@ -70,11 +62,6 @@ void ResultsWindow::setBrandingImageFile(QString filename) {
 		this->pixmap->setPixmap(QPixmap());
 	}
 	resizeImage();
-}
-
-void ResultsWindow::showFullScreen() {
-	this->windowClosed = false;
-	QGraphicsView::showFullScreen();
 }
 
 void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastResolvedTeam, int lastResolvedProblem, int currentTeam) {
@@ -104,6 +91,7 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 			QTimer *timer = new QTimer;
 			timer->setSingleShot(true);
 			connect(timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+			this->runningTimers.append(timer);
 			timer->start(1000);
 		} else {
 
@@ -130,6 +118,8 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 				animItem->setEndValue(newPoint);
 				scrollToRowAnim->addAnimation(animItem);
 			}
+
+			this->runningAnimations.append(scrollToRowAnim);
 
 			scrollToRowAnim->start();
 		}
@@ -181,7 +171,6 @@ void ResultsWindow::keyPressEvent(QKeyEvent *event) {
 	case Qt::Key_Escape:
 	case Qt::Key_Q:
 	case Qt::Key_X:
-		this->windowClosed = true;
 		close();
 		break;
 	case Qt::Key_Enter:
@@ -201,42 +190,43 @@ void ResultsWindow::mousePressEvent(QMouseEvent *event) {
 	}
 }
 
+void ResultsWindow::stopAnimations() {
+	foreach (QAbstractAnimation *animation, this->runningAnimations) {
+		animation->stop();
+		delete animation;
+	}
+	this->runningAnimations.clear();
+	foreach (QTimer *timer, this->runningTimers) {
+		timer->stop();
+		delete timer;
+	}
+	this->runningTimers.clear();
+}
+
 void ResultsWindow::reload() {
 	this->offset = 0.0;
 	this->started = false;
 	this->canDoNextStep = true;
 	this->currentResolvIndex = -1;
 	this->lastResolvTeam = -1;
-
-	if (this->scrollToBottomAnim) {
-		this->scrollToBottomAnim->clear();
-		delete this->scrollToBottomAnim;
-		this->scrollToBottomAnim = NULL;
-	}
-
-	if (this->legendaAnim) {
-		delete this->legendaAnim;
-		this->legendaAnim = NULL;
-	}
 	this->headerItem->setPos(0, 0);
 	this->hideLegendAfterTimeout();
 }
 
 void ResultsWindow::hideLegendAfterTimeout() {
 	this->legendaItem->setOpacity(1);
-	this->legendaTimer->start(5000);
+	QTimer *legendaTimer = new QTimer(this);
+	legendaTimer->setSingleShot(true);
+	connect(legendaTimer, SIGNAL(timeout()), this, SLOT(hideLegenda()));
+	this->runningTimers.append(legendaTimer);
+	legendaTimer->start(5000);
 }
 
 void ResultsWindow::doNextStep() {
 	if (!this->started) {
-		if (this->scrollToBottomAnim) {
-			this->scrollToBottomAnim->clear();
-			delete this->scrollToBottomAnim;
-			this->scrollToBottomAnim = NULL;
-		}
 		this->canDoNextStep = false;
-		this->scrollToBottomAnim = new QParallelAnimationGroup;
-		connect(this->scrollToBottomAnim, SIGNAL(finished()), this, SLOT(animationDone()));
+		QParallelAnimationGroup *scrollToBottomAnim = new QParallelAnimationGroup;
+		connect(scrollToBottomAnim, SIGNAL(finished()), this, SLOT(animationDone()));
 
 		int screenHeight = QApplication::desktop()->screenGeometry().height();
 		int totalItemsHeight = HEADER_HEIGHT + this->teamItems.size() * TEAMITEM_HEIGHT + SCROLL_BELOW_OFFSET;
@@ -253,7 +243,7 @@ void ResultsWindow::doNextStep() {
 		animHeader->setEasingCurve(QEasingCurve::OutBack);
 		animHeader->setStartValue(QPointF(0, 0));
 		animHeader->setEndValue(QPointF(0, 0) - toScrollPoint);
-		this->scrollToBottomAnim->addAnimation(animHeader);
+		scrollToBottomAnim->addAnimation(animHeader);
 
 		for (int i = 0; i < this->teamItems.size(); i++) {
 			QPropertyAnimation *animItem = new QPropertyAnimation(this->teamItems.at(i), "pos");
@@ -266,10 +256,12 @@ void ResultsWindow::doNextStep() {
 			newPoint -= toScrollPoint;
 			animItem->setStartValue(startPoint);
 			animItem->setEndValue(newPoint);
-			this->scrollToBottomAnim->addAnimation(animItem);
+			scrollToBottomAnim->addAnimation(animItem);
 		}
 
-		this->scrollToBottomAnim->start();
+		scrollToBottomAnim->setProperty("DJ_animType", "scrollToBottom");
+		this->runningAnimations.append(scrollToBottomAnim);
+		scrollToBottomAnim->start();
 	} else {
 		this->canDoNextStep = false;
 		emit newStandingNeeded();
@@ -277,29 +269,19 @@ void ResultsWindow::doNextStep() {
 }
 
 void ResultsWindow::animationDone() {
-	if (this->sender() == this->scrollToBottomAnim) {
-		if (this->windowClosed) {
-			return;
-		}
+	this->runningAnimations.removeAll((QAbstractAnimation *)this->sender());
+	this->sender()->deleteLater();
+	if (this->sender()->property("DJ_animType") == "scrollToBottom") {
 		this->started = true;
 		this->canDoNextStep = true;
 	} else if (this->sender()->property("DJ_animType") == "toRow") {
-		this->sender()->deleteLater();
-		if (this->windowClosed || this->lastResolvTeam < 0 || this->lastResolvTeam >= this->teamItems.size()) {
-			return;
-		}
 		// start a timer that waits a second
 		QTimer *timer = new QTimer;
 		timer->setSingleShot(true);
 		connect(timer, SIGNAL(timeout()), this, SLOT(timerDone()));
+		this->runningTimers.append(timer);
 		timer->start(1000);
 	} else if (this->sender()->property("DJ_animType") == "problemResolv") {
-		this->sender()->deleteLater();
-
-		if (this->windowClosed || this->lastResolvTeam < 0 || this->lastResolvTeam >= this->teamItems.size()) {
-			return;
-		}
-
 		TeamGraphicsItem *team = this->teamItems.at(this->lastResolvTeam);
 		ProblemGraphicsItem *problem = team->getProblemGraphicsItem(this->lastResolvProblem);
 
@@ -324,11 +306,9 @@ void ResultsWindow::animationDone() {
 }
 
 void ResultsWindow::timerDone() {
+	this->runningTimers.removeAll((QTimer *)this->sender());
 	this->sender()->deleteLater();
 	if (this->lastResolvTeam == this->currentResolvIndex) {
-		if (this->windowClosed || this->lastResolvTeam < 0 || this->lastResolvTeam >= this->teamItems.size()) {
-			return;
-		}
 		// Animate problem highlight
 		TeamGraphicsItem *team = this->teamItems.at(this->lastResolvTeam);
 		ProblemGraphicsItem *problem = team->getProblemGraphicsItem(this->lastResolvProblem);
@@ -368,12 +348,10 @@ void ResultsWindow::timerDone() {
 		parAnim->addAnimation(animHLC);
 		parAnim->addAnimation(animFC);
 		parAnim->setProperty("DJ_animType", "problemResolv");
+		this->runningAnimations.append(parAnim);
 		connect(parAnim, SIGNAL(finished()), this, SLOT(animationDone()));
 		parAnim->start();
 	} else {
-		if (this->windowClosed || this->lastResolvTeam < 0 || this->lastResolvTeam >= this->teamItems.size()) {
-			return;
-		}
 		this->offset = this->headerItem->pos().y();
 		this->setTeams(this->teamsToSet);
 		this->teamItems.at(this->lastResolvTeam)->setHighlighted(true);
@@ -400,17 +378,17 @@ void ResultsWindow::resizeImage() {
 }
 
 void ResultsWindow::hideLegenda() {
-	if (this->legendaAnim) {
-		delete this->legendaAnim;
-		this->legendaAnim = NULL;
-	}
-	this->legendaAnim = new QPropertyAnimation(this->legendaItem, "opacity");
-	this->legendaAnim->setDuration(2000);
-	this->legendaAnim->setEasingCurve(QEasingCurve::InOutExpo);
-	this->legendaAnim->setStartValue(1);
-	this->legendaAnim->setEndValue(0);
+	this->runningTimers.removeAll((QTimer *)this->sender());
+	this->sender()->deleteLater();
+	QPropertyAnimation *legendaAnim = new QPropertyAnimation(this->legendaItem, "opacity");
+	legendaAnim->setDuration(2000);
+	legendaAnim->setEasingCurve(QEasingCurve::InOutExpo);
+	legendaAnim->setStartValue(1);
+	legendaAnim->setEndValue(0);
 
-	this->legendaAnim->start();
+	this->runningAnimations.append(legendaAnim);
+	legendaAnim->setProperty("DJ_animType", "legenda");
+	legendaAnim->start();
 }
 
 int ResultsWindow::getCurrentResolvIndex() {

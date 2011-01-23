@@ -26,10 +26,10 @@ public:
 	void setBrandingImageFile(QString filename);
 	void setTeams(QList<ResultTeam> teams, bool animated = false, int lastResolvedTeam = -1,
 				  int lastResolvedProblem = -1, int currentTeam = -1);
+	void stopAnimations();
 	void reload();
 	int getCurrentResolvIndex();
 	ResultTeam getResultTeam(int i);
-	void showFullScreen();
 
 signals:
 	void newStandingNeeded();
@@ -56,7 +56,6 @@ private:
 	LegendaGraphicsItem *legendaItem;
 	QList<TeamGraphicsItem *> teamItems;
 	QList<ResultTeam> teams;
-	QTimer *legendaTimer;
 	bool started;
 	bool canDoNextStep;
 	int currentResolvIndex;
@@ -64,10 +63,9 @@ private:
 	int lastResolvTeam;
 	int lastResolvProblem;
 	qreal offset;
-	bool windowClosed;
 
-	QParallelAnimationGroup *scrollToBottomAnim;
-	QPropertyAnimation *legendaAnim;
+	QList<QAbstractAnimation *> runningAnimations;
+	QList<QTimer *> runningTimers;
 };
 
 } // namespace View
