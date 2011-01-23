@@ -87,6 +87,7 @@ void MainController::enableActions() {
 		categories.append(scoreboard->getCategory(i)->getName());
 	}
 	this->mainDialog->setCategories(categories);
+	this->mainDialog->selectParticipantsCategory();
 	this->mainDialog->setActionsEnabled(true);
 }
 
@@ -95,6 +96,8 @@ void MainController::saveXML(QString dir) {
 }
 
 void MainController::updateDir(QDir dir) {
+	this->mainDialog->setSaveXMLEnabled(false);
+	this->mainDialog->setActionsEnabled(false);
 	this->readDataController->setDir(dir);
 }
 

@@ -22,6 +22,7 @@ public:
 	void setSaveXMLEnabled(bool enabled);
 	void setActionsEnabled(bool enabled);
 	void setCategories(QList<QString> categories);
+	void selectParticipantsCategory();
 	QString getSelectedCategory();
 
 signals:
