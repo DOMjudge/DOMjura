@@ -37,11 +37,8 @@ signals:
 	void saveXMLclicked(QString dir);
 	void statsClicked();
 	void resultsClicked();
-	void brandingImageSelected(QString image);
 
 private slots:
-	void on_pushButton_clicked();
- void on_buttonBrowseBrandingImage_clicked();
 	void on_buttonStartResultsPresentation_clicked();
 	void on_buttonBrowseLocal_clicked();
 	void on_buttonAbout_clicked();

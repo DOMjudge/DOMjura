@@ -46,7 +46,6 @@ private slots:
 	void saveXML(QString dir);
 	void showStats();
 	void showResults();
-	void setBrandingImage(QString image);
 	void updateStanding();
 };
 } // namespace Controller

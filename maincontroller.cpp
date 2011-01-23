@@ -24,7 +24,6 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	connect(this->mainDialog, SIGNAL(saveXMLclicked(QString)), this, SLOT(saveXML(QString)));
 	connect(this->mainDialog, SIGNAL(dirChanged(QDir)), this, SLOT(updateDir(QDir)));
 	connect(this->mainDialog, SIGNAL(resultsClicked()), this, SLOT(showResults()));
-	connect(this->mainDialog, SIGNAL(brandingImageSelected(QString)), this, SLOT(setBrandingImage(QString)));
 
 	connect(this->mainDialog, SIGNAL(aboutClicked()), this->aboutDialog, SLOT(exec()));
 	connect(this->mainDialog, SIGNAL(statsClicked()), this, SLOT(showStats()));
@@ -176,10 +175,6 @@ void MainController::showResults() {
 	this->resultsWindow->reload();
 	this->resultsWindow->setTeams(teams);
 	this->resultsWindow->showFullScreen();
-}
-
-void MainController::setBrandingImage(QString image) {
-	this->resultsWindow->setBrandingImageFile(image);
 }
 
 void MainController::updateStanding() {
