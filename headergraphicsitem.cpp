@@ -50,6 +50,16 @@ QRectF HeaderGraphicsItem::boundingRect() const {
 }
 
 void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	QFont font("Courier new", 16);
+	font.setItalic(true);
+
+	QFontMetrics fm(font);
+
+	this->rankTextItem->setPos(LEFT_MARGIN, HEADER_HEIGHT - fm.height());
+	this->nameTextItem->setPos(LEFT_MARGIN + RANK_WIDTH, HEADER_HEIGHT - fm.height());
+	this->timeTextItem->setPos(QApplication::desktop()->screenGeometry().width() - RIGHT_MARGIN - fm.width("Time"), HEADER_HEIGHT - fm.height());
+	this->solvedTextItem->setPos(QApplication::desktop()->screenGeometry().width() - RIGHT_MARGIN - TIME_WIDTH - fm.width("Solved"), HEADER_HEIGHT - fm.height());
+
 	QLinearGradient gradient(0, 0, screenWidth, 0);
 	gradient.setColorAt(0, QColor(0, 0, 0));
 	gradient.setColorAt(0.5, QColor(56, 56, 56));

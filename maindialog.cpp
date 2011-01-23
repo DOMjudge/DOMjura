@@ -104,5 +104,10 @@ void MainDialog::on_buttonStartResultsPresentation_clicked() {
 	emit resultsClicked();
 }
 
+void MainDialog::on_buttonSettings_clicked() {
+	emit settingsClicked();
+}
+
+
 } // namespace View
 } // namespace DJ

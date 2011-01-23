@@ -7,13 +7,16 @@ namespace DJ {
 namespace Controller {
 
 MainController::MainController(QObject *parent) : QObject(parent) {
-	this->readDataController = new ReadDataController(this);
 
 	this->mainDialog = new View::MainDialog;
 	this->aboutDialog = new View::AboutDialog(this->mainDialog);
 	this->statsDialog = new View::StatsDialog(this->mainDialog);
+	this->settingsDialog = new View::SettingsDialog(this->mainDialog);
 	this->resultsWindow = new View::ResultsWindow;
 	this->standingsController = NULL;
+
+	this->readDataController = new ReadDataController(this);
+	this->readDataController->setParentOfMessages(this->mainDialog);
 
 	connect(this->mainDialog, SIGNAL(URLChanged(QString)), this, SLOT(updateURL(QString)));
 	connect(this->mainDialog, SIGNAL(usernameChanged(QString)), this, SLOT(updateUsername(QString)));
@@ -27,6 +30,7 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 
 	connect(this->mainDialog, SIGNAL(aboutClicked()), this->aboutDialog, SLOT(exec()));
 	connect(this->mainDialog, SIGNAL(statsClicked()), this, SLOT(showStats()));
+	connect(this->mainDialog, SIGNAL(settingsClicked()), this->settingsDialog, SLOT(exec()));
 
 	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableSave()));
 	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableActions()));

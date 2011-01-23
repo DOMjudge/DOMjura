@@ -27,6 +27,7 @@ public:
 	Model::Scoreboard *getScoreboard();
 	Model::Events *getEvents();
 	void saveXML(QString dir);
+	void setParentOfMessages(QWidget *widget);
 
 private:
 	// Class for reading scoreboard XML data
@@ -107,6 +108,7 @@ private:
 	QDir dir;
 	bool read;
 	bool ofDir;
+	QWidget *parentOfMessages;
 
 	QNetworkAccessManager *manager;
 

@@ -7,6 +7,7 @@
 #include "aboutdialog.h"
 #include "statsdialog.h"
 #include "resultswindow.h"
+#include "settingsdialog.h"
 
 #include "readdatacontroller.h"
 #include "statscontroller.h"
@@ -29,6 +30,7 @@ private:
 	View::AboutDialog *aboutDialog;
 	View::StatsDialog *statsDialog;
 	View::ResultsWindow *resultsWindow;
+	View::SettingsDialog *settingsDialog;
 
 	ReadDataController *readDataController;
 	StandingsController *standingsController;

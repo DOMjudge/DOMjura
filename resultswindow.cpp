@@ -189,8 +189,7 @@ void ResultsWindow::stopAnimations() {
 }
 
 void ResultsWindow::reload() {
-	QSettings settings;
-	QString filename = settings.value("brandingImage").toString();
+	QString filename = BRANDING_IMAGE;
 	// Update branding image
 	if (!filename.isEmpty()) {
 		QPixmap pixmap(filename);
@@ -215,6 +214,9 @@ void ResultsWindow::reload() {
 
 void ResultsWindow::hideLegendAfterTimeout() {
 	this->legendaItem->setOpacity(1);
+	QRectF legendaRect = this->legendaItem->boundingRect();
+	this->legendaItem->setPos(QApplication::desktop()->screenGeometry().width() - legendaRect.width() - LEGENDA_RIGHT_OFFSET,
+							  QApplication::desktop()->screenGeometry().height() - legendaRect.height() - LEGENDA_BOTTOM_OFFSET);
 	QTimer *legendaTimer = new QTimer(this);
 	legendaTimer->setSingleShot(true);
 	connect(legendaTimer, SIGNAL(timeout()), this, SLOT(hideLegenda()));
