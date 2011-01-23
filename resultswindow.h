@@ -42,6 +42,7 @@ private slots:
 	void hideLegenda();
 	void animationDone();
 	void timerDone();
+	void timerMoveUpDone();
 
 private:
 	void hideLegendAfterTimeout();
