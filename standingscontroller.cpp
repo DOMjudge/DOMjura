@@ -110,7 +110,7 @@ void StandingsController::initStandings(QString category) {
 }
 
 bool StandingsController::nextStanding() {
-	while (!(this->currentPos == 0 && this->currentProblem == this->currentRanking.at(0)->getNumProblems() - 1)) {
+	while (!(this->currentPos == -1 && this->currentProblem == 0)) {
 		Model::RankedTeam *team = this->currentRanking.at(this->currentPos);
 		Model::RankedProblem *problem = team->getProblem(this->currentProblem)->copy();
 		bool doneSomething = false;
@@ -132,6 +132,7 @@ bool StandingsController::nextStanding() {
 		} else {
 			if (this->currentProblem == team->getNumProblems() - 1) {
 				this->lastResolvedTeam = this->currentPos;
+				this->lastResolvedProblem = -1;
 				this->currentPos--;
 				this->currentProblem = 0;
 				return true;

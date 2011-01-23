@@ -66,11 +66,6 @@ void ResultsWindow::setBrandingImageFile(QString filename) {
 
 void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastResolvedTeam, int lastResolvedProblem, int currentTeam) {
 	if (animated) {
-		qDebug() << "--------------DEBUG--------------";
-		qDebug() << "last resolved team:   " << lastResolvedTeam;
-		qDebug() << "last resolved problem:" << lastResolvedProblem;
-		qDebug() << "current team:         " << currentTeam;
-
 		if (this->lastResolvTeam >= 0) {
 			this->teamItems.at(this->lastResolvTeam)->setHighlighted(false);
 		}
@@ -94,7 +89,6 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 			this->runningTimers.append(timer);
 			timer->start(1000);
 		} else {
-
 			// First, move to the the row to highlight
 			QParallelAnimationGroup *scrollToRowAnim = new QParallelAnimationGroup;
 			scrollToRowAnim->setProperty("DJ_animType", "toRow");
@@ -288,20 +282,57 @@ void ResultsWindow::animationDone() {
 		problem->setHighlighted(false);
 
 		if (problem->isSolved()) {
+			problem->setState(SOLVED);
 			// Determine where to move the row to
 			int moveTo = this->lastResolvTeam;
 			while (this->teamsToSet.at(moveTo).id != this->teams.at(this->lastResolvTeam).id) {
 				moveTo--;
 			}
 			qDebug() << "This team will move to" << moveTo;
-			// Now move the current team to moveTo and move all teams from moveTo until the current team one down
-			QPointF moveToPoint = this->teamItems.at(moveTo)->pos();
-			problem->setState(SOLVED);
+			int tme = 500 + 200 * (this->lastResolvTeam - moveTo);
+			if (tme == 500) {
+				QTimer *timer = new QTimer;
+				timer->setSingleShot(true);
+				connect(timer, SIGNAL(timeout()), this, SLOT(timerMoveUpDone()));
+				this->runningTimers.append(timer);
+				timer->start(200);
+			} else {
+				// Now move the current team to moveTo and move all teams from moveTo until the current team one down
+				QPointF moveToPoint = this->teamItems.at(moveTo)->pos();
+
+				QParallelAnimationGroup *moveAnim = new QParallelAnimationGroup;
+
+				QPropertyAnimation *moveUpAnim = new QPropertyAnimation(this->teamItems.at(this->lastResolvTeam), "pos");
+				connect(moveAnim, SIGNAL(finished()), this, SLOT(animationDone()));
+				moveUpAnim->setDuration(tme);
+				moveUpAnim->setStartValue(this->teamItems.at(this->lastResolvTeam)->pos());
+				moveUpAnim->setEndValue(moveToPoint);
+				moveAnim->addAnimation(moveUpAnim);
+
+				for (int i = moveTo; i < this->lastResolvTeam; i++) {
+					TeamGraphicsItem *team = this->teamItems.at(i);
+					QPropertyAnimation *moveDownAnim = new QPropertyAnimation(team, "pos");
+					moveDownAnim->setDuration(tme);
+					moveDownAnim->setStartValue(team->pos());
+					moveDownAnim->setEndValue(team->pos() + QPointF(0, TEAMITEM_HEIGHT));
+					moveAnim->addAnimation(moveDownAnim);
+				}
+
+				this->runningAnimations.append(moveAnim);
+				moveAnim->setProperty("DJ_animType", "moveTeam");
+				moveAnim->start();
+			}
 		} else { // if the problem is not solved, just go to the next resolv
 			this->offset = this->headerItem->pos().y();
 			this->setTeams(this->teamsToSet);
 			doNextStep();
 		}
+	} else if (this->sender()->property("DJ_animType") == "moveTeam") {
+		QTimer *timer = new QTimer;
+		timer->setSingleShot(true);
+		connect(timer, SIGNAL(timeout()), this, SLOT(timerMoveUpDone()));
+		this->runningTimers.append(timer);
+		timer->start(200);
 	}
 }
 
@@ -361,6 +392,14 @@ void ResultsWindow::timerDone() {
 			this->canDoNextStep = true;
 		}
 	}
+}
+
+void ResultsWindow::timerMoveUpDone() {
+	this->runningTimers.removeAll((QTimer *)this->sender());
+	this->sender()->deleteLater();
+	this->offset = this->headerItem->pos().y();
+	this->setTeams(this->teamsToSet);
+	doNextStep();
 }
 
 void ResultsWindow::resizeImage() {
