@@ -142,6 +142,15 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 			teamItem->setName(teams.at(i).name);
 			teamItem->setSolved(teams.at(i).solved);
 			teamItem->setTime(teams.at(i).time);
+			if (this->lastResolvTeam >= 0 && i >= this->lastResolvTeam && i < GOLD) {
+				teamItem->setMedal(GOLD_MEDAL);
+			} else if (this->lastResolvTeam >= 0 && i >= this->lastResolvTeam && i < SILVER) {
+				teamItem->setMedal(SILVER_MEDAL);
+			} else if (this->lastResolvTeam >= 0 && i >= this->lastResolvTeam && i < BRONZE) {
+				teamItem->setMedal(BRONZE_MEDAL);
+			} else {
+				teamItem->setMedal(NO_MEDAL);
+			}
 			teamItem->setPos(0, HEADER_HEIGHT + i * TEAMITEM_HEIGHT + this->offset);
 			teamItem->setEven(i % 2 == 0);
 

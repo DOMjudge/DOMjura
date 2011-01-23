@@ -49,6 +49,13 @@ enum ProblemState {
 	PENDING_FAILED
 };
 
+enum Medal {
+	NO_MEDAL,
+	GOLD_MEDAL,
+	SILVER_MEDAL,
+	BRONZE_MEDAL
+};
+
 struct ResultProblem {
 	ProblemState state;
 	int numTries;
