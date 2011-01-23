@@ -14,8 +14,6 @@ namespace View {
 HeaderGraphicsItem::HeaderGraphicsItem(double screenWidth, QGraphicsItem *parent)
 	: QObject(), QGraphicsItem(parent){
 	this->screenWidth = screenWidth;
-	this->lineItem = new QGraphicsLineItem(0, HEADER_HEIGHT-1, screenWidth, HEADER_HEIGHT-1, this);
-	this->lineItem->setPen(QPen(Qt::white));
 
 	QFont font("Courier new", 16);
 	font.setItalic(true);
@@ -61,6 +59,8 @@ void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 	painter->setBrush(brush);
 	painter->setPen(Qt::NoPen);
 	painter->drawRect(0, 0, screenWidth, HEADER_HEIGHT);
+	painter->setPen(Qt::white);
+	painter->drawLine(0, HEADER_HEIGHT-1, screenWidth, HEADER_HEIGHT-1);
 }
 
 } // namespace View
