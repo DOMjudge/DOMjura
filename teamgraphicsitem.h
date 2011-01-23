@@ -26,12 +26,14 @@ public:
 	void setTime(int time);
 	void setEven(bool even);
 	void setHighlighted(bool highlighted);
+	void setMedal(Medal medal);
 	ProblemGraphicsItem *getProblemGraphicsItem(int i);
 
 private:
 	bool highlighted;
 	int screenWidth;
 	bool even;
+	Medal medal;
 
 	QGraphicsSimpleTextItem *rankItem;
 	QGraphicsSimpleTextItem *nameItem;

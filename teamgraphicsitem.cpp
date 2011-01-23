@@ -77,14 +77,33 @@ void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 		painter->setBrush(QColor(92, 138, 221));
 	} else {
 		QLinearGradient gradient(0, 0, screenWidth, 0);
-		if (even) {
-			gradient.setColorAt(0, QColor(30, 30, 30));
-			gradient.setColorAt(0.5, QColor(86, 86, 86));
-			gradient.setColorAt(1, QColor(30, 30, 30));
-		} else {
-			gradient.setColorAt(0, QColor(0, 0, 0));
-			gradient.setColorAt(0.5, QColor(56, 56, 56));
-			gradient.setColorAt(1, QColor(0, 0, 0));
+		switch (this->medal) {
+		case NO_MEDAL:
+			if (even) {
+				gradient.setColorAt(0, QColor(30, 30, 30));
+				gradient.setColorAt(0.5, QColor(86, 86, 86));
+				gradient.setColorAt(1, QColor(30, 30, 30));
+			} else {
+				gradient.setColorAt(0, QColor(0, 0, 0));
+				gradient.setColorAt(0.5, QColor(56, 56, 56));
+				gradient.setColorAt(1, QColor(0, 0, 0));
+			}
+			break;
+		case GOLD_MEDAL:
+			gradient.setColorAt(0, QColor(111, 81, 19));
+			gradient.setColorAt(0.5, QColor(251, 247, 200));
+			gradient.setColorAt(1, QColor(114, 84, 22));
+			break;
+		case SILVER_MEDAL:
+			gradient.setColorAt(0, QColor(153, 153, 153));
+			gradient.setColorAt(0.5, QColor(255, 255, 255));
+			gradient.setColorAt(1, QColor(155, 155, 155));
+			break;
+		case BRONZE_MEDAL:
+			gradient.setColorAt(0, QColor(97, 51, 2));
+			gradient.setColorAt(0.5, QColor(255, 253, 230));
+			gradient.setColorAt(1, QColor(101, 58, 5));
+			break;
 		}
 		QBrush brush(gradient);
 		brush.setStyle(Qt::LinearGradientPattern);
@@ -124,6 +143,10 @@ void TeamGraphicsItem::setSolved(int solved) {
 		this->solvedItem->setText(txt);
 	}
 	this->solvedItem->setPos(LEFT_MARGIN + RANK_WIDTH + NAME_WIDTH + SOLVED_WIDTH - fw, 0);
+}
+
+void TeamGraphicsItem::setMedal(Medal medal) {
+	this->medal = medal;
 }
 
 void TeamGraphicsItem::setTime(int time) {
