@@ -16,6 +16,7 @@ ReadDataController::ReadDataController(QObject *parent) : QObject(parent) {
 	this->manager = new QNetworkAccessManager(this);
 	this->scoreboard = NULL;
 	this->events = NULL;
+	this->ofDir = false;
 	connect(this->manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(finish(QNetworkReply*)));
 }
 
@@ -50,6 +51,10 @@ void ReadDataController::refresh() {
 	this->readData();
 }
 
+void ReadDataController::setParentOfMessages(QWidget *widget) {
+	this->parentOfMessages = widget;
+}
+
 void ReadDataController::readData() {
 	if (this->scoreboard) {
 		delete this->scoreboard;
@@ -64,7 +69,11 @@ void ReadDataController::readData() {
 		ScoreboardParser parser;
 		QFile scoreboardFile(dir.filePath("scoreboard.xml"));
 		if (!scoreboardFile.open(QIODevice::ReadOnly)) {
-			QMessageBox::warning(NULL, "Error!", QString("Error reading scoreboard.xml!\n\nError was:\n%1").arg(scoreboardFile.errorString()));
+			QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+												  QString("Error reading scoreboard.xml!\n\nError was:\n%1").arg(scoreboardFile.errorString()),
+												  QMessageBox::Ok, this->parentOfMessages);
+			msgBox->setWindowModality(Qt::WindowModal);
+			msgBox->exec();
 			return;
 		}
 		QXmlInputSource source(&scoreboardFile);
@@ -79,7 +88,11 @@ void ReadDataController::readData() {
 			EventsParser eventsParser(this->scoreboard);
 			QFile eventsFile(dir.filePath("event.xml"));
 			if (!eventsFile.open(QIODevice::ReadOnly)) {
-				QMessageBox::warning(NULL, "Error!", QString("Error reading event.xml!\n\nError was:\n%1").arg(eventsFile.errorString()));
+				QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+													  QString("Error reading event.xml!\n\nError was:\n%1").arg(eventsFile.errorString()),
+													  QMessageBox::Ok, this->parentOfMessages);
+				msgBox->setWindowModality(Qt::WindowModal);
+				msgBox->exec();
 				return;
 			}
 			QXmlInputSource eventsSource(&eventsFile);
@@ -93,10 +106,18 @@ void ReadDataController::readData() {
 				this->events->sort();
 				emit dataRead();
 			} else {
-				QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n%1").arg(parser.errorString()));
+				QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+													  QString("Can not parse event.xml!\nError was:\n%1").arg(parser.errorString()),
+													  QMessageBox::Ok, this->parentOfMessages);
+				msgBox->setWindowModality(Qt::WindowModal);
+				msgBox->exec();
 			}
 		} else {
-			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.xml!\nError was:\n%1").arg(parser.errorString()));
+			QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+												  QString("Can not parse scoreboard.xml!\nError was:\n%1").arg(parser.errorString()),
+												  QMessageBox::Ok, this->parentOfMessages);
+			msgBox->setWindowModality(Qt::WindowModal);
+			msgBox->exec();
 		}
 	} else {
 		QNetworkRequest request;
@@ -115,7 +136,11 @@ void ReadDataController::finish(QNetworkReply *reply) {
 	reply->deleteLater();
 	if (reply->request().rawHeader("what") == "scoreboard") {
 		if (reply->error()) {
-			QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/scoreboard.php!\n\nError was:\n%2").arg(this->url).arg(reply->errorString()));
+			QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+												  QString("Error reading url\n%1/plugin/scoreboard.php!\n\nError was:\n%2").arg(this->url).arg(reply->errorString()),
+												  QMessageBox::Ok, this->parentOfMessages);
+			msgBox->setWindowModality(Qt::WindowModal);
+			msgBox->exec();
 			return;
 		}
 		ScoreboardParser parser;
@@ -139,11 +164,19 @@ void ReadDataController::finish(QNetworkReply *reply) {
 			request.setUrl(url);
 			manager->get(request);
 		} else {
-			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.php!\nError was:\n%1").arg(parser.errorString()));
+			QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+												  QString("Can not parse scoreboard.php!\nError was:\n%1").arg(parser.errorString()),
+												  QMessageBox::Ok, this->parentOfMessages);
+			msgBox->setWindowModality(Qt::WindowModal);
+			msgBox->exec();
 		}
 	} else if (reply->request().rawHeader("what") == "event") {
 		if (reply->error()) {
-			QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/event.php!\n\nError was:\n%2").arg(this->url).arg(reply->errorString()));
+			QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+												  QString("Error reading url\n%1/plugin/event.php!\n\nError was:\n%2").arg(this->url).arg(reply->errorString()),
+												  QMessageBox::Ok, this->parentOfMessages);
+			msgBox->setWindowModality(Qt::WindowModal);
+			msgBox->exec();
 			return;
 		}
 		EventsParser parser(this->scoreboard);
@@ -160,7 +193,11 @@ void ReadDataController::finish(QNetworkReply *reply) {
 			this->read = true;
 			emit dataRead();
 		} else {
-			QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n%1").arg(parser.errorString()));
+			QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+												  QString("Can not parse event.xml!\nError was:\n%1").arg(parser.errorString()),
+												  QMessageBox::Ok, this->parentOfMessages);
+			msgBox->setWindowModality(Qt::WindowModal);
+			msgBox->exec();
 		}
 	}
 }
@@ -188,7 +225,12 @@ void ReadDataController::saveXML(QString dir) {
 	}
 	QFile scorebaordXMLfile(dir + "scoreboard.xml");
 	if (!scorebaordXMLfile.open(QIODevice::WriteOnly)) {
-		QMessageBox::warning(NULL, "Error!", "Can not open scoreboard.xml for writing!");
+		QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+											  "Can not open scoreboard.xml for writing!",
+											  QMessageBox::Ok, this->parentOfMessages);
+		msgBox->setWindowModality(Qt::WindowModal);
+		msgBox->exec();
+		return;
 	}
 	QXmlStreamWriter scoreboardXMLWriter(&scorebaordXMLfile);
 	scoreboardXMLWriter.setAutoFormatting(true);
@@ -276,7 +318,12 @@ void ReadDataController::saveXML(QString dir) {
 
 	QFile eventXMLfile(dir + "event.xml");
 	if (!eventXMLfile.open(QIODevice::WriteOnly)) {
-		QMessageBox::warning(NULL, "Error!", "Can not open event.xml for writing!");
+		QMessageBox *msgBox = new QMessageBox(QMessageBox::Warning, "Error!",
+											  "Can not open event.xml for writing!",
+											  QMessageBox::Ok, this->parentOfMessages);
+		msgBox->setWindowModality(Qt::WindowModal);
+		msgBox->exec();
+		return;
 	}
 	QXmlStreamWriter eventXMLWriter(&eventXMLfile);
 	eventXMLWriter.setAutoFormatting(true);
@@ -332,7 +379,11 @@ void ReadDataController::saveXML(QString dir) {
 
 	eventXMLfile.close();
 
-	QMessageBox::information(NULL, "Success!", "Files saved successfully");
+	QMessageBox *msgBox = new QMessageBox(QMessageBox::Information, "Success!",
+										  "Files saved successfully!",
+										  QMessageBox::Ok, this->parentOfMessages);
+	msgBox->setWindowModality(Qt::WindowModal);
+	msgBox->exec();
 }
 
 ReadDataController::ScoreboardParser::ScoreboardParser() {

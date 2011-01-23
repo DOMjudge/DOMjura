@@ -37,6 +37,7 @@ signals:
 	void saveXMLclicked(QString dir);
 	void statsClicked();
 	void resultsClicked();
+	void settingsClicked();
 
 private slots:
 	void on_buttonStartResultsPresentation_clicked();
@@ -51,6 +52,8 @@ private slots:
 	void on_radioLocalXML_clicked();
 	void on_buttonSaveXMLData_clicked();
 	void on_buttonViewStats_clicked();
+
+	void on_buttonSettings_clicked();
 
 private:
 	Ui::MainDialog *ui;
