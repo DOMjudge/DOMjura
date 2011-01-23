@@ -29,6 +29,15 @@ void MainDialog::setCategories(QList<QString> categories) {
 	this->ui->comboBoxCategory->addItems(categories);
 }
 
+void MainDialog::selectParticipantsCategory() {
+	for (int i = 0; i < this->ui->comboBoxCategory->count(); i++) {
+		if (this->ui->comboBoxCategory->itemText(i) == "Participants") {
+			this->ui->comboBoxCategory->setCurrentIndex(i);
+			break;
+		}
+	}
+}
+
 QString MainDialog::getSelectedCategory() {
 	return this->ui->comboBoxCategory->currentText();
 }
