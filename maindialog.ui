@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>490</height>
+    <width>880</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>900</width>
-    <height>490</height>
+    <width>880</width>
+    <height>440</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -307,25 +307,21 @@
          </spacer>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QPushButton" name="buttonLoadData">
-            <property name="text">
-             <string>Load data</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonSaveXMLData">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Save XML files</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QPushButton" name="buttonLoadData">
+          <property name="text">
+           <string>Load data</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="buttonSaveXMLData">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Save XML files</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -346,8 +342,10 @@
   <tabstop>buttonLoadData</tabstop>
   <tabstop>buttonSaveXMLData</tabstop>
   <tabstop>buttonViewStats</tabstop>
+  <tabstop>comboBoxCategory</tabstop>
   <tabstop>buttonStartResultsPresentation</tabstop>
   <tabstop>buttonQuit</tabstop>
+  <tabstop>buttonSettings</tabstop>
   <tabstop>buttonAbout</tabstop>
  </tabstops>
  <resources/>

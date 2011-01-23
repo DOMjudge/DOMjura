@@ -23,7 +23,6 @@ class ResultsWindow : public QGraphicsView {
 	Q_OBJECT
 public:
 	explicit ResultsWindow(QWidget *parent = 0);
-	void setBrandingImageFile(QString filename);
 	void setTeams(QList<ResultTeam> teams, bool animated = false, int lastResolvedTeam = -1,
 				  int lastResolvedProblem = -1, int currentTeam = -1);
 	void stopAnimations();
