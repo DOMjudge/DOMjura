@@ -64,7 +64,7 @@ void ReadDataController::readData() {
 		ScoreboardParser parser;
 		QFile scoreboardFile(dir.filePath("scoreboard.xml"));
 		if (!scoreboardFile.open(QIODevice::ReadOnly)) {
-			QMessageBox::warning(NULL, "Error!", QString("Error reading scoreboard.xml!\n\nError was:\n\%1\"").arg(scoreboardFile.errorString()));
+			QMessageBox::warning(NULL, "Error!", QString("Error reading scoreboard.xml!\n\nError was:\n%1").arg(scoreboardFile.errorString()));
 			return;
 		}
 		QXmlInputSource source(&scoreboardFile);
@@ -79,7 +79,7 @@ void ReadDataController::readData() {
 			EventsParser eventsParser(this->scoreboard);
 			QFile eventsFile(dir.filePath("event.xml"));
 			if (!eventsFile.open(QIODevice::ReadOnly)) {
-				QMessageBox::warning(NULL, "Error!", QString("Error reading event.xml!\n\nError was:\n\"%1\"").arg(eventsFile.errorString()));
+				QMessageBox::warning(NULL, "Error!", QString("Error reading event.xml!\n\nError was:\n%1").arg(eventsFile.errorString()));
 				return;
 			}
 			QXmlInputSource eventsSource(&eventsFile);
@@ -93,10 +93,10 @@ void ReadDataController::readData() {
 				this->events->sort();
 				emit dataRead();
 			} else {
-				QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
+				QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n%1").arg(parser.errorString()));
 			}
 		} else {
-			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
+			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.xml!\nError was:\n%1").arg(parser.errorString()));
 		}
 	} else {
 		QNetworkRequest request;
@@ -115,7 +115,7 @@ void ReadDataController::finish(QNetworkReply *reply) {
 	reply->deleteLater();
 	if (reply->request().rawHeader("what") == "scoreboard") {
 		if (reply->error()) {
-			QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/scoreboard.php!\n\nError was:\n\"%2\"").arg(this->url).arg(reply->errorString()));
+			QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/scoreboard.php!\n\nError was:\n%2").arg(this->url).arg(reply->errorString()));
 			return;
 		}
 		ScoreboardParser parser;
@@ -139,11 +139,11 @@ void ReadDataController::finish(QNetworkReply *reply) {
 			request.setUrl(url);
 			manager->get(request);
 		} else {
-			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.php!\nError was:\n\"%1\"").arg(parser.errorString()));
+			QMessageBox::warning(NULL, "Error", QString("Can not parse scoreboard.php!\nError was:\n%1").arg(parser.errorString()));
 		}
 	} else if (reply->request().rawHeader("what") == "event") {
 		if (reply->error()) {
-			QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/event.php!\n\nError was:\n\"%2\"").arg(this->url).arg(reply->errorString()));
+			QMessageBox::warning(NULL, "Error!", QString("Error reading url\n%1/plugin/event.php!\n\nError was:\n%2").arg(this->url).arg(reply->errorString()));
 			return;
 		}
 		EventsParser parser(this->scoreboard);
@@ -160,7 +160,7 @@ void ReadDataController::finish(QNetworkReply *reply) {
 			this->read = true;
 			emit dataRead();
 		} else {
-			QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n\"%1\"").arg(parser.errorString()));
+			QMessageBox::warning(NULL, "Error", QString("Can not parse event.xml!\nError was:\n%1").arg(parser.errorString()));
 		}
 	}
 }

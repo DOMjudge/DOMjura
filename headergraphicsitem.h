@@ -25,7 +25,6 @@ private:
 	QGraphicsSimpleTextItem *nameTextItem;
 	QGraphicsSimpleTextItem *solvedTextItem;
 	QGraphicsSimpleTextItem *timeTextItem;
-	QGraphicsLineItem *lineItem;
 
 	int screenWidth;
 
