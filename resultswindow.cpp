@@ -227,35 +227,37 @@ void ResultsWindow::doNextStep() {
 		int toScroll = qMax(0, totalItemsHeight - screenHeight);
 		QPointF toScrollPoint(0, toScroll);
 
-		int timetoScroll = 1;
-		if (toScroll > 0) {
-			timetoScroll = 1000 + 1200 * log(this->teamItems.size());
+		if (toScroll == 0) {
+			this->started = true;
+			doNextStep();
+		} else {
+			int timetoScroll = 1000 + 1200 * log(this->teamItems.size());
+
+			QPropertyAnimation *animHeader = new QPropertyAnimation(this->headerItem, "pos");
+			animHeader->setDuration(timetoScroll);
+			animHeader->setEasingCurve(QEasingCurve::OutBack);
+			animHeader->setStartValue(QPointF(0, 0));
+			animHeader->setEndValue(QPointF(0, 0) - toScrollPoint);
+			scrollToBottomAnim->addAnimation(animHeader);
+
+			for (int i = 0; i < this->teamItems.size(); i++) {
+				QPropertyAnimation *animItem = new QPropertyAnimation(this->teamItems.at(i), "pos");
+				animItem->setDuration(timetoScroll);
+				animItem->setEasingCurve(QEasingCurve::OutBack);
+				QPointF startPoint;
+				startPoint.setX(0);
+				startPoint.setY(HEADER_HEIGHT + i * TEAMITEM_HEIGHT);
+				QPointF newPoint = startPoint;
+				newPoint -= toScrollPoint;
+				animItem->setStartValue(startPoint);
+				animItem->setEndValue(newPoint);
+				scrollToBottomAnim->addAnimation(animItem);
+			}
+
+			scrollToBottomAnim->setProperty("DJ_animType", "scrollToBottom");
+			this->runningAnimations.append(scrollToBottomAnim);
+			scrollToBottomAnim->start();
 		}
-
-		QPropertyAnimation *animHeader = new QPropertyAnimation(this->headerItem, "pos");
-		animHeader->setDuration(timetoScroll);
-		animHeader->setEasingCurve(QEasingCurve::OutBack);
-		animHeader->setStartValue(QPointF(0, 0));
-		animHeader->setEndValue(QPointF(0, 0) - toScrollPoint);
-		scrollToBottomAnim->addAnimation(animHeader);
-
-		for (int i = 0; i < this->teamItems.size(); i++) {
-			QPropertyAnimation *animItem = new QPropertyAnimation(this->teamItems.at(i), "pos");
-			animItem->setDuration(timetoScroll);
-			animItem->setEasingCurve(QEasingCurve::OutBack);
-			QPointF startPoint;
-			startPoint.setX(0);
-			startPoint.setY(HEADER_HEIGHT + i * TEAMITEM_HEIGHT);
-			QPointF newPoint = startPoint;
-			newPoint -= toScrollPoint;
-			animItem->setStartValue(startPoint);
-			animItem->setEndValue(newPoint);
-			scrollToBottomAnim->addAnimation(animItem);
-		}
-
-		scrollToBottomAnim->setProperty("DJ_animType", "scrollToBottom");
-		this->runningAnimations.append(scrollToBottomAnim);
-		scrollToBottomAnim->start();
 	} else {
 		this->canDoNextStep = false;
 		emit newStandingNeeded();
