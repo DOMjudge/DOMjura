@@ -261,6 +261,7 @@ void MainController::updateStanding() {
 			teams.append(team);
 		}
 		this->resultsWindow->setTeams(teams, false);
+		this->resultsWindow->setResolvDone();
 	}
 }
 

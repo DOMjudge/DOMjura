@@ -19,6 +19,7 @@ ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
 	this->started = false;
 	this->offset = 0.0;
 	this->canDoNextStep = true;
+	this->resolvDone = false;
 	this->lastResolvTeam = -1;
 	this->currentResolvIndex = -1;
 
@@ -47,12 +48,18 @@ ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
 							  QApplication::desktop()->screenGeometry().height() - legendaRect.height() - LEGENDA_BOTTOM_OFFSET);
 	this->legendaItem->setZValue(1);
 
+	this->winnerItem = new WinnerGraphicsItem;
+	this->winnerItem->setPos(0, 0);
+	this->winnerItem->setZValue(2);
+	this->winnerItem->setOpacity(0);
+
 	this->pixmap = new QGraphicsPixmapItem;
 	this->pixmap->setZValue(1);
 
 	this->scene->addItem(this->pixmap);
 	this->scene->addItem(this->headerItem);
 	this->scene->addItem(this->legendaItem);
+	this->scene->addItem(this->winnerItem);
 }
 
 void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastResolvedTeam, int lastResolvedProblem, int currentTeam) {
@@ -217,8 +224,15 @@ void ResultsWindow::reload() {
 	this->canDoNextStep = true;
 	this->currentResolvIndex = -1;
 	this->lastResolvTeam = -1;
+	this->resolvDone = false;
 	this->headerItem->setPos(0, 0);
+	this->winnerItem->setOpacity(0);
 	this->hideLegendAfterTimeout();
+}
+
+void ResultsWindow::setResolvDone() {
+	this->resolvDone = true;
+	this->canDoNextStep = true;
 }
 
 void ResultsWindow::hideLegendAfterTimeout() {
@@ -275,6 +289,17 @@ void ResultsWindow::doNextStep() {
 			this->runningAnimations.append(scrollToBottomAnim);
 			scrollToBottomAnim->start();
 		}
+	} else if (this->resolvDone) {
+		this->canDoNextStep = false;
+		ResultTeam winningTeam = this->teams.at(0);
+		this->winnerItem->setWinner(winningTeam.name);
+		QPropertyAnimation *winnerAnim = new QPropertyAnimation(this->winnerItem, "opacity");
+		winnerAnim->setDuration(2000);
+		winnerAnim->setStartValue(0);
+		winnerAnim->setEndValue(1);
+		winnerAnim->setProperty("DJ_animType", "winner");
+		this->runningAnimations.append(winnerAnim);
+		winnerAnim->start();
 	} else {
 		this->canDoNextStep = false;
 		emit newStandingNeeded();
@@ -370,6 +395,8 @@ void ResultsWindow::animationDone() {
 		connect(timer, SIGNAL(timeout()), this, SLOT(timerMoveUpDone()));
 		this->runningTimers.append(timer);
 		timer->start(200);
+	} else if (this->sender()->property("DJ_animType") == "winner") {
+		// Do nothing...
 	}
 }
 

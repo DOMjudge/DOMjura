@@ -35,7 +35,8 @@ SOURCES += main.cpp \
 	headergraphicsitem.cpp \
 	teamgraphicsitem.cpp \
 	legendagraphicsitem.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    winnergraphicsitem.cpp
 
 HEADERS  += problemgraphicsitem.h \
 	defines.h \
@@ -62,7 +63,8 @@ HEADERS  += problemgraphicsitem.h \
 	headergraphicsitem.h \
 	teamgraphicsitem.h \
 	legendagraphicsitem.h \
-    settingsdialog.h
+    settingsdialog.h \
+    winnergraphicsitem.h
 
 FORMS += \
 	maindialog.ui \

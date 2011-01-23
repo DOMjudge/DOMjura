@@ -13,6 +13,7 @@
 #include "headergraphicsitem.h"
 #include "teamgraphicsitem.h"
 #include "legendagraphicsitem.h"
+#include "winnergraphicsitem.h"
 
 #include "defines.h"
 
@@ -28,6 +29,7 @@ public:
 	void stopAnimations();
 	void reload();
 	int getCurrentResolvIndex();
+	void setResolvDone();
 	ResultTeam getResultTeam(int i);
 
 signals:
@@ -54,10 +56,12 @@ private:
 	QGraphicsScene *scene;
 	HeaderGraphicsItem *headerItem;
 	LegendaGraphicsItem *legendaItem;
+	WinnerGraphicsItem *winnerItem;
 	QList<TeamGraphicsItem *> teamItems;
 	QList<ResultTeam> teams;
 	bool started;
 	bool canDoNextStep;
+	bool resolvDone;
 	int currentResolvIndex;
 	QList<ResultTeam> teamsToSet;
 	int lastResolvTeam;
