@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QtOpenGL/QtOpenGL>
 #include <QTimer>
+#include <QSettings>
 #include <math.h>
 
 #include "defines.h"
@@ -52,16 +53,6 @@ ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
 	this->scene->addItem(this->pixmap);
 	this->scene->addItem(this->headerItem);
 	this->scene->addItem(this->legendaItem);
-}
-
-void ResultsWindow::setBrandingImageFile(QString filename) {
-	if (!filename.isEmpty()) {
-		QPixmap pixmap(filename);
-		this->pixmap->setPixmap(pixmap);
-	} else {
-		this->pixmap->setPixmap(QPixmap());
-	}
-	resizeImage();
 }
 
 void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastResolvedTeam, int lastResolvedProblem, int currentTeam) {
@@ -198,6 +189,21 @@ void ResultsWindow::stopAnimations() {
 }
 
 void ResultsWindow::reload() {
+	QSettings settings;
+	QString filename = settings.value("brandingImage").toString();
+	// Update branding image
+	if (!filename.isEmpty()) {
+		QPixmap pixmap(filename);
+		if (!pixmap.isNull()) {
+			this->pixmap->setPixmap(pixmap);
+		} else {
+			this->pixmap->setPixmap(QPixmap());
+		}
+	} else {
+		this->pixmap->setPixmap(QPixmap());
+	}
+	resizeImage();
+
 	this->offset = 0.0;
 	this->started = false;
 	this->canDoNextStep = true;
