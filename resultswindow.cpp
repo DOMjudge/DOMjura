@@ -290,7 +290,11 @@ void ResultsWindow::animationDone() {
 			while (this->teamsToSet.at(moveTo).id != this->teams.at(this->lastResolvTeam).id) {
 				moveTo--;
 			}
-			qDebug() << "This team will move to" << moveTo;
+			TeamGraphicsItem *teamThatMoves = this->teamItems.at(this->lastResolvTeam);
+			ResultTeam resultTeam = this->teamsToSet.at(moveTo);
+			teamThatMoves->setRank(resultTeam.rank);
+			teamThatMoves->setTime(resultTeam.time);
+			teamThatMoves->setSolved(resultTeam.solved);
 			int tme = 500 + 200 * (this->lastResolvTeam - moveTo);
 			if (tme == 500) {
 				QTimer *timer = new QTimer;
@@ -311,8 +315,22 @@ void ResultsWindow::animationDone() {
 				moveUpAnim->setEndValue(moveToPoint);
 				moveAnim->addAnimation(moveUpAnim);
 
+				// Update standings
+				for (int i = moveTo; i < this->teamItems.size(); i++) {
+					if (i != this->lastResolvTeam) {
+						TeamGraphicsItem *team = this->teamItems.at(i);
+						ResultTeam resultTeamToSet;
+						if (i < this->lastResolvTeam) {
+							resultTeamToSet = this->teamsToSet.at(i+1);
+						} else {
+							resultTeamToSet = this->teamsToSet.at(i);
+						}
+						team->setRank(resultTeamToSet.rank);
+					}
+				}
 				for (int i = moveTo; i < this->lastResolvTeam; i++) {
 					TeamGraphicsItem *team = this->teamItems.at(i);
+
 					QPropertyAnimation *moveDownAnim = new QPropertyAnimation(team, "pos");
 					moveDownAnim->setDuration(tme);
 					moveDownAnim->setStartValue(team->pos());
