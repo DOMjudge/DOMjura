@@ -18,6 +18,7 @@ ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
 	this->height = height;
 	this->width = width;
 	this->state = NOTSUBMITTED;
+	this->setCacheMode(DeviceCoordinateCache);
 	this->time = 0;
 	this->numTries = 0;
 	this->highlighted = false;
@@ -33,6 +34,7 @@ QRectF ProblemGraphicsItem::boundingRect() const {
 }
 
 void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	painter->setClipRect(option->exposedRect);
 	QPen pen;
 	if (this->highlighted) {
 		pen.setColor(QColor(255, 255, 0));
@@ -57,7 +59,11 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int h = fm.height();
 		textItem->setPos(width - w - 2, height-h+4);
 
-		painter->drawRoundedRect(0, 0, width, height, 5, 5);
+		if (painter->pen().width() == 2) {
+			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		} else {
+			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+		}
 		break;
 	}
 	case SOLVED: {
@@ -77,7 +83,11 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int h = fm.height();
 		textItem->setPos(width/2 - w/2, height/2-h/2);
 
-		painter->drawRoundedRect(0, 0, width, height, 5, 5);
+		if (painter->pen().width() == 2) {
+			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		} else {
+			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+		}
 		break;
 	}
 	case FAILED: {
@@ -97,7 +107,11 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int h = fm.height();
 		textItem->setPos(width/2 - w/2, height/2-h/2);
 
-		painter->drawRoundedRect(0, 0, width, height, 5, 5);
+		if (painter->pen().width() == 2) {
+			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		} else {
+			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+		}
 		break;
 	}
 	case PENDING_FAILED:
@@ -124,7 +138,11 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int h = fm.height();
 		textItem->setPos(width/2 - w/2, height/2-h/2);
 
-		painter->drawRoundedRect(0, 0, width, height, 5, 5);
+		if (painter->pen().width() == 2) {
+			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		} else {
+			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+		}
 		break;
 	}
 	}
@@ -132,10 +150,12 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
 void ProblemGraphicsItem::setHeight(double height) {
 	this->height = height;
+	update();
 }
 
 void ProblemGraphicsItem::setWidth(double width) {
 	this->width = width;
+	update();
 }
 
 double ProblemGraphicsItem::getWidth() {
@@ -144,6 +164,7 @@ double ProblemGraphicsItem::getWidth() {
 
 void ProblemGraphicsItem::setState(ProblemState state) {
 	this->state = state;
+	update();
 }
 
 void ProblemGraphicsItem::setNumTries(int numTries) {
@@ -156,6 +177,7 @@ void ProblemGraphicsItem::setTime(int time) {
 
 void ProblemGraphicsItem::setHighlighted(bool highlighted) {
 	this->highlighted = highlighted;
+	update();
 }
 
 void ProblemGraphicsItem::setProblemId(QString problemId) {
@@ -164,6 +186,7 @@ void ProblemGraphicsItem::setProblemId(QString problemId) {
 
 void ProblemGraphicsItem::setHighlightColor(QColor color) {
 	this->highlightColor = color;
+	update();
 }
 
 QColor ProblemGraphicsItem::getHighlightColor() {
@@ -172,6 +195,7 @@ QColor ProblemGraphicsItem::getHighlightColor() {
 
 void ProblemGraphicsItem::setFinalColor(QColor color) {
 	this->finalColor = color;
+	update();
 }
 
 QColor ProblemGraphicsItem::getFinalColor() {
