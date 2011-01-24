@@ -20,6 +20,7 @@ WinnerGraphicsItem::WinnerGraphicsItem(QGraphicsItem *parent) :
 	font.setBold(true);
 	this->textItem1->setFont(font);
 	this->textItem2->setFont(font);
+	this->setCacheMode(DeviceCoordinateCache);
 	QPen pen;
 	pen.setColor(Qt::black);
 	pen.setWidth(3);
@@ -55,6 +56,7 @@ void WinnerGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 }
 
 void WinnerGraphicsItem::setWinner(QString text) {
+	update();
 	this->winner = text;
 }
 
