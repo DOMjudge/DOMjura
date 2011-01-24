@@ -20,6 +20,8 @@ HeaderGraphicsItem::HeaderGraphicsItem(double screenWidth, QGraphicsItem *parent
 
 	QFontMetrics fm(font);
 
+	this->setCacheMode(DeviceCoordinateCache);
+
 	this->rankTextItem = new QGraphicsSimpleTextItem("Rank", this);
 	this->rankTextItem->setPos(LEFT_MARGIN, HEADER_HEIGHT - fm.height());
 	this->rankTextItem->setPen(QPen(Qt::white));
@@ -50,6 +52,7 @@ QRectF HeaderGraphicsItem::boundingRect() const {
 }
 
 void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+	painter->setClipRect(option->exposedRect);
 	QFont font("Courier new", 16);
 	font.setItalic(true);
 

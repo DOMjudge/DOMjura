@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <QPen>
 #include <QBrush>
+#include <QStyleOptionGraphicsItem>
 
 namespace DJ {
 namespace View {
@@ -13,7 +14,7 @@ LegendaGraphicsItem::LegendaGraphicsItem(QGraphicsItem *parent)
 	QFont font("Courier new", 26);
 	font.setBold(true);
 
-	QFontMetrics fm(font);
+	this->setCacheMode(DeviceCoordinateCache);
 
 	this->solvedText = new QGraphicsSimpleTextItem("Solved Problem", this);
 	this->solvedText->setPos(55, 15);
@@ -40,9 +41,10 @@ QRectF LegendaGraphicsItem::boundingRect() const {
 
 void LegendaGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 								QWidget *widget) {
+	painter->setClipRect(option->exposedRect);
 	painter->setPen(Qt::white);
 	painter->setBrush(QColor(0, 0, 0, 180));
-	painter->drawRoundedRect(this->boundingRect(), 10, 10);
+	painter->drawRoundedRect(1, 1, 378, 133, 10, 10);
 
 	painter->setPen(Qt::NoPen);
 

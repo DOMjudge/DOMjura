@@ -19,6 +19,7 @@ TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QG
 	this->screenWidth = QApplication::desktop()->screenGeometry().width();
 	this->problemItems = problemItems;
 	this->highlighted = false;
+	this->setCacheMode(DeviceCoordinateCache);
 
 	QFont font("Courier new", 24);
 	font.setBold(true);
@@ -73,6 +74,7 @@ ProblemGraphicsItem *TeamGraphicsItem::getProblemGraphicsItem(int i) {
 
 void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 							 QWidget *widget) {
+	painter->setClipRect(option->exposedRect);
 	if (this->highlighted) {
 		painter->setBrush(QColor(92, 138, 221));
 	} else {
@@ -114,10 +116,12 @@ void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 }
 
 void TeamGraphicsItem::setEven(bool even) {
+	update();
 	this->even = even;
 }
 
 void TeamGraphicsItem::setHighlighted(bool highlighted) {
+	update();
 	this->highlighted = highlighted;
 }
 
@@ -146,6 +150,7 @@ void TeamGraphicsItem::setSolved(int solved) {
 }
 
 void TeamGraphicsItem::setMedal(Medal medal) {
+	update();
 	this->medal = medal;
 }
 
