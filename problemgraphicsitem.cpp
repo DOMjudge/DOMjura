@@ -8,8 +8,6 @@
 #include <QStyleOptionGraphicsItem>
 #include <QFontMetrics>
 
-#include <QDebug>
-
 namespace DJ {
 namespace View {
 ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,

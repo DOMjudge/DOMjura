@@ -4,7 +4,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPropertyAnimation>
-#include <QDebug>
 #include <QtOpenGL/QtOpenGL>
 #include <QTimer>
 #include <QSettings>

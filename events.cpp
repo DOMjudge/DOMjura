@@ -1,7 +1,5 @@
 #include "events.h"
 
-#include <QDebug>
-
 #include "submissionevent.h"
 #include "judgingevent.h"
 

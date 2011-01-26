@@ -1,7 +1,5 @@
 #include "rankedteam.h"
 
-#include <QDebug>
-
 namespace DJ {
 namespace Model {
 RankedTeam::RankedTeam(QString id, QString name, QObject *parent) : QObject(parent) {

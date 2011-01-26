@@ -1,6 +1,5 @@
 #include "maincontroller.h"
 
-#include <QDebug>
 #include <QMessageBox>
 
 namespace DJ {

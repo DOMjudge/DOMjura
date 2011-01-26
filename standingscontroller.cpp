@@ -1,7 +1,6 @@
 #include "standingscontroller.h"
 
 #include <QSet>
-#include <QDebug>
 
 #include "judgingevent.h"
 #include "submissionevent.h"
@@ -23,7 +22,7 @@ void StandingsController::initStandings(QString category) {
 	// Then, add all the teams
 	for (int i = 0; i < this->scoreboard->getNumTeams(); i++) {
 		Model::Team *team = this->scoreboard->getTeam(i);
-		if (team->getCategory()->getName() == category) {
+		if (team->getCategory() && team->getCategory()->getName() == category) {
 			Model::RankedTeam *rankedTeam = new Model::RankedTeam(team->getId(), team->getName(), this);
 			// For each team, add the problems
 			for (int j = 0; j < this->scoreboard->getNumProblems(); j++) {
