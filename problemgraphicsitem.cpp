@@ -8,6 +8,8 @@
 #include <QStyleOptionGraphicsItem>
 #include <QFontMetrics>
 
+#include "gradientcache.h"
+
 namespace DJ {
 namespace View {
 ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
@@ -33,22 +35,8 @@ QRectF ProblemGraphicsItem::boundingRect() const {
 
 void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 	painter->setClipRect(option->exposedRect);
-	QPen pen;
-	if (this->highlighted) {
-		pen.setColor(QColor(255, 255, 0));
-		pen.setWidth(2);
-	} else {
-		pen.setColor(QColor(192, 192, 192));
-		pen.setWidth(1);
-	}
 	switch (this->state) {
 	case NOTSUBMITTED: {
-		QBrush brush;
-		painter->setPen(pen);
-		brush.setStyle(Qt::SolidPattern);
-		brush.setColor(QColor(64, 64, 64));
-		painter->setBrush(brush);
-
 		textItem->setBrush(QBrush(QColor(192, 192, 192)));
 		textItem->setPen(QPen(Qt::black));
 		textItem->setText(this->problemId);
@@ -57,22 +45,10 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int h = fm.height();
 		textItem->setPos(width - w - 2, height-h+4);
 
-		if (painter->pen().width() == 2) {
-			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
-		} else {
-			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
-		}
+		painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradient(QColor(64, 64, 64), QColor(64, 64, 64)));
 		break;
 	}
 	case SOLVED: {
-		QLinearGradient gradient(0, 0, 0, height-10);
-		gradient.setColorAt(0, QColor(0, 230, 0));
-		gradient.setColorAt(1, QColor(0, 128, 0));
-		QBrush brush(gradient);
-		painter->setPen(pen);
-		brush.setStyle(Qt::LinearGradientPattern);
-		painter->setBrush(brush);
-
 		textItem->setBrush(QBrush(Qt::white));
 		textItem->setPen(QPen(Qt::black));
 		textItem->setText(QString::number(this->numTries) + "-" + QString::number(this->time));
@@ -80,23 +56,14 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int w = fm.width(textItem->text());
 		int h = fm.height();
 		textItem->setPos(width/2 - w/2, height/2-h/2);
-
-		if (painter->pen().width() == 2) {
-			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		if (this->highlighted) {
+			painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradientHighlighted(QColor(0, 230, 0), QColor(0, 128, 0)));
 		} else {
-			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+			painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradient(QColor(0, 230, 0), QColor(0, 128, 0)));
 		}
 		break;
 	}
 	case FAILED: {
-		QLinearGradient gradient(0, 0, 0, height);
-		gradient.setColorAt(0, QColor(240, 0, 0));
-		gradient.setColorAt(1, QColor(133, 0, 0));
-		QBrush brush(gradient);
-		painter->setPen(pen);
-		brush.setStyle(Qt::LinearGradientPattern);
-		painter->setBrush(brush);
-
 		textItem->setBrush(QBrush(Qt::white));
 		textItem->setPen(QPen(Qt::black));
 		textItem->setText(QString::number(this->numTries) + "-" + QString::number(this->time));
@@ -104,30 +71,15 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int w = fm.width(textItem->text());
 		int h = fm.height();
 		textItem->setPos(width/2 - w/2, height/2-h/2);
-
-		if (painter->pen().width() == 2) {
-			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		if (this->highlighted) {
+			painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradientHighlighted(QColor(240, 0, 0), QColor(133, 0, 0)));
 		} else {
-			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+			painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradient(QColor(240, 0, 0), QColor(133, 0, 0)));
 		}
 		break;
 	}
 	case PENDING_FAILED:
 	case PENDING_SOLVED:{
-		QLinearGradient gradient(0, 0, 0, height-10);
-
-		if (this->highlighted) {
-			gradient.setColorAt(0, this->finalColor);
-			gradient.setColorAt(1, this->highlightColor);
-		} else {
-			gradient.setColorAt(0, QColor(255, 223, 54));
-			gradient.setColorAt(1, QColor(143, 124, 29));
-		}
-		QBrush brush(gradient);
-		painter->setPen(pen);
-		brush.setStyle(Qt::LinearGradientPattern);
-		painter->setBrush(brush);
-
 		textItem->setBrush(QBrush(Qt::white));
 		textItem->setPen(QPen(Qt::black));
 		textItem->setText(QString::number(this->numTries) + "-" + QString::number(this->time));
@@ -135,11 +87,10 @@ void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 		int w = fm.width(textItem->text());
 		int h = fm.height();
 		textItem->setPos(width/2 - w/2, height/2-h/2);
-
-		if (painter->pen().width() == 2) {
-			painter->drawRoundedRect(2, 2, width-4, height-4, 5, 5);
+		if (this->highlighted) {
+			painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradientHighlighted(this->finalColor, this->highlightColor));
 		} else {
-			painter->drawRoundedRect(1, 1, width-2, height-2, 5, 5);
+			painter->drawPixmap(0, 0, width, height, GradientCache::getInstance()->getColorGradient(QColor(255, 223, 54), QColor(143, 124, 29)));
 		}
 		break;
 	}

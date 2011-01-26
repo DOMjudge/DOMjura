@@ -9,6 +9,7 @@
 #include <QSettings>
 #include <math.h>
 
+#include "gradientcache.h"
 #include "defines.h"
 
 namespace DJ {
@@ -126,6 +127,9 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 		}
 		this->teams = teams;
 		int numprobs = teams.at(0).problems.size();
+
+		GradientCache::getInstance()->setNumProbs(numprobs);
+
 		int probWidth = (NAME_WIDTH - (numprobs - 1) * PROB_MARGIN) / numprobs;
 
 		for (int i = 0; i < teams.size(); i++) {

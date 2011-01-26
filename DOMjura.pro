@@ -36,7 +36,8 @@ SOURCES += main.cpp \
 	teamgraphicsitem.cpp \
 	legendagraphicsitem.cpp \
     settingsdialog.cpp \
-    winnergraphicsitem.cpp
+    winnergraphicsitem.cpp \
+    gradientcache.cpp
 
 HEADERS  += problemgraphicsitem.h \
 	defines.h \
@@ -64,7 +65,8 @@ HEADERS  += problemgraphicsitem.h \
 	teamgraphicsitem.h \
 	legendagraphicsitem.h \
     settingsdialog.h \
-    winnergraphicsitem.h
+    winnergraphicsitem.h \
+    gradientcache.h
 
 FORMS += \
 	maindialog.ui \

@@ -2,6 +2,7 @@
 #include "ui_settingsdialog.h"
 
 #include "defines.h"
+#include "gradientcache.h"
 
 #include <QFileDialog>
 
@@ -76,6 +77,7 @@ void SettingsDialog::reloadSettings() {
 	this->ui->spinBoxProbMargin->setValue(PROB_MARGIN);
 	this->ui->spinBoxNameProbsMargin->setValue(NAME_PROBS_MARGIN);
 	this->ui->spinBoxProbsBelowMargin->setValue(PROBS_BELOW_MARGIN);
+	GradientCache::getInstance()->clearCache();
 }
 
 int SettingsDialog::exec() {
@@ -116,6 +118,7 @@ void SettingsDialog::applyChanges() {
 	settings.setValue("probMargin", this->ui->spinBoxProbMargin->value());
 	settings.setValue("nameProbsMargin", this->ui->spinBoxNameProbsMargin->value());
 	settings.setValue("probsBelowMargin", this->ui->spinBoxProbsBelowMargin->value());
+	GradientCache::getInstance()->clearCache();
 }
 
 void SettingsDialog::on_buttonBrandingBrowse_clicked() {

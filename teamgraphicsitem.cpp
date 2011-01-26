@@ -5,6 +5,7 @@
 #include <QLinearGradient>
 #include <QStyleOptionGraphicsItem>
 
+#include "gradientcache.h"
 #include "defines.h"
 
 #include <QPen>
@@ -36,6 +37,7 @@ TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QG
 		this->problemItems.at(i)->setPos(LEFT_MARGIN + RANK_WIDTH +
 										 (i * PROB_MARGIN) +
 										 (i * this->problemItems.at(0)->getWidth()), fm.height() + NAME_PROBS_MARGIN);
+		GradientCache::getInstance()->setHeight(TEAMITEM_HEIGHT - qMax(fm.height(), fmi.height()) - NAME_PROBS_MARGIN - PROBS_BELOW_MARGIN);
 		this->problemItems.at(i)->setHeight(TEAMITEM_HEIGHT - qMax(fm.height(), fmi.height()) - NAME_PROBS_MARGIN - PROBS_BELOW_MARGIN);
 	}
 
@@ -76,43 +78,15 @@ void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 							 QWidget *widget) {
 	painter->setClipRect(option->exposedRect);
 	if (this->highlighted) {
-		painter->setBrush(QColor(92, 138, 221));
+		painter->drawPixmap(0, 0, screenWidth, TEAMITEM_HEIGHT,
+							GradientCache::getInstance()->getOddEvenHighlightedGradient(2));
+	} else if (this->medal == NO_MEDAL) {
+		painter->drawPixmap(0, 0, screenWidth, TEAMITEM_HEIGHT,
+							GradientCache::getInstance()->getOddEvenHighlightedGradient(this->even ? 0 : 1));
 	} else {
-		QLinearGradient gradient(0, 0, screenWidth, 0);
-		switch (this->medal) {
-		case NO_MEDAL:
-			if (even) {
-				gradient.setColorAt(0, QColor(30, 30, 30));
-				gradient.setColorAt(0.5, QColor(86, 86, 86));
-				gradient.setColorAt(1, QColor(30, 30, 30));
-			} else {
-				gradient.setColorAt(0, QColor(0, 0, 0));
-				gradient.setColorAt(0.5, QColor(56, 56, 56));
-				gradient.setColorAt(1, QColor(0, 0, 0));
-			}
-			break;
-		case GOLD_MEDAL:
-			gradient.setColorAt(0, QColor(111, 81, 19));
-			gradient.setColorAt(0.5, QColor(251, 247, 200));
-			gradient.setColorAt(1, QColor(114, 84, 22));
-			break;
-		case SILVER_MEDAL:
-			gradient.setColorAt(0, QColor(153, 153, 153));
-			gradient.setColorAt(0.5, QColor(255, 255, 255));
-			gradient.setColorAt(1, QColor(155, 155, 155));
-			break;
-		case BRONZE_MEDAL:
-			gradient.setColorAt(0, QColor(97, 51, 2));
-			gradient.setColorAt(0.5, QColor(255, 253, 230));
-			gradient.setColorAt(1, QColor(101, 58, 5));
-			break;
-		}
-		QBrush brush(gradient);
-		brush.setStyle(Qt::LinearGradientPattern);
-		painter->setBrush(brush);
+		painter->drawPixmap(0, 0, screenWidth, TEAMITEM_HEIGHT,
+							GradientCache::getInstance()->getMedalGradient(this->medal));
 	}
-	painter->setPen(Qt::NoPen);
-	painter->drawRect(0, 0, screenWidth, TEAMITEM_HEIGHT);
 }
 
 void TeamGraphicsItem::setEven(bool even) {
