@@ -48,57 +48,55 @@ void StandingsController::initStandings(QString category) {
 		if (event->getType() == Model::JUDGINGEVENT && event->inTime(this->scoreboard)) {
 			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
 			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent->isValid()) {
-				QString submissionId = submissionEvent->getSubmissionId();
-				QString problemId = submissionEvent->getProblem()->getId();
-				if (processedSubmissions.contains(submissionId)) {
-					// Already processed this, so the only thing that can happen is that it is now correct (or pending correct)
-					Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
-					Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
+			QString submissionId = submissionEvent->getSubmissionId();
+			QString problemId = submissionEvent->getProblem()->getId();
+			if (processedSubmissions.contains(submissionId)) {
+				// Already processed this, so the only thing that can happen is that it is now correct (or pending correct)
+				Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
+				Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
+				if (submissionEvent->isInFreeze()) {
+					if (problem->problemState != PENDING_SOLVED && judgingEvent->isCorrect()) {
+						problem->problemState = PENDING_SOLVED;
+					}
+				} else {
+					if (problem->problemState != SOLVED && judgingEvent->isCorrect()) {
+						problem->problemState = SOLVED;
+					}
+				}
+				team->setProblem(problemId, problem);
+			} else {
+				// We always need to consider this event
+				Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
+				if (!team) {
+					// team is of wrong category, skip
+					continue;
+				}
+				Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
+				if (!(problem->problemState == SOLVED || problem->problemState == PENDING_SOLVED)) {
 					if (submissionEvent->isInFreeze()) {
-						if (problem->problemState != PENDING_SOLVED && judgingEvent->isCorrect()) {
+						if (judgingEvent->isCorrect()) {
 							problem->problemState = PENDING_SOLVED;
+							problem->tries++;
+							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
+						} else {
+							problem->problemState = PENDING_FAILED;
+							problem->tries++;
+							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 						}
 					} else {
-						if (problem->problemState != SOLVED && judgingEvent->isCorrect()) {
+						if (judgingEvent->isCorrect()) {
 							problem->problemState = SOLVED;
-						}
-					}
-					team->setProblem(problemId, problem);
-				} else {
-					// We always need to consider this event
-					Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
-					if (!team) {
-						// team is of wrong category, skip
-						continue;
-					}
-					Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
-					if (!(problem->problemState == SOLVED || problem->problemState == PENDING_SOLVED)) {
-						if (submissionEvent->isInFreeze()) {
-							if (judgingEvent->isCorrect()) {
-								problem->problemState = PENDING_SOLVED;
-								problem->tries++;
-								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
-							} else {
-								problem->problemState = PENDING_FAILED;
-								problem->tries++;
-								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
-							}
+							problem->tries++;
+							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 						} else {
-							if (judgingEvent->isCorrect()) {
-								problem->problemState = SOLVED;
-								problem->tries++;
-								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
-							} else {
-								problem->problemState = FAILED;
-								problem->tries++;
-								problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
-							}
+							problem->problemState = FAILED;
+							problem->tries++;
+							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
 						}
 					}
-					processedSubmissions.insert(submissionId);
-					team->setProblem(problemId, problem);
 				}
+				processedSubmissions.insert(submissionId);
+				team->setProblem(problemId, problem);
 			}
 		}
 	}

@@ -29,7 +29,6 @@ QString SubmissionEvent::toString() {
 	s += "    id           = " + this->id + "\n";
 	s += "    time         = " + this->datetime.toString("yyyy-MM-dd hh:mm:ss") + "\n";
 	s += "    submissionid = " + this->submissionId + "\n";
-	s += "    valid        = " + QString(this->valid ? "yes" : "no") + "\n";
 	s += "    team         = " + this->team->getId() + "\n";
 	s += "    problem      = " + this->problem->getId() + "\n";
 	s += "    language     = " + this->language->getId() + "\n";
@@ -50,10 +49,6 @@ Team *SubmissionEvent::getTeam() {
 
 Language *SubmissionEvent::getLangugage() {
 	return this->language;
-}
-
-bool SubmissionEvent::isValid() {
-	return true;
 }
 
 bool SubmissionEvent::isInFreeze() {

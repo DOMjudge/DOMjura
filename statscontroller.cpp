@@ -17,8 +17,7 @@ int StatsController::getTotalSubmissions() {
 	int num = 0;
 	for (int i = 0; i < this->events->getNumEvents(); i++) {
 		if (this->events->getEvent(i)->inTime(this->scoreboard)
-				&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT
-				&& ((Model::SubmissionEvent *)this->events->getEvent(i))->isValid()) {
+				&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT) {
 			num++;
 		}
 	}
@@ -34,8 +33,7 @@ int StatsController::getTotalCorrect() {
 				&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent->isValid()
-					&& judgingEvent->isCorrect()
+			if (judgingEvent->isCorrect()
 					&& !done.contains(submissionEvent->getSubmissionId())) {
 				num++;
 				done.insert(submissionEvent->getSubmissionId());
@@ -50,7 +48,6 @@ int StatsController::getNumSubmissionsOfProblem(QString problemid) {
 	for (int i = 0; i < this->events->getNumEvents(); i++) {
 		if (this->events->getEvent(i)->inTime(this->scoreboard)
 				&& this->events->getEvent(i)->getType() == Model::SUBMISSIONEVENT
-				&& ((Model::SubmissionEvent *)this->events->getEvent(i))->isValid()
 				&& ((Model::SubmissionEvent *)this->events->getEvent(i))->getProblem()->getId() == problemid) {
 			num++;
 		}
@@ -67,8 +64,7 @@ int StatsController::getNumCorrectofProblem(QString problemid) {
 				&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent->isValid()
-					&& submissionEvent->getProblem()->getId() == problemid
+			if (submissionEvent->getProblem()->getId() == problemid
 					&& judgingEvent->isCorrect()
 					&& !done.contains(submissionEvent->getTeam()->getId())) {
 				num++;
@@ -85,8 +81,7 @@ bool StatsController::problemIsSolved(QString problemid) {
 				&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent->isValid()
-					&& submissionEvent->getProblem()->getId() == problemid
+			if (submissionEvent->getProblem()->getId() == problemid
 					&& judgingEvent->isCorrect()) {
 				return true;
 			}
@@ -101,8 +96,7 @@ QDateTime StatsController::getFirstSolved(QString problemid) {
 				&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent->isValid()
-					&& submissionEvent->getProblem()->getId() == problemid
+			if (submissionEvent->getProblem()->getId() == problemid
 					&& judgingEvent->isCorrect()) {
 				return submissionEvent->getDateTime();
 			}
@@ -117,8 +111,7 @@ QDateTime StatsController::getLastSubmission(QString problemid) {
 				&& this->events->getEvent(i)->getType() == Model::JUDGINGEVENT) {
 			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)this->events->getEvent(i);
 			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent->isValid()
-					&& submissionEvent->getProblem()->getId() == problemid) {
+			if (submissionEvent->getProblem()->getId() == problemid) {
 				return submissionEvent->getDateTime();
 			}
 		}

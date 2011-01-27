@@ -1,3 +1,7 @@
+/** \file readdatacontroller.h
+  * \brief Contains the class to read data.
+  */
+
 #ifndef DATACONTROLLER_H
 #define DATACONTROLLER_H
 
@@ -12,25 +16,66 @@
 
 namespace DJ {
 namespace Controller {
+/** Controls the reading of the data.
+  */
 class ReadDataController : public QObject {
 	Q_OBJECT
 public:
+	/** Constructs a new data read controller.
+	  * \param parent The parent of this object.
+	  */
 	explicit ReadDataController(QObject *parent = 0);
+	/** Destructs the controller.
+	  */
 	~ReadDataController();
 
+	/** Sets the URL to read from.
+	  * \param url The URL to read from.
+	  */
 	void setUrl(QString url);
+	/** Sets the username to use for the reading.
+	  * \param username The username to use.
+	  */
 	void setUsername(QString username);
+	/** Sets the password to use for the reading.
+	  * \param password The password to use.
+	  */
 	void setPassword(QString password);
+	/** Sets the directory to use for the reading.
+	  * \param dir The directory to use.
+	  */
 	void setDir(QDir dir);
+	/** Sets whether to use a directory for reading or not.
+	  * \param ofDir If true, use directory for reading.
+	  * If false, use a URL.
+	  */
 	void setOfDir(bool ofDir);
+	/** Refreshes (rereads) the data.
+	  */
 	void refresh();
+	/** Returns the scoreboard.
+	  * \pre The data is read.
+	  * \return The scoreboard.
+	  */
 	Model::Scoreboard *getScoreboard();
+	/** Returns the events.
+	  * \pre The data is read.
+	  * \return The events.
+	  */
 	Model::Events *getEvents();
+	/** Saves the XML of the data.
+	  * \param dir The directory to save the XML to.
+	  * \pre The data is read.
+	  */
 	void saveXML(QString dir);
+	/** Sets a parent widget to use for the message boxes.
+	  * \param widget The parent to use.
+	  */
 	void setParentOfMessages(QWidget *widget);
 
 private:
-	// Class for reading scoreboard XML data
+	/** Reads scoreboard XML data.
+	  */
 	class ScoreboardParser : public QXmlDefaultHandler {
 	public:
 		ScoreboardParser();
@@ -66,7 +111,8 @@ private:
 		QObject *currentItem;
 	};
 
-	// Class for reading events XML data
+	/** Reads event XML data.
+	  */
 	class EventsParser : public QXmlDefaultHandler {
 	public:
 		EventsParser(Model::Scoreboard *scoreboard);
@@ -119,6 +165,8 @@ private slots:
 	void finish(QNetworkReply *reply);
 
 signals:
+	/** Emitted when the data is read.
+	  */
 	void dataRead();
 
 };

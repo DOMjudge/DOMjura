@@ -1,3 +1,6 @@
+/** \file maincontroller.h
+  * \brief Contains the main controller class.
+  */
 #ifndef MAINCONTROLLER_H
 #define MAINCONTROLLER_H
 
@@ -16,11 +19,20 @@
 namespace DJ {
 namespace Controller {
 
+/** Controls all the other controllers, the views and the model.
+  */
 class MainController : public QObject {
 	Q_OBJECT
 public:
+	/** Constructs a new main controller.
+	  * \param parent The parent of this object.
+	  */
 	explicit MainController(QObject *parent = 0);
+	/** Destructs the main controller.
+	  */
 	~MainController();
+	/** Shows the main windows.
+	  */
 	void showMainWindow();
 
 signals:
