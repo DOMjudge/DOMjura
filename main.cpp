@@ -37,7 +37,7 @@ void savePixmapOfSize(int size) {
 	QRectF rect(penWidth / 2.0, penWidth / 2.0, size-penWidth-shadowSize, size-penWidth-shadowSize);
 	painter->drawRoundedRect(rect, roundedNess, roundedNess);
 
-	if (size >= 64) {
+	if (size >= 48) {
 		QFont font("Courier new");
 		font.setPixelSize(size / 6);
 		font.setBold(true);
@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
 	QList<int> sizes;
 	sizes.append(16);
 	sizes.append(32);
+	sizes.append(48);
 	sizes.append(64);
 	sizes.append(128);
 	sizes.append(256);
