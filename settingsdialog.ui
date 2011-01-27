@@ -38,7 +38,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2">
+       <item row="0" column="1">
         <widget class="QLineEdit" name="lineEditWinner"/>
        </item>
        <item row="1" column="0">
@@ -228,7 +228,38 @@
          </item>
         </layout>
        </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_37">
+         <property name="text">
+          <string>Use OpenGL for rendering?</string>
+         </property>
+        </widget>
+       </item>
        <item row="7" column="1">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QCheckBox" name="checkBoxOpenGL">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_19">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="8" column="0" colspan="2">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -826,6 +857,7 @@ name and problems</string>
   <tabstop>spinBoxGold</tabstop>
   <tabstop>spinBoxSilver</tabstop>
   <tabstop>spinBoxBronze</tabstop>
+  <tabstop>checkBoxOpenGL</tabstop>
   <tabstop>spinBoxPenalty</tabstop>
   <tabstop>spinBoxHeaderHeight</tabstop>
   <tabstop>spinBoxTeamHeight</tabstop>

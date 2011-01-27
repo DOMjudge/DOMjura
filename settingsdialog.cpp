@@ -53,6 +53,8 @@ void SettingsDialog::reloadSettings() {
 		this->ui->labelBranding->setPixmap(QPixmap());
 	}
 
+	this->ui->checkBoxOpenGL->setChecked(USE_OPENGL);
+
 	this->ui->spinBoxGold->setValue(GOLD);
 	this->ui->spinBoxSilver->setValue(SILVER);
 	this->ui->spinBoxBronze->setValue(BRONZE);
@@ -93,6 +95,7 @@ void SettingsDialog::accept() {
 void SettingsDialog::applyChanges() {
 	settings.setValue("brandingImage", this->ui->lineEditBranding->text());
 	settings.setValue("winnerText", this->ui->lineEditWinner->text());
+	settings.setValue("useOpenGL", this->ui->checkBoxOpenGL->isChecked());
 
 	settings.setValue("gold", this->ui->spinBoxGold->value());
 	settings.setValue("silver", this->ui->spinBoxSilver->value());

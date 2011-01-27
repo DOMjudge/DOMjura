@@ -39,7 +39,11 @@ ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
 	this->setViewportUpdateMode(FullViewportUpdate);
 	this->setCacheMode(CacheBackground);
 	this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
-	this->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+	if (USE_OPENGL) {
+		this->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+	} else {
+		this->setViewport(new QWidget);
+	}
 
 	this->headerItem = new HeaderGraphicsItem(QApplication::desktop()->screenGeometry().width());
 	this->headerItem->setPos(0, 0);
@@ -210,6 +214,12 @@ void ResultsWindow::stopAnimations() {
 }
 
 void ResultsWindow::reload() {
+	if (USE_OPENGL) {
+		this->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+	} else {
+		this->setViewport(new QWidget);
+	}
+
 	QString filename = BRANDING_IMAGE;
 	// Update branding image
 	if (!filename.isEmpty()) {
