@@ -16,6 +16,8 @@ namespace DJ {
 namespace View {
 
 ResultsWindow::ResultsWindow(QWidget *parent) : QGraphicsView(parent) {
+	setStyleSheet("border: none;");
+
 	this->started = false;
 	this->offset = 0.0;
 	this->canDoNextStep = true;
