@@ -22,10 +22,12 @@ TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QG
 	this->highlighted = false;
 	this->setCacheMode(DeviceCoordinateCache);
 
-	QFont font("Courier new", 24);
+	QFont font("Courier new");
+	font.setPixelSize(24);
 	font.setBold(true);
 
-	QFont italicFont("Courier new", 24);
+	QFont italicFont("Courier new");
+	italicFont.setPixelSize(24);
 	italicFont.setItalic(true);
 	italicFont.setBold(true);
 

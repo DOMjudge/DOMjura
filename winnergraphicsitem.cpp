@@ -16,7 +16,8 @@ WinnerGraphicsItem::WinnerGraphicsItem(QGraphicsItem *parent) :
 	this->winner = "n2dg";
 	this->textItem1 = new QGraphicsSimpleTextItem(this);
 	this->textItem2 = new QGraphicsSimpleTextItem(this);
-	QFont font("Courier new", 75);
+	QFont font("Courier new");
+	font.setPixelSize(75);
 	font.setBold(true);
 	this->textItem1->setFont(font);
 	this->textItem2->setFont(font);

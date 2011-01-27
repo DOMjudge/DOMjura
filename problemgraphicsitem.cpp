@@ -24,7 +24,8 @@ ProblemGraphicsItem::ProblemGraphicsItem(double height, double width,
 	this->highlighted = false;
 
 	textItem = new QGraphicsSimpleTextItem(this);
-	QFont font("Courier new", 24);
+	QFont font("Courier new");
+	font.setPixelSize(24);
 	font.setBold(true);
 	textItem->setFont(font);
 }

@@ -11,7 +11,8 @@ namespace View {
 LegendaGraphicsItem::LegendaGraphicsItem(QGraphicsItem *parent)
 	: QObject(),
 	  QGraphicsItem(parent) {
-	QFont font("Courier new", 26);
+	QFont font("Courier new");
+	font.setPixelSize(26);
 	font.setBold(true);
 
 	this->setCacheMode(DeviceCoordinateCache);

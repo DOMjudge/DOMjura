@@ -15,7 +15,8 @@ HeaderGraphicsItem::HeaderGraphicsItem(double screenWidth, QGraphicsItem *parent
 	: QObject(), QGraphicsItem(parent){
 	this->screenWidth = screenWidth;
 
-	QFont font("Courier new", 16);
+	QFont font("Courier new");
+	font.setPixelSize(16);
 	font.setItalic(true);
 
 	QFontMetrics fm(font);
@@ -53,7 +54,8 @@ QRectF HeaderGraphicsItem::boundingRect() const {
 
 void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 	painter->setClipRect(option->exposedRect);
-	QFont font("Courier new", 16);
+	QFont font("Courier new");
+	font.setPixelSize(16);
 	font.setItalic(true);
 
 	QFontMetrics fm(font);
