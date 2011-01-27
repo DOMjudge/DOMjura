@@ -9,6 +9,8 @@ QT       += core gui xml network opengl
 TARGET = DOMjura
 TEMPLATE = app
 
+ICON = resources/AppIcon.icns
+RC_FILE = DOMjura.rc
 
 SOURCES += main.cpp \
 	problemgraphicsitem.cpp \
@@ -35,9 +37,9 @@ SOURCES += main.cpp \
 	headergraphicsitem.cpp \
 	teamgraphicsitem.cpp \
 	legendagraphicsitem.cpp \
-    settingsdialog.cpp \
-    winnergraphicsitem.cpp \
-    gradientcache.cpp
+	settingsdialog.cpp \
+	winnergraphicsitem.cpp \
+	gradientcache.cpp
 
 HEADERS  += problemgraphicsitem.h \
 	defines.h \
@@ -64,12 +66,15 @@ HEADERS  += problemgraphicsitem.h \
 	headergraphicsitem.h \
 	teamgraphicsitem.h \
 	legendagraphicsitem.h \
-    settingsdialog.h \
-    winnergraphicsitem.h \
-    gradientcache.h
+	settingsdialog.h \
+	winnergraphicsitem.h \
+	gradientcache.h
 
 FORMS += \
 	maindialog.ui \
 	aboutdialog.ui \
 	statsdialog.ui \
-    settingsdialog.ui
+	settingsdialog.ui
+
+RESOURCES += \
+	resources.qrc
