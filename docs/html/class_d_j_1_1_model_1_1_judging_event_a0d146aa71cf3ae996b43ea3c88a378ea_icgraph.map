@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_controller_1_1_stats_controller.html#aa815c42fe768b0624030405fc8d15108" title="Returns the date and time of the first correct solution of the given problem." alt="" coords="435,5,784,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_controller_1_1_stats_controller.html#a664d68cf6fb8dfd2241ab925acb50da3" title="Returns the date and time of the last solution of the given problem." alt="" coords="420,55,799,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_controller_1_1_stats_controller.html#a9fe146bb5cec296db8ae38334f9dffbe" title="Returns the number of correct submissions for the given problem." alt="" coords="397,106,821,134"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_controller_1_1_stats_controller.html#a5248e816d95e0637f49f191e27c0db41" title="Returns the total number of correct submissions." alt="" coords="429,157,789,185"/>
+<area shape="rect" id="node11" href="$class_d_j_1_1_controller_1_1_standings_controller.html#a30b15239ac3fc4892dbe08eecb7bd78c" title="Initializes the standings." alt="" coords="424,207,795,235"/>
+<area shape="rect" id="node13" href="$class_d_j_1_1_controller_1_1_stats_controller.html#aa5145768898d68d3ffc9fa5d2c0b36ee" title="Returns whether the problem is solved." alt="" coords="429,258,789,286"/>
+<area shape="rect" id="node15" href="$class_d_j_1_1_controller_1_1_read_data_controller.html#a9eb23a03b75e082cbd96216eee8da6c5" title="Saves the XML of the data." alt="" coords="441,309,777,337"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_event.html#a4a2eb25874531b20058d33442fe7caa0" title="Returns the date and time on which this event happened." alt="" coords="373,55,611,83"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_controller_1_1_standings_controller.html#a30b15239ac3fc4892dbe08eecb7bd78c" title="Initializes the standings." alt="" coords="713,106,1084,134"/>
+<area shape="rect" id="node12" href="$class_d_j_1_1_controller_1_1_read_data_controller.html#a9eb23a03b75e082cbd96216eee8da6c5" title="Saves the XML of the data." alt="" coords="324,157,660,185"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_controller_1_1_stats_controller.html#aa815c42fe768b0624030405fc8d15108" title="Returns the date and time of the first correct solution of the given problem." alt="" coords="724,5,1073,33"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_controller_1_1_stats_controller.html#a664d68cf6fb8dfd2241ab925acb50da3" title="Returns the date and time of the last solution of the given problem." alt="" coords="709,55,1088,83"/>
+</map>

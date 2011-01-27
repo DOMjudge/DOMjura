@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$namespace_d_j_1_1_controller.html#ab3fd04481e224993d11f35c5805b5b80" title="Used for sorting the ranking." alt="" coords="379,30,661,58"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_controller_1_1_standings_controller.html#a5d6aa87087b4d7872acd54ffbd83fb03" title="Returns a string representing the current standing." alt="" coords="352,81,688,109"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_controller_1_1_standings_controller.html#a30b15239ac3fc4892dbe08eecb7bd78c" title="Initializes the standings." alt="" coords="736,5,1107,33"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_controller_1_1_standings_controller.html#aa732276d816a9b4a8f5717868ef5fd89" title="Calculates the next standing." alt="" coords="737,55,1105,83"/>
+</map>

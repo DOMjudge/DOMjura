@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_view_1_1_gradient_cache.html#ab7ef8bda07dba606f39220ba3d0a6ff9" title="Gets the singleton gradient cache." alt="" coords="356,5,639,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_view_1_1_team_graphics_item.html#aa713daeb63907dac9779f84d23bde3b9" title="Sets whether this row is even." alt="" coords="356,55,639,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_view_1_1_team_graphics_item.html#ab0a33410b43d95cf6ce9838b57085d97" title="Sets the medal of this team." alt="" coords="352,106,643,134"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_view_1_1_team_graphics_item.html#a7940ecdbcafe0c5486697136d5a85e99" title="Sets the name of this team." alt="" coords="352,157,643,185"/>
+<area shape="rect" id="node11" href="$class_d_j_1_1_view_1_1_gradient_cache.html#a5fd55bb8f2bd21c7143471a635ae496d" title="Sets the number of problems." alt="" coords="351,207,644,235"/>
+<area shape="rect" id="node13" href="$class_d_j_1_1_view_1_1_problem_graphics_item.html#a51abb8824369c444eae6cefbe4dbcd56" title="Sets the number of tries for this problem." alt="" coords="329,258,665,286"/>
+<area shape="rect" id="node15" href="$class_d_j_1_1_view_1_1_problem_graphics_item.html#a98513d9281a48bca0d98dc6db63aea1c" title="Sets the problem ID of this problem." alt="" coords="328,309,667,337"/>
+<area shape="rect" id="node17" href="$class_d_j_1_1_view_1_1_team_graphics_item.html#a4378262c2416c8d83888fb8af9c8e62c" title="Sets the rank of this team." alt="" coords="355,359,640,387"/>
+<area shape="rect" id="node19" href="$class_d_j_1_1_view_1_1_team_graphics_item.html#aa00358608c610c3a783054024d3d7cf5" title="Sets the solved state of this team." alt="" coords="348,410,647,438"/>
+<area shape="rect" id="node21" href="$class_d_j_1_1_view_1_1_problem_graphics_item.html#ada34ce63153ccb8b4724b839d3bf5a37" title="Sets the state of this problem." alt="" coords="344,461,651,489"/>
+<area shape="rect" id="node23" href="$class_d_j_1_1_view_1_1_team_graphics_item.html#a203f3dbc25fd7975c6e6787644883f8b" title="Sets the total time of this team." alt="" coords="355,511,640,539"/>
+<area shape="rect" id="node25" href="$class_d_j_1_1_view_1_1_problem_graphics_item.html#affb683a47fbb2896e15554b913efa9a9" title="Sets the time taken for this problem." alt="" coords="345,562,649,590"/>
+</map>

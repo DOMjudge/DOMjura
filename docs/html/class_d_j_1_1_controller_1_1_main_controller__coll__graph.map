@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_d_j_1_1_view_1_1_settings_dialog.html" title="The settings dialog (this uses a Qt Designer form)." alt="" coords="679,5,871,33"/>
+<area shape="rect" id="node4" href="$class_d_j_1_1_view_1_1_about_dialog.html" title="The about dialog." alt="" coords="687,55,863,83"/>
+<area shape="rect" id="node6" href="$class_d_j_1_1_controller_1_1_read_data_controller.html" title="Controls the reading of the data." alt="" coords="641,258,908,286"/>
+<area shape="rect" id="node8" href="$class_d_j_1_1_model_1_1_scoreboard.html" title="The scoreboard." alt="" coords="295,210,476,238"/>
+<area shape="rect" id="node18" href="$class_d_j_1_1_controller_1_1_standings_controller.html" title="The controller that computes the standings." alt="" coords="640,106,909,134"/>
+<area shape="rect" id="node10" href="$class_d_j_1_1_model_1_1_contest.html" title="A contest (form the scorebaord)." alt="" coords="7,210,161,238"/>
+<area shape="rect" id="node12" href="$class_d_j_1_1_model_1_1_events.html" title="An event&#45;list." alt="" coords="312,142,459,170"/>
+<area shape="rect" id="node14" href="$class_d_j_1_1_view_1_1_stats_dialog.html" title="The stats dialog (uses a Qt Designer form)." alt="" coords="689,157,860,185"/>
+<area shape="rect" id="node16" href="$class_d_j_1_1_view_1_1_main_dialog.html" title="The main dialog (uses a Qt Designer form)." alt="" coords="692,207,857,235"/>
+<area shape="rect" id="node22" href="$class_d_j_1_1_view_1_1_results_window.html" title="The result window." alt="" coords="677,331,872,359"/>
+<area shape="rect" id="node24" href="$class_d_j_1_1_view_1_1_winner_graphics_item.html" title="A winner graphics item." alt="" coords="271,290,500,318"/>
+<area shape="rect" id="node26" href="$class_d_j_1_1_view_1_1_legenda_graphics_item.html" title="The legenda graphics item." alt="" coords="265,341,505,369"/>
+<area shape="rect" id="node28" href="$class_d_j_1_1_view_1_1_header_graphics_item.html" title="A header graphics item containing the header texts." alt="" coords="271,391,500,419"/>
+</map>

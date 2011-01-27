@@ -1,0 +1,13 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$scoreboard_8h.html" title="Contains the scoreboard class." alt="" coords="504,83,616,111"/>
+<area shape="rect" id="node35" href="$events_8h.html" title="Contains events related data." alt="" coords="157,83,235,111"/>
+<area shape="rect" id="node42" href="$rankedteam_8h.html" title="Contains the class for a ranked team and problem." alt="" coords="987,83,1101,111"/>
+<area shape="rect" id="node12" href="$contest_8h.html" title="Contains a class for a contest." alt="" coords="99,161,184,189"/>
+<area shape="rect" id="node17" href="$problem_8h.html" title="Contains the class for a problem." alt="" coords="696,161,784,189"/>
+<area shape="rect" id="node22" href="$language_8h.html" title="Contains a class for a language." alt="" coords="451,161,547,189"/>
+<area shape="rect" id="node25" href="$affiliation_8h.html" title="Contains a class for an affiliation." alt="" coords="571,161,672,189"/>
+<area shape="rect" id="node28" href="$category_8h.html" title="Contains a class for a category." alt="" coords="808,161,901,189"/>
+<area shape="rect" id="node32" href="$team_8h.html" title="Contains the class for a team." alt="" coords="309,161,376,189"/>
+<area shape="rect" id="node38" href="$event_8h.html" title="Contains event related data." alt="" coords="5,161,75,189"/>
+<area shape="rect" id="node46" href="$defines_8h.html" title="Global definitions and structs." alt="" coords="1117,161,1203,189"/>
+</map>

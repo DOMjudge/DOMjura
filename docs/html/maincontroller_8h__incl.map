@@ -1,0 +1,26 @@
+<map id="G" name="G">
+<area shape="rect" id="node5" href="$maindialog_8h.html" title="Contains the main dialog widget." alt="" coords="1592,83,1702,111"/>
+<area shape="rect" id="node11" href="$aboutdialog_8h.html" title="Contains the class for the about dialog." alt="" coords="3984,83,4099,111"/>
+<area shape="rect" id="node15" href="$statsdialog_8h.html" title="Contains the stats dialog." alt="" coords="3848,83,3960,111"/>
+<area shape="rect" id="node18" href="$resultswindow_8h.html" title="Contains the class for the results window (a graphics view)." alt="" coords="2470,83,2600,111"/>
+<area shape="rect" id="node75" href="$settingsdialog_8h.html" title="Contains the settings dialog." alt="" coords="3691,83,3824,111"/>
+<area shape="rect" id="node81" href="$readdatacontroller_8h.html" title="Contains the class to read data." alt="" coords="1168,83,1331,111"/>
+<area shape="rect" id="node121" href="$statscontroller_8h.html" title="Contains the stats controller class." alt="" coords="590,83,728,111"/>
+<area shape="rect" id="node126" href="$standingscontroller_8h.html" title="Contains the class for the standings controller." alt="" coords="902,83,1072,111"/>
+<area shape="rect" id="node36" href="$headergraphicsitem_8h.html" title="Contains a header graphics item class." alt="" coords="1810,161,1980,189"/>
+<area shape="rect" id="node44" href="$teamgraphicsitem_8h.html" title="Contains the class for a team item." alt="" coords="3396,161,3554,189"/>
+<area shape="rect" id="node53" href="$defines_8h.html" title="Global definitions and structs." alt="" coords="1730,315,1815,343"/>
+<area shape="rect" id="node65" href="$legendagraphicsitem_8h.html" title="Contains a class for the legenda item." alt="" coords="2004,161,2180,189"/>
+<area shape="rect" id="node70" href="$winnergraphicsitem_8h.html" title="Contains a class for the winner item." alt="" coords="3578,161,3743,189"/>
+<area shape="rect" id="node48" href="$problemgraphicsitem_8h.html" title="Contains the class for the problem items." alt="" coords="2367,238,2546,266"/>
+<area shape="rect" id="node87" href="$scoreboard_8h.html" title="Contains the scoreboard class." alt="" coords="662,161,774,189"/>
+<area shape="rect" id="node113" href="$events_8h.html" title="Contains events related data." alt="" coords="560,161,638,189"/>
+<area shape="rect" id="node93" href="$contest_8h.html" title="Contains a class for a contest." alt="" coords="564,238,650,266"/>
+<area shape="rect" id="node96" href="$problem_8h.html" title="Contains the class for a problem." alt="" coords="674,238,762,266"/>
+<area shape="rect" id="node100" href="$language_8h.html" title="Contains a class for a language." alt="" coords="178,238,274,266"/>
+<area shape="rect" id="node103" href="$affiliation_8h.html" title="Contains a class for an affiliation." alt="" coords="298,238,399,266"/>
+<area shape="rect" id="node106" href="$category_8h.html" title="Contains a class for a category." alt="" coords="786,238,879,266"/>
+<area shape="rect" id="node110" href="$team_8h.html" title="Contains the class for a team." alt="" coords="423,238,490,266"/>
+<area shape="rect" id="node116" href="$event_8h.html" title="Contains event related data." alt="" coords="34,238,103,266"/>
+<area shape="rect" id="node131" href="$rankedteam_8h.html" title="Contains the class for a ranked team and problem." alt="" coords="930,161,1044,189"/>
+</map>

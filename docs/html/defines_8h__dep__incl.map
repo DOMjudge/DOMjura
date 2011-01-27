@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$gradientcache_8h.html" title="Contains a class for caching gradient." alt="" coords="5,83,136,111"/>
+<area shape="rect" id="node5" href="$problemgraphicsitem_8h.html" title="Contains the class for the problem items." alt="" coords="160,83,339,111"/>
+<area shape="rect" id="node9" href="$resultswindow_8h.html" title="Contains the class for the results window (a graphics view)." alt="" coords="231,238,361,266"/>
+<area shape="rect" id="node16" href="$rankedteam_8h.html" title="Contains the class for a ranked team and problem." alt="" coords="413,161,528,189"/>
+<area shape="rect" id="node7" href="$teamgraphicsitem_8h.html" title="Contains the class for a team item." alt="" coords="176,161,333,189"/>
+<area shape="rect" id="node11" href="$maincontroller_8h.html" title="Contains the main controller class." alt="" coords="316,315,449,343"/>
+<area shape="rect" id="node13" href="$main_8cpp.html" title="The main file for the DOMjura application." alt="" coords="341,393,424,421"/>
+<area shape="rect" id="node18" href="$standingscontroller_8h.html" title="Contains the class for the standings controller." alt="" coords="385,238,556,266"/>
+</map>

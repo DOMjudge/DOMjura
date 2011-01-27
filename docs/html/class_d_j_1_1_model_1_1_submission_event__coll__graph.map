@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_d_j_1_1_model_1_1_event.html" title="An event (from the event&#45;list)." alt="" coords="5,99,144,127"/>
+<area shape="rect" id="node4" href="$class_d_j_1_1_model_1_1_problem.html" title="A problem (from the scoreboard)." alt="" coords="168,99,325,127"/>
+<area shape="rect" id="node6" href="$class_d_j_1_1_model_1_1_team.html" title="A team (from the scoreboard)." alt="" coords="349,99,488,127"/>
+<area shape="rect" id="node8" href="$class_d_j_1_1_model_1_1_category.html" title="A category (from the scorebaord)." alt="" coords="241,6,404,34"/>
+<area shape="rect" id="node10" href="$class_d_j_1_1_model_1_1_affiliation.html" title="An affiliation (from the scoreboard)." alt="" coords="428,6,599,34"/>
+<area shape="rect" id="node12" href="$class_d_j_1_1_model_1_1_language.html" title="A language (from the scoreboard)." alt="" coords="512,99,680,127"/>
+</map>

@@ -1,0 +1,29 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_team.html#afe893088a1c41edbed2cf3d07682c2b4" title="Returns the category of this team." alt="" coords="492,5,727,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_model_1_1_scoreboard.html#a3900c5d3d4a03bbbfe3b79b2d47a84dc" title="Returns the contest." alt="" coords="857,55,1127,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_event.html#a4a2eb25874531b20058d33442fe7caa0" title="Returns the date and time on which this event happened." alt="" coords="491,106,728,134"/>
+<area shape="rect" id="node12" href="$class_d_j_1_1_model_1_1_events.html#a29f1e946976735d9f3c3f0fc07829dcb" title="Returns the i&#45;th event." alt="" coords="500,157,719,185"/>
+<area shape="rect" id="node14" href="$class_d_j_1_1_model_1_1_problem.html#ae07621d6b1e48a9230204a62c5445921" title="Returns the ID of this problem." alt="" coords="508,207,711,235"/>
+<area shape="rect" id="node16" href="$class_d_j_1_1_model_1_1_team.html#a6b85821ac5b7848cefb20f7b60e37db1" title="Returns the ID of this team." alt="" coords="517,258,701,286"/>
+<area shape="rect" id="node18" href="$class_d_j_1_1_model_1_1_team.html#a95e485dd52d8490ab4e4ce6ec737a79c" title="Returns the name of this team." alt="" coords="504,309,715,337"/>
+<area shape="rect" id="node20" href="$class_d_j_1_1_model_1_1_events.html#ae4520e6dfe7f76e666b80ae4a4e383fc" title="Returns the number of events in the event&#45;list." alt="" coords="481,359,737,387"/>
+<area shape="rect" id="node22" href="$class_d_j_1_1_model_1_1_scoreboard.html#a17cd5a11171307491e45211aed5dbe4e" title="Returns the number of problems." alt="" coords="456,410,763,438"/>
+<area shape="rect" id="node24" href="$class_d_j_1_1_model_1_1_scoreboard.html#aaeba0e7cfa3e3b0cd5fc1cea2c1fe63c" title="Returns the number of teams." alt="" coords="464,461,755,489"/>
+<area shape="rect" id="node26" href="$class_d_j_1_1_model_1_1_submission_event.html#ae72d7039896965e2a83cc624e3b407c5" title="Returns the problem of this event." alt="" coords="456,511,763,539"/>
+<area shape="rect" id="node28" href="$class_d_j_1_1_model_1_1_scoreboard.html#aab5fec61c883be6d38c6620883b785d0" title="Returns the i&#45;th problem." alt="" coords="475,562,744,590"/>
+<area shape="rect" id="node30" href="$class_d_j_1_1_model_1_1_ranked_team.html#a7638e0bb33361ce4c6b508af228c1679" title="Returns the problem for the given ID." alt="" coords="455,613,764,641"/>
+<area shape="rect" id="node32" href="$class_d_j_1_1_model_1_1_judging_event.html#a0d146aa71cf3ae996b43ea3c88a378ea" title="Returns the submission event this event belongs to." alt="" coords="439,663,780,691"/>
+<area shape="rect" id="node34" href="$class_d_j_1_1_model_1_1_submission_event.html#a80d77403c9d400b476ca978c30216163" title="Returns the submission ID of this event." alt="" coords="439,714,780,742"/>
+<area shape="rect" id="node36" href="$class_d_j_1_1_model_1_1_submission_event.html#a578b368d45f4c8def9199838e7c0f141" title="Returns the team of this event." alt="" coords="465,765,753,793"/>
+<area shape="rect" id="node38" href="$class_d_j_1_1_model_1_1_scoreboard.html#a3abde7d0f684d2f159367549f157d869" title="Returns the i&#45;th team." alt="" coords="484,815,735,843"/>
+<area shape="rect" id="node40" href="$class_d_j_1_1_controller_1_1_standings_controller.html#ab4b25f3f12ef87d17f9addb2675dc938" title="Returns the team with the given ID." alt="" coords="424,866,795,894"/>
+<area shape="rect" id="node44" href="$class_d_j_1_1_model_1_1_judging_event.html#aa4ad04677edf326975a86b6a8f54efc9" title="Returns whether this judging is correct." alt="" coords="475,917,744,945"/>
+<area shape="rect" id="node46" href="$class_d_j_1_1_model_1_1_submission_event.html#a6bc37e89e706dc3de9e3f7e838179828" title="Determines whether this event was in the freeze time." alt="" coords="460,967,759,995"/>
+<area shape="rect" id="node48" href="$namespace_d_j_1_1_controller.html#ab3fd04481e224993d11f35c5805b5b80" title="Used for sorting the ranking." alt="" coords="468,1018,751,1046"/>
+<area shape="rect" id="node56" href="$class_d_j_1_1_model_1_1_ranked_team.html#af8e0903eecd7ba49672473613c9995df" title="Adds / updates a problem." alt="" coords="471,1069,748,1097"/>
+<area shape="rect" id="node10" href="$class_d_j_1_1_model_1_1_contest.html#a9ae672a9056e9561a4f35b3caba95887" title="Returns the end time of the contest." alt="" coords="885,106,1099,134"/>
+<area shape="rect" id="node42" href="$class_d_j_1_1_model_1_1_ranked_team.html#ad2f51f7aea87829a3ddccc85bd6a29c3" title="Returns the ID of this team." alt="" coords="875,866,1109,894"/>
+<area shape="rect" id="node50" href="$class_d_j_1_1_model_1_1_ranked_team.html#a37346ef1ce9d0b1b832473449fd243f3" title="Returns the name of this team." alt="" coords="861,967,1123,995"/>
+<area shape="rect" id="node52" href="$class_d_j_1_1_model_1_1_ranked_team.html#a4dd3bb5db2fd9815e65c94bd58a0d586" title="Returns the number of solved problems." alt="" coords="843,1018,1141,1046"/>
+<area shape="rect" id="node54" href="$class_d_j_1_1_model_1_1_ranked_team.html#a18a431718e7200adfb981180a1d61849" title="Returns the total time for thist eam." alt="" coords="845,1069,1139,1097"/>
+</map>

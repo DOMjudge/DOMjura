@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_events.html#a29f1e946976735d9f3c3f0fc07829dcb" title="Returns the i&#45;th event." alt="" coords="540,5,759,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_model_1_1_events.html#ae4520e6dfe7f76e666b80ae4a4e383fc" title="Returns the number of events in the event&#45;list." alt="" coords="521,55,777,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_submission_event.html#ae72d7039896965e2a83cc624e3b407c5" title="Returns the problem of this event." alt="" coords="496,106,803,134"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_model_1_1_judging_event.html#a0d146aa71cf3ae996b43ea3c88a378ea" title="Returns the submission event this event belongs to." alt="" coords="479,157,820,185"/>
+<area shape="rect" id="node11" href="$class_d_j_1_1_model_1_1_submission_event.html#a578b368d45f4c8def9199838e7c0f141" title="Returns the team of this event." alt="" coords="505,207,793,235"/>
+<area shape="rect" id="node13" href="$class_d_j_1_1_model_1_1_judging_event.html#aa4ad04677edf326975a86b6a8f54efc9" title="Returns whether this judging is correct." alt="" coords="515,258,784,286"/>
+</map>

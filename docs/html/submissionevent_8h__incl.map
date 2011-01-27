@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$event_8h.html" title="Contains event related data." alt="" coords="20,83,89,111"/>
+<area shape="rect" id="node9" href="$team_8h.html" title="Contains the class for a team." alt="" coords="113,83,180,111"/>
+<area shape="rect" id="node12" href="$problem_8h.html" title="Contains the class for a problem." alt="" coords="324,83,412,111"/>
+<area shape="rect" id="node17" href="$language_8h.html" title="Contains a class for a language." alt="" coords="204,83,300,111"/>
+</map>

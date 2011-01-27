@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_language.html#a6c95cb0c06ff812f129c3ddc460b48b3" title="Returns the ID of this language." alt="" coords="340,5,553,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_model_1_1_problem.html#ae07621d6b1e48a9230204a62c5445921" title="Returns the ID of this problem." alt="" coords="345,55,548,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_team.html#a6b85821ac5b7848cefb20f7b60e37db1" title="Returns the ID of this team." alt="" coords="355,106,539,134"/>
+</map>

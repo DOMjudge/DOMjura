@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_scoreboard.html#af99b678ee8e695f1ae5143db19a16086" title="Adds a new language." alt="" coords="297,5,580,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_controller_1_1_read_data_controller.html#a9eb23a03b75e082cbd96216eee8da6c5" title="Saves the XML of the data." alt="" coords="271,55,607,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_submission_event.html#af5a4d1a030d8ecf902def6504a97084c" title="Returns a string representing this event." alt="" coords="297,106,580,134"/>
+</map>

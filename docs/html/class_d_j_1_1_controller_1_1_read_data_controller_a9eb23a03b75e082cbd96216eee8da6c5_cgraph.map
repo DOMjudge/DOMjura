@@ -1,0 +1,33 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_scoreboard.html#a52ff14d9458751e70ac4902d71c0670b" title="Returns the i&#45;th affiliation." alt="" coords="423,5,705,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_model_1_1_scoreboard.html#a8fb7eafd80feea727b6fc3a92ea40d44" title="Returns the i&#45;th cagetory." alt="" coords="425,55,703,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_category.html#a2aa010b15c599703a51d717933219205" title="Returns the color of this category." alt="" coords="447,106,681,134"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_model_1_1_problem.html#aa0d2fa732481ad60245a101d35a8a342" title="Returns the color of this problem." alt="" coords="451,157,677,185"/>
+<area shape="rect" id="node11" href="$class_d_j_1_1_model_1_1_scoreboard.html#a3900c5d3d4a03bbbfe3b79b2d47a84dc" title="Returns the contest." alt="" coords="429,207,699,235"/>
+<area shape="rect" id="node13" href="$class_d_j_1_1_model_1_1_affiliation.html#a20aec32d0f231e203830d39a579e5d96" title="Returns the country of this affiliation." alt="" coords="436,258,692,286"/>
+<area shape="rect" id="node15" href="$class_d_j_1_1_model_1_1_events.html#a29f1e946976735d9f3c3f0fc07829dcb" title="Returns the i&#45;th event." alt="" coords="455,309,673,337"/>
+<area shape="rect" id="node17" href="$class_d_j_1_1_model_1_1_language.html#a6c95cb0c06ff812f129c3ddc460b48b3" title="Returns the ID of this language." alt="" coords="457,359,671,387"/>
+<area shape="rect" id="node19" href="$class_d_j_1_1_model_1_1_problem.html#ae07621d6b1e48a9230204a62c5445921" title="Returns the ID of this problem." alt="" coords="463,410,665,438"/>
+<area shape="rect" id="node21" href="$class_d_j_1_1_model_1_1_affiliation.html#aa1a5bcb16c63985793c66dc63b475462" title="Returns the ID of this affiliation." alt="" coords="456,461,672,489"/>
+<area shape="rect" id="node23" href="$class_d_j_1_1_model_1_1_category.html#a923677c7a8c24537245774db50c3c81f" title="Returns the ID of this category." alt="" coords="459,511,669,539"/>
+<area shape="rect" id="node25" href="$class_d_j_1_1_model_1_1_judging_event.html#a80080067ca1a46160211ebe83d142307" title="Returns the judging ID of this event." alt="" coords="417,562,711,590"/>
+<area shape="rect" id="node27" href="$class_d_j_1_1_model_1_1_scoreboard.html#a8b1e535d2bf67e5c2dc92c2a6490bf3b" title="Returns the i&#45;th langauge." alt="" coords="424,613,704,641"/>
+<area shape="rect" id="node29" href="$class_d_j_1_1_model_1_1_submission_event.html#abcdb79f22c43f804a20038dd58915e85" title="Returns the language of this event." alt="" coords="401,663,727,691"/>
+<area shape="rect" id="node31" href="$class_d_j_1_1_model_1_1_category.html#a96efd254a9033aa89319013f3233008c" title="Returns the name of this category." alt="" coords="447,714,681,742"/>
+<area shape="rect" id="node33" href="$class_d_j_1_1_model_1_1_affiliation.html#a91878622ee42f38a8b23f6efa43f903f" title="Returns the name of this affiliation." alt="" coords="444,765,684,793"/>
+<area shape="rect" id="node35" href="$class_d_j_1_1_model_1_1_language.html#affb0358e33c7701e3997632fe8f584a8" title="Returns the name of this language." alt="" coords="445,815,683,843"/>
+<area shape="rect" id="node37" href="$class_d_j_1_1_model_1_1_problem.html#a387d51cd192b6d21e16e975739eabe1a" title="Returns the name of this problem." alt="" coords="451,866,677,894"/>
+<area shape="rect" id="node39" href="$class_d_j_1_1_model_1_1_scoreboard.html#abf87080ba45bcb202e75eb1918f5b69b" title="Returns the number of affiliations." alt="" coords="404,917,724,945"/>
+<area shape="rect" id="node41" href="$class_d_j_1_1_model_1_1_scoreboard.html#ab2be0263914afccdc51a031489f4a925" title="Returns the number of categories." alt="" coords="404,967,724,995"/>
+<area shape="rect" id="node43" href="$class_d_j_1_1_model_1_1_events.html#ae4520e6dfe7f76e666b80ae4a4e383fc" title="Returns the number of events in the event&#45;list." alt="" coords="436,1018,692,1046"/>
+<area shape="rect" id="node45" href="$class_d_j_1_1_model_1_1_scoreboard.html#a020f7e8871eedb2425dc8d0d539c6e75" title="Returns the number of langauges." alt="" coords="405,1069,723,1097"/>
+<area shape="rect" id="node47" href="$class_d_j_1_1_model_1_1_scoreboard.html#a17cd5a11171307491e45211aed5dbe4e" title="Returns the number of problems." alt="" coords="411,1119,717,1147"/>
+<area shape="rect" id="node49" href="$class_d_j_1_1_model_1_1_scoreboard.html#aaeba0e7cfa3e3b0cd5fc1cea2c1fe63c" title="Returns the number of teams." alt="" coords="419,1170,709,1198"/>
+<area shape="rect" id="node51" href="$class_d_j_1_1_model_1_1_submission_event.html#ae72d7039896965e2a83cc624e3b407c5" title="Returns the problem of this event." alt="" coords="411,1221,717,1249"/>
+<area shape="rect" id="node53" href="$class_d_j_1_1_model_1_1_scoreboard.html#aab5fec61c883be6d38c6620883b785d0" title="Returns the i&#45;th problem." alt="" coords="429,1271,699,1299"/>
+<area shape="rect" id="node55" href="$class_d_j_1_1_model_1_1_judging_event.html#a81e62f2b6a982cf85c817bd29ca5bc51" title="Returns the result of this judging." alt="" coords="429,1322,699,1350"/>
+<area shape="rect" id="node57" href="$class_d_j_1_1_model_1_1_judging_event.html#a0d146aa71cf3ae996b43ea3c88a378ea" title="Returns the submission event this event belongs to." alt="" coords="393,1373,735,1401"/>
+<area shape="rect" id="node59" href="$class_d_j_1_1_model_1_1_submission_event.html#a80d77403c9d400b476ca978c30216163" title="Returns the submission ID of this event." alt="" coords="393,1423,735,1451"/>
+<area shape="rect" id="node61" href="$class_d_j_1_1_model_1_1_submission_event.html#a578b368d45f4c8def9199838e7c0f141" title="Returns the team of this event." alt="" coords="420,1474,708,1502"/>
+<area shape="rect" id="node63" href="$class_d_j_1_1_model_1_1_scoreboard.html#a3abde7d0f684d2f159367549f157d869" title="Returns the i&#45;th team." alt="" coords="439,1525,689,1553"/>
+</map>

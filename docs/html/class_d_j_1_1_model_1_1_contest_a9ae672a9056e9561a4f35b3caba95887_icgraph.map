@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_event.html#a4a2eb25874531b20058d33442fe7caa0" title="Returns the date and time on which this event happened." alt="" coords="271,55,508,83"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_controller_1_1_stats_controller.html#aa815c42fe768b0624030405fc8d15108" title="Returns the date and time of the first correct solution of the given problem." alt="" coords="572,5,921,33"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_controller_1_1_stats_controller.html#a664d68cf6fb8dfd2241ab925acb50da3" title="Returns the date and time of the last solution of the given problem." alt="" coords="557,55,936,83"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_controller_1_1_standings_controller.html#a30b15239ac3fc4892dbe08eecb7bd78c" title="Initializes the standings." alt="" coords="561,106,932,134"/>
+</map>

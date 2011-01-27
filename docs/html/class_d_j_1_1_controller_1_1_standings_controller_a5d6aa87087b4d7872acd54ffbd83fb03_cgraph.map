@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_ranked_team.html#a37346ef1ce9d0b1b832473449fd243f3" title="Returns the name of this team." alt="" coords="417,5,679,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_model_1_1_ranked_team.html#a1c7f2901f6b880f1ca4be095ca5a15a7" title="Returns the number of problems." alt="" coords="389,55,707,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_ranked_team.html#a4dd3bb5db2fd9815e65c94bd58a0d586" title="Returns the number of solved problems." alt="" coords="399,106,697,134"/>
+<area shape="rect" id="node9" href="$class_d_j_1_1_model_1_1_ranked_team.html#a59c066db53e9bbf44493db0610dafb7d" title="Returns the i&#45;th problem for this team." alt="" coords="409,157,687,185"/>
+<area shape="rect" id="node11" href="$class_d_j_1_1_model_1_1_ranked_team.html#a18a431718e7200adfb981180a1d61849" title="Returns the total time for thist eam." alt="" coords="401,207,695,235"/>
+</map>

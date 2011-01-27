@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_d_j_1_1_model_1_1_scoreboard.html#a63c19642c6f1b4ffe108cf802d48cd8b" title="Adds a new team." alt="" coords="299,5,552,33"/>
+<area shape="rect" id="node5" href="$class_d_j_1_1_controller_1_1_standings_controller.html#a30b15239ac3fc4892dbe08eecb7bd78c" title="Initializes the standings." alt="" coords="240,55,611,83"/>
+<area shape="rect" id="node7" href="$class_d_j_1_1_model_1_1_submission_event.html#af5a4d1a030d8ecf902def6504a97084c" title="Returns a string representing this event." alt="" coords="284,106,567,134"/>
+</map>

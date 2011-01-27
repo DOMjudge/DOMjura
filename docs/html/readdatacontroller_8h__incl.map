@@ -1,0 +1,11 @@
+<map id="G" name="G">
+<area shape="rect" id="node9" href="$scoreboard_8h.html" title="Contains the scoreboard class." alt="" coords="421,83,533,111"/>
+<area shape="rect" id="node39" href="$events_8h.html" title="Contains events related data." alt="" coords="887,83,964,111"/>
+<area shape="rect" id="node16" href="$contest_8h.html" title="Contains a class for a contest." alt="" coords="845,161,931,189"/>
+<area shape="rect" id="node21" href="$problem_8h.html" title="Contains the class for a problem." alt="" coords="123,161,211,189"/>
+<area shape="rect" id="node26" href="$language_8h.html" title="Contains a class for a language." alt="" coords="549,161,645,189"/>
+<area shape="rect" id="node29" href="$affiliation_8h.html" title="Contains a class for an affiliation." alt="" coords="669,161,771,189"/>
+<area shape="rect" id="node32" href="$category_8h.html" title="Contains a class for a category." alt="" coords="5,161,99,189"/>
+<area shape="rect" id="node36" href="$team_8h.html" title="Contains the class for a team." alt="" coords="235,161,301,189"/>
+<area shape="rect" id="node42" href="$event_8h.html" title="Contains event related data." alt="" coords="1005,161,1075,189"/>
+</map>
