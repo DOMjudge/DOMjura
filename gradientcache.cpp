@@ -75,7 +75,7 @@ QPixmap GradientCache::getColorGradient(QColor color1, QColor color2) {
 
 QPixmap GradientCache::getColorGradientHighlighted(QColor color1, QColor color2) {
 	ColorPair colorPair(color1, color2);
-	if (!this->problemGradient.contains(colorPair)) {
+	if (!this->problemGradientHighlighted.contains(colorPair)) {
 		QPen pen;
 		pen.setWidth(2);
 		pen.setColor(QColor(255, 255, 0));
@@ -98,9 +98,9 @@ QPixmap GradientCache::getColorGradientHighlighted(QColor color1, QColor color2)
 		QRectF rect(1, 1, width-2, height-2);
 		painter->drawRoundedRect(rect, 5, 5);
 		delete painter;
-		this->problemGradient[colorPair] = pm;
+		this->problemGradientHighlighted[colorPair] = pm;
 	}
-	return this->problemGradient[colorPair];
+	return this->problemGradientHighlighted[colorPair];
 }
 
 QPixmap GradientCache::getMedalGradient(Medal medal) {
