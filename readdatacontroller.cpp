@@ -654,20 +654,22 @@ bool ReadDataController::EventsParser::endElement(const QString &, const QString
 		this->parseState = OUTER_PART;
 	} else if (qName == "event") {
 		Model::Event *event = (Model::Event *)this->currentItem;
-		this->currentItem = NULL;
-		this->parseState = EVENTS;
-		if (event->getType() == Model::SUBMISSIONEVENT) {
-			// Check if team exists
-			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)event;
-			if (submissionEvent->getTeam()) {
-				this->events->addEvent(event);
-			}
-		} else if (event->getType() == Model::JUDGINGEVENT) {
-			// Check if team exists
-			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
-			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			if (submissionEvent && submissionEvent->getTeam()) {
-				this->events->addEvent(event);
+		if (event) {
+			this->currentItem = NULL;
+			this->parseState = EVENTS;
+			if (event->getType() == Model::SUBMISSIONEVENT) {
+				// Check if team exists
+				Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)event;
+				if (submissionEvent->getTeam()) {
+					this->events->addEvent(event);
+				}
+			} else if (event->getType() == Model::JUDGINGEVENT) {
+				// Check if team exists
+				Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
+				Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
+				if (submissionEvent && submissionEvent->getTeam()) {
+					this->events->addEvent(event);
+				}
 			}
 		}
 	} else if (this->parseState == SUBMISSION && qName == "submission") {
