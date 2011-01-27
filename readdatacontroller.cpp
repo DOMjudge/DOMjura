@@ -660,14 +660,14 @@ bool ReadDataController::EventsParser::endElement(const QString &, const QString
 			if (event->getType() == Model::SUBMISSIONEVENT) {
 				// Check if team exists
 				Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)event;
-				if (submissionEvent->getTeam()) {
+				if (submissionEvent->getTeam() && submissionEvent->getProblem()) {
 					this->events->addEvent(event);
 				}
 			} else if (event->getType() == Model::JUDGINGEVENT) {
 				// Check if team exists
 				Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
 				Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-				if (submissionEvent && submissionEvent->getTeam()) {
+				if (submissionEvent && submissionEvent->getTeam() && submissionEvent->getProblem()) {
 					this->events->addEvent(event);
 				}
 			}
