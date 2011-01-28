@@ -1,4 +1,4 @@
-DOMjura (_DOMju_dge _r_esults _a_pplication)
+DOMjura (DOMjudge results application)
 ==================================================
 
 DOMjura is a [DOMjudge](http://domjudge.sourceforge.net/) plugin parser that makes å nice results presentation. Furthermore, it can generate statistics about a programming contest.
