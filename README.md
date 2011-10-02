@@ -8,9 +8,12 @@ DOMjura is easy to use: you just specify the DOMjudge URL (or use a local saved 
 ## Screenshots
 
 Compiling can be done by installing Qt, and then doing the following in the source directory:
-    qmake
-    make
-    ./DOMjura
+
+```bash
+qmake
+make
+./DOMjura
+```
 
 Note that the last line may be different on Mac OS X and Windows
 
