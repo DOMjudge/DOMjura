@@ -7,6 +7,15 @@ DOMjura is easy to use: you just specify the DOMjudge URL (or use a local saved 
 
 ## Screenshots
 
+Compiling can be done by installing Qt, and then doing the following in the source directory:
+    qmake
+    make
+    ./DOMjura
+
+Note that the last line may be different on Mac OS X and Windows
+
+## Screenshots
+
 __The main window__
 
 <img src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Mainwindow.png" />
