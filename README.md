@@ -5,7 +5,7 @@ DOMjura is a [DOMjudge](http://domjudge.sourceforge.net/) plugin parser that mak
 
 DOMjura is easy to use: you just specify the DOMjudge URL (or use a local saved version of the plugin XML) and you are good to go.
 
-## Screenshots
+## Compiling
 
 Compiling can be done by installing Qt, and then doing the following in the source directory:
 
