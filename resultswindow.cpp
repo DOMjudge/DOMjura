@@ -91,7 +91,7 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 			timer->setSingleShot(true);
 			connect(timer, SIGNAL(timeout()), this, SLOT(timerDone()));
 			this->runningTimers.append(timer);
-			timer->start(1000);
+						timer->start(TIME_TO_WAIT);
 		} else {
 			// First, move to the the row to highlight
 			QParallelAnimationGroup *scrollToRowAnim = new QParallelAnimationGroup;
@@ -99,14 +99,14 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 			connect(scrollToRowAnim, SIGNAL(finished()), this, SLOT(animationDone()));
 
 			QPropertyAnimation *animHeader = new QPropertyAnimation(this->headerItem, "pos");
-			animHeader->setDuration(1000);
+						animHeader->setDuration(TIME_TO_SCROLL);
 			animHeader->setStartValue(this->headerItem->pos());
 			animHeader->setEndValue(QPointF(0, 0) - toScrollPoint);
 			scrollToRowAnim->addAnimation(animHeader);
 
 			for (int i = 0; i < this->teamItems.size(); i++) {
 				QPropertyAnimation *animItem = new QPropertyAnimation(this->teamItems.at(i), "pos");
-				animItem->setDuration(1000);
+								animItem->setDuration(TIME_TO_SCROLL);
 				QPointF startPoint;
 				startPoint.setX(0);
 				startPoint.setY(HEADER_HEIGHT + i * TEAMITEM_HEIGHT);
@@ -259,7 +259,7 @@ void ResultsWindow::hideLegendAfterTimeout() {
 	legendaTimer->setSingleShot(true);
 	connect(legendaTimer, SIGNAL(timeout()), this, SLOT(hideLegenda()));
 	this->runningTimers.append(legendaTimer);
-	legendaTimer->start(5000);
+	legendaTimer->start(LEGEND_WAIT_TIME);
 }
 
 void ResultsWindow::doNextStep() {
@@ -274,10 +274,11 @@ void ResultsWindow::doNextStep() {
 		QPointF toScrollPoint(0, toScroll);
 
 		if (toScroll == 0) {
+			delete scrollToBottomAnim;
 			this->started = true;
 			doNextStep();
 		} else {
-			int timetoScroll = 1000 + 1200 * log(this->teamItems.size());
+			int timetoScroll = TIME_TO_WAIT + TIME_PER_ITEM * log(this->teamItems.size());
 
 			QPropertyAnimation *animHeader = new QPropertyAnimation(this->headerItem, "pos");
 			animHeader->setDuration(timetoScroll);
@@ -309,7 +310,7 @@ void ResultsWindow::doNextStep() {
 		ResultTeam winningTeam = this->teams.at(0);
 		this->winnerItem->setWinner(winningTeam.name);
 		QPropertyAnimation *winnerAnim = new QPropertyAnimation(this->winnerItem, "opacity");
-		winnerAnim->setDuration(2000);
+		winnerAnim->setDuration(TIME_FOR_WINNER);
 		winnerAnim->setStartValue(0);
 		winnerAnim->setEndValue(1);
 		winnerAnim->setProperty("DJ_animType", "winner");
@@ -333,7 +334,7 @@ void ResultsWindow::animationDone() {
 		timer->setSingleShot(true);
 		connect(timer, SIGNAL(timeout()), this, SLOT(timerDone()));
 		this->runningTimers.append(timer);
-		timer->start(1000);
+		timer->start(TIME_TO_WAIT);
 	} else if (this->sender()->property("DJ_animType") == "problemResolv") {
 		TeamGraphicsItem *team = this->teamItems.at(this->lastResolvTeam);
 		ProblemGraphicsItem *problem = team->getProblemGraphicsItem(this->lastResolvProblem);
@@ -352,13 +353,13 @@ void ResultsWindow::animationDone() {
 			teamThatMoves->setRank(resultTeam.rank);
 			teamThatMoves->setTime(resultTeam.time);
 			teamThatMoves->setSolved(resultTeam.solved);
-			int tme = 500 + 200 * (this->lastResolvTeam - moveTo);
-			if (tme == 500) {
+			int tme = TIME_TO_MOVE_INIT + TIME_TO_MOVE * (this->lastResolvTeam - moveTo);
+			if (tme == TIME_TO_MOVE_INIT) {
 				QTimer *timer = new QTimer;
 				timer->setSingleShot(true);
 				connect(timer, SIGNAL(timeout()), this, SLOT(timerMoveUpDone()));
 				this->runningTimers.append(timer);
-				timer->start(200);
+				timer->start(TIME_TO_MOVE);
 			} else {
 				// Now move the current team to moveTo and move all teams from moveTo until the current team one down
 				QPointF moveToPoint = this->teamItems.at(moveTo)->pos();
@@ -409,7 +410,7 @@ void ResultsWindow::animationDone() {
 		timer->setSingleShot(true);
 		connect(timer, SIGNAL(timeout()), this, SLOT(timerMoveUpDone()));
 		this->runningTimers.append(timer);
-		timer->start(200);
+		timer->start(TIME_TO_MOVE_INIT);
 	} else if (this->sender()->property("DJ_animType") == "winner") {
 		// Do nothing...
 	}
@@ -424,7 +425,7 @@ void ResultsWindow::timerDone() {
 		ProblemGraphicsItem *problem = team->getProblemGraphicsItem(this->lastResolvProblem);
 		problem->setHighlighted(true);
 		QPropertyAnimation *animHLC = new QPropertyAnimation(problem, "highlightColor");
-		animHLC->setDuration(2000);
+		animHLC->setDuration(TIME_TO_BLINK);
 		animHLC->setKeyValueAt(0,     QColor(143, 124, 29));
 		animHLC->setKeyValueAt(0.125, QColor(70, 62, 14));
 		animHLC->setKeyValueAt(0.25,  QColor(143, 124, 29));
@@ -440,7 +441,7 @@ void ResultsWindow::timerDone() {
 		}
 
 		QPropertyAnimation *animFC = new QPropertyAnimation(problem, "finalColor");
-		animFC->setDuration(2000);
+		animFC->setDuration(TIME_TO_BLINK);
 		animFC->setKeyValueAt(0,     QColor(255, 223, 54));
 		animFC->setKeyValueAt(0.125, QColor(255, 223, 54));
 		animFC->setKeyValueAt(0.25,  QColor(255, 223, 54));
@@ -490,8 +491,8 @@ void ResultsWindow::resizeImage() {
 	}
 	QRect screenSize = QApplication::desktop()->screenGeometry();
 	QPointF labelPos;
-	labelPos.setX(screenSize.width() - size.width());
-	labelPos.setY(screenSize.height() - size.height());
+	labelPos.setX(screenSize.width() - size.width() - BRANDING_IMAGE_OFFSET_X);
+	labelPos.setY(screenSize.height() - size.height() - BRANDING_IMAGE_OFFSET_Y);
 	this->pixmap->setPos(labelPos);
 }
 
@@ -499,7 +500,7 @@ void ResultsWindow::hideLegenda() {
 	this->runningTimers.removeAll((QTimer *)this->sender());
 	this->sender()->deleteLater();
 	QPropertyAnimation *legendaAnim = new QPropertyAnimation(this->legendaItem, "opacity");
-	legendaAnim->setDuration(2000);
+	legendaAnim->setDuration(LEGEND_HIDE_TIME);
 	legendaAnim->setEasingCurve(QEasingCurve::InOutExpo);
 	legendaAnim->setStartValue(1);
 	legendaAnim->setEndValue(0);

@@ -84,6 +84,39 @@
 /** The margin below the problem list.
   */
 #define PROBS_BELOW_MARGIN QSettings().value("probsBelowMargin", 5).toInt()
+/** The time to wait
+  */
+#define TIME_TO_WAIT QSettings().value("timeToWait", 1000).toInt()
+/** The time to scroll
+  */
+#define TIME_TO_SCROLL QSettings().value("timeToScroll", 1000).toInt()
+/** The time before the legend is hidden
+  */
+#define LEGEND_WAIT_TIME QSettings().value("legendWaitTime", 5000).toInt()
+/** The time for the legend to hide
+  */
+#define LEGEND_HIDE_TIME QSettings().value("legendHideTime", 2000).toInt()
+/** The time per item to scroll down
+  */
+#define TIME_PER_ITEM QSettings().value("timePerItem", 1200).toInt()
+/** The time for the winner to show
+  */
+#define TIME_FOR_WINNER QSettings().value("timeForWinner", 2000).toInt()
+/** The time to move
+  */
+#define TIME_TO_MOVE QSettings().value("timeToMove", 200).toInt()
+/** The initial time to move
+  */
+#define TIME_TO_MOVE_INIT QSettings().value("timeToMoveInit", 500).toInt()
+/** The time to blink
+  */
+#define TIME_TO_BLINK QSettings().value("timeToBlink", 2000).toInt()
+/** The X offset of the branding image
+  */
+#define BRANDING_IMAGE_OFFSET_X QSettings().value("brandingImageOffsetX", 5).toInt()
+/** The Y offset of the branding image
+  */
+#define BRANDING_IMAGE_OFFSET_Y QSettings().value("brandingImageOffsetY", 5).toInt()
 
 #include <QString>
 #include <QList>

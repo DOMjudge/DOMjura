@@ -79,6 +79,20 @@ void SettingsDialog::reloadSettings() {
 	this->ui->spinBoxProbMargin->setValue(PROB_MARGIN);
 	this->ui->spinBoxNameProbsMargin->setValue(NAME_PROBS_MARGIN);
 	this->ui->spinBoxProbsBelowMargin->setValue(PROBS_BELOW_MARGIN);
+
+	this->ui->spinBoxTimeToWait->setValue(TIME_TO_WAIT);
+	this->ui->spinBoxTimeToScroll->setValue(TIME_TO_SCROLL);
+	this->ui->spinBoxLegendWaitTime->setValue(LEGEND_WAIT_TIME);
+	this->ui->spinBoxLegendHideTime->setValue(LEGEND_HIDE_TIME);
+	this->ui->spinBoxTimePerItem->setValue(TIME_PER_ITEM);
+	this->ui->spinBoxTimeForWinner->setValue(TIME_FOR_WINNER);
+	this->ui->spinBoxTimeToMove->setValue(TIME_TO_MOVE);
+	this->ui->spinBoxTimeToMoveInitial->setValue(TIME_TO_MOVE_INIT);
+	this->ui->spinBoxTimeToBlink->setValue(TIME_TO_BLINK);
+
+	this->ui->spinBoxBrandingImagX->setValue(BRANDING_IMAGE_OFFSET_X);
+	this->ui->spinBoxBrandingImagY->setValue(BRANDING_IMAGE_OFFSET_Y);
+
 	GradientCache::getInstance()->clearCache();
 }
 
@@ -121,6 +135,19 @@ void SettingsDialog::applyChanges() {
 	settings.setValue("probMargin", this->ui->spinBoxProbMargin->value());
 	settings.setValue("nameProbsMargin", this->ui->spinBoxNameProbsMargin->value());
 	settings.setValue("probsBelowMargin", this->ui->spinBoxProbsBelowMargin->value());
+
+	settings.setValue("timeToWait", this->ui->spinBoxTimeToWait->value());
+	settings.setValue("timeToScroll", this->ui->spinBoxTimeToScroll->value());
+	settings.setValue("legendWaitTime", this->ui->spinBoxLegendWaitTime->value());
+	settings.setValue("legendHideTime", this->ui->spinBoxLegendHideTime->value());
+	settings.setValue("timePerItem", this->ui->spinBoxTimePerItem->value());
+	settings.setValue("timeForWinner", this->ui->spinBoxTimeForWinner->value());
+	settings.setValue("timeToMove", this->ui->spinBoxTimeToMove->value());
+	settings.setValue("timeToMoveInit", this->ui->spinBoxTimeToMoveInitial->value());
+	settings.setValue("timeToBlink", this->ui->spinBoxTimeToBlink->value());
+
+	settings.setValue("brandingImageOffsetX", this->ui->spinBoxBrandingImagX->value());
+	settings.setValue("brandingImageOffsetY", this->ui->spinBoxBrandingImagY->value());
 	GradientCache::getInstance()->clearCache();
 }
 
