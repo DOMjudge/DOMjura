@@ -5,6 +5,18 @@ DOMjura is a [DOMjudge](http://domjudge.sourceforge.net/) plugin parser that mak
 
 DOMjura is easy to use: you just specify the DOMjudge URL (or use a local saved version of the plugin XML) and you are good to go.
 
+## Compiling
+
+Compiling can be done by installing Qt, and then doing the following in the source directory:
+
+```bash
+qmake
+make
+./DOMjura
+```
+
+Note that the last line may be different on Mac OS X and Windows
+
 ## Screenshots
 
 __The main window__
@@ -13,8 +25,8 @@ __The main window__
 
 __The settings dialog__
 
-<img width="800" src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Results.png" />
+<img src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Settings.png" />
 
 __The results presentation__
 
-<img src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Settings.png" />
+<img width="800" src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Results.png" />

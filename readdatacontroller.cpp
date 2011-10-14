@@ -571,6 +571,7 @@ Model::Scoreboard *ReadDataController::ScoreboardParser::getScoreboard() {
 }
 
 ReadDataController::EventsParser::EventsParser(Model::Scoreboard *scoreboard) {
+	this->currentItem = NULL;
 	this->scoreboard = scoreboard;
 	this->events = new Model::Events;
 	this->parseState = NOT_STARTED;
