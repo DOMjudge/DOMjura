@@ -41,7 +41,7 @@ QRectF LegendaGraphicsItem::boundingRect() const {
 }
 
 void LegendaGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-								QWidget *widget) {
+                                QWidget *) {
 	painter->setClipRect(option->exposedRect);
 	painter->setPen(Qt::white);
 	painter->setBrush(QColor(0, 0, 0, 180));

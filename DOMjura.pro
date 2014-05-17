@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml network opengl
+QT       += core gui xml network opengl widgets
 
 TARGET = DOMjura
 TEMPLATE = app

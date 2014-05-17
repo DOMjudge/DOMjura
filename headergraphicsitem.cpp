@@ -52,7 +52,7 @@ QRectF HeaderGraphicsItem::boundingRect() const {
 	return QRectF(0, 0, screenWidth, HEADER_HEIGHT);
 }
 
-void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void HeaderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *) {
 	painter->setClipRect(option->exposedRect);
 	QFont font("Courier new");
 	font.setPixelSize(16);

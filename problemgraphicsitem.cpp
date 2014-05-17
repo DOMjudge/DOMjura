@@ -34,7 +34,7 @@ QRectF ProblemGraphicsItem::boundingRect() const {
 	return QRectF(0, 0, width, height);
 }
 
-void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void ProblemGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *) {
 	painter->setClipRect(option->exposedRect);
 	switch (this->state) {
 	case NOTSUBMITTED: {

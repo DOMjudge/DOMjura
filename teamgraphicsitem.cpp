@@ -77,7 +77,7 @@ ProblemGraphicsItem *TeamGraphicsItem::getProblemGraphicsItem(int i) {
 }
 
 void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-							 QWidget *widget) {
+                             QWidget *) {
 	painter->setClipRect(option->exposedRect);
 	if (this->highlighted) {
 		painter->drawPixmap(0, 0, screenWidth, TEAMITEM_HEIGHT,

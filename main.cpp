@@ -22,7 +22,7 @@
   * \brief The namespace where all controllers reside in.
   */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QPixmapCache>
 
 #include "maincontroller.h"

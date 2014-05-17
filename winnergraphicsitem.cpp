@@ -36,8 +36,8 @@ QRectF WinnerGraphicsItem::boundingRect() const {
 	return QRectF(0, 0, screenSize.width(), screenSize.height());
 }
 
-void WinnerGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-							   QWidget *widget) {
+void WinnerGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
+                               QWidget *) {
 	QLinearGradient gradient(0, 0, 0, this->boundingRect().height());
 	gradient.setColorAt(0, QColor(111, 81, 19));
 	gradient.setColorAt(0.5, QColor(251, 247, 200));
