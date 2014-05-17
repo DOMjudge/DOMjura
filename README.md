@@ -7,7 +7,7 @@ DOMjura is easy to use: you just specify the DOMjudge URL (or use a local saved 
 
 ## Compiling
 
-Compiling can be done by installing Qt, and then doing the following in the source directory:
+Compiling can be done by installing Qt5, and then doing the following in the source directory (or by using Qt Creator):
 
 ```bash
 qmake
