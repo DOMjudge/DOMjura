@@ -12,7 +12,6 @@
 #include "resultswindow.h"
 #include "settingsdialog.h"
 
-#include "readdatacontroller.h"
 #include "statscontroller.h"
 #include "standingscontroller.h"
 
@@ -44,23 +43,26 @@ private:
 	View::ResultsWindow *resultsWindow;
 	View::SettingsDialog *settingsDialog;
 
-	ReadDataController *readDataController;
 	StandingsController *standingsController;
 
 private slots:
-	void updateURL(QString url);
-	void updateUsername(QString username);
-	void updatePassword(QString password);
-	void updateDir(QDir dir);
-	void switchToDir();
-	void switchToURL();
-	void loadData();
-	void enableSave();
-	void enableActions();
-	void saveXML(QString dir);
-	void showStats();
-	void showResults();
-	void updateStanding();
+	void testConnection();
+	void processContestData(QJsonObject contestData);
+	void processContestLoadError();
+//	void updateURL(QString url);
+//	void updateUsername(QString username);
+//	void updatePassword(QString password);
+//	void updateDir(QDir dir);
+//	void switchToDir();
+//	void switchToURL();
+//	void loadData();
+//	void enableSave();
+//	void enableActions();
+//	void saveXML(QString dir);
+//	void showStats();
+//	void showResults();
+//	void updateStanding();
+
 };
 } // namespace Controller
 } // namespace DJ

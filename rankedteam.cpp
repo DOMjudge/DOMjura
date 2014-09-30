@@ -28,7 +28,7 @@ void RankedTeam::recalculateData() {
 		RankedProblem *problem = this->problems.at(i);
 		if (problem->problemState == SOLVED) {
 			this->numSolved++;
-			this->totalTime += problem->timeLastTry + (PENALTY_TIME * (problem->tries - 1));
+			this->totalTime += problem->timeLastTry + (20 * (problem->tries - 1));
 		}
 	}
 }

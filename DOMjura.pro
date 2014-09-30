@@ -13,68 +13,68 @@ ICON = resources/AppIcon.icns
 RC_FILE = DOMjura.rc
 
 SOURCES += main.cpp \
-	problemgraphicsitem.cpp \
-	contest.cpp \
-	readdatacontroller.cpp \
-	scoreboard.cpp \
-	problem.cpp \
-	language.cpp \
-	affiliation.cpp \
-	category.cpp \
-	team.cpp \
-	events.cpp \
-	event.cpp \
-	submissionevent.cpp \
-	judgingevent.cpp \
-	statscontroller.cpp \
-	maincontroller.cpp \
-	standingscontroller.cpp \
-	rankedteam.cpp \
-	maindialog.cpp \
-	aboutdialog.cpp \
-	statsdialog.cpp \
-	resultswindow.cpp \
-	headergraphicsitem.cpp \
-	teamgraphicsitem.cpp \
-	legendagraphicsitem.cpp \
-	settingsdialog.cpp \
-	winnergraphicsitem.cpp \
-	gradientcache.cpp
+        problemgraphicsitem.cpp \
+        contest.cpp \
+        scoreboard.cpp \
+        problem.cpp \
+        language.cpp \
+        affiliation.cpp \
+        category.cpp \
+        team.cpp \
+        events.cpp \
+        event.cpp \
+        submissionevent.cpp \
+        judgingevent.cpp \
+        statscontroller.cpp \
+        maincontroller.cpp \
+        standingscontroller.cpp \
+        rankedteam.cpp \
+        maindialog.cpp \
+        aboutdialog.cpp \
+        statsdialog.cpp \
+        resultswindow.cpp \
+        headergraphicsitem.cpp \
+        teamgraphicsitem.cpp \
+        legendagraphicsitem.cpp \
+        settingsdialog.cpp \
+        winnergraphicsitem.cpp \
+        gradientcache.cpp \
+        domjudgeapimanager.cpp
 
 HEADERS  += problemgraphicsitem.h \
-	defines.h \
-	contest.h \
-	readdatacontroller.h \
-	scoreboard.h \
-	problem.h \
-	language.h \
-	affiliation.h \
-	category.h \
-	team.h \
-	events.h \
-	event.h \
-	submissionevent.h \
-	judgingevent.h \
-	statscontroller.h \
-	maincontroller.h \
-	standingscontroller.h \
-	rankedteam.h \
-	maindialog.h \
-	aboutdialog.h \
-	statsdialog.h \
-	resultswindow.h \
-	headergraphicsitem.h \
-	teamgraphicsitem.h \
-	legendagraphicsitem.h \
-	settingsdialog.h \
-	winnergraphicsitem.h \
-	gradientcache.h
+        defines.h \
+        contest.h \
+        scoreboard.h \
+        problem.h \
+        language.h \
+        affiliation.h \
+        category.h \
+        team.h \
+        events.h \
+        event.h \
+        submissionevent.h \
+        judgingevent.h \
+        statscontroller.h \
+        maincontroller.h \
+        standingscontroller.h \
+        rankedteam.h \
+        maindialog.h \
+        aboutdialog.h \
+        statsdialog.h \
+        resultswindow.h \
+        headergraphicsitem.h \
+        teamgraphicsitem.h \
+        legendagraphicsitem.h \
+        settingsdialog.h \
+        winnergraphicsitem.h \
+        gradientcache.h \
+        domjudgeapimanager.h
 
 FORMS += \
-	maindialog.ui \
-	aboutdialog.ui \
-	statsdialog.ui \
-	settingsdialog.ui
+        maindialog.ui \
+        aboutdialog.ui \
+        statsdialog.ui \
+        settingsdialog.ui
 
 RESOURCES += \
-	resources.qrc
+        resources.qrc

@@ -5,10 +5,6 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-/** Determines the extra time a team gets for a wrong submission.
-  */
-#define PENALTY_TIME QSettings().value("penaltyTime", 20).toInt()
-
 /** Use OpenGL for the rendering or not.
   */
 #define USE_OPENGL QSettings().value("useOpenGL", true).toBool()

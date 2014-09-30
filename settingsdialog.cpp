@@ -59,7 +59,6 @@ void SettingsDialog::reloadSettings() {
 	this->ui->spinBoxSilver->setValue(SILVER);
 	this->ui->spinBoxBronze->setValue(BRONZE);
 
-	this->ui->spinBoxPenalty->setValue(PENALTY_TIME);
 	this->ui->spinBoxHeaderHeight->setValue(HEADER_HEIGHT);
 	this->ui->spinBoxTeamHeight->setValue(TEAMITEM_HEIGHT);
 	this->ui->spinBoxScrollBelowOffset->setValue(SCROLL_BELOW_OFFSET);
@@ -115,7 +114,6 @@ void SettingsDialog::applyChanges() {
 	settings.setValue("silver", this->ui->spinBoxSilver->value());
 	settings.setValue("bronze", this->ui->spinBoxBronze->value());
 
-	settings.setValue("penaltyTime", this->ui->spinBoxPenalty->value());
 	settings.setValue("headerHeight", this->ui->spinBoxHeaderHeight->value());
 	settings.setValue("teamItemHeight", this->ui->spinBoxTeamHeight->value());
 	settings.setValue("scrollBelowOffset", this->ui->spinBoxScrollBelowOffset->value());

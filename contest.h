@@ -5,24 +5,22 @@
 #ifndef CONTEST_H
 #define CONTEST_H
 
+#include <QJsonObject>
 #include <QObject>
 #include <QDateTime>
 
 namespace DJ {
 namespace Model {
-/** A contest (form the scorebaord).
+/** A contest (from the API).
   */
 class Contest : public QObject {
 	Q_OBJECT
 public:
 	/** Constructs a new contest.
-	  * \param start The start time of this contest.
-	  * \param start The end time of this contest.
-	  * \param start The freeze time of this contest.
-	  * \param id The ID of this contest (must be unique).
+	  * \param contest The contest as returned from the DOMjudge API
 	  * \param parent The parent of this object.
 	  */
-	explicit Contest(QDateTime start, QDateTime end, QDateTime freeze, int id, QObject *parent = 0);
+	explicit Contest(QJsonObject contest, QObject *parent = 0);
 	/** Destructs this contest.
 	  */
 	~Contest();
@@ -44,6 +42,10 @@ public:
 	  * \return The end time of the contest.
 	  */
 	QDateTime getEnd();
+	/** Returns the freeze time of the contest.
+	  * \return The freeze time of the contest.
+	  */
+	QDateTime getUnfreeze();
 	/** Returns the ID of this contest.
 	  * \return The ID of this contest.
 	  */
@@ -52,6 +54,10 @@ public:
 	  * \return The name of this contest.
 	  */
 	QString getName();
+	/** Returns the penalty time in minutes.
+	  * \return The penalty time in minutes.
+	  */
+	int getPenaltyMinutes();
 
 	/** Returns a string representing this contest.
 	  * \return A string representation of this contest.
@@ -61,8 +67,9 @@ public:
 
 private:
 	QString name;
-	QDateTime start, end, freeze;
+	QDateTime start, end, freeze, unfreeze;
 	int id;
+	int penaltyMinutes;
 };
 }
 }

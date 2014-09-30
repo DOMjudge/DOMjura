@@ -1,6 +1,9 @@
 #include "maincontroller.h"
 
 #include <QMessageBox>
+#include <QDebug>
+
+#include "domjudgeapimanager.h"
 
 namespace DJ {
 namespace Controller {
@@ -14,27 +17,12 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	this->resultsWindow = new View::ResultsWindow;
 	this->standingsController = NULL;
 
-	this->readDataController = new ReadDataController(this);
-	this->readDataController->setParentOfMessages(this->mainDialog);
-
-	connect(this->mainDialog, SIGNAL(URLChanged(QString)), this, SLOT(updateURL(QString)));
-	connect(this->mainDialog, SIGNAL(usernameChanged(QString)), this, SLOT(updateUsername(QString)));
-	connect(this->mainDialog, SIGNAL(passwordChanged(QString)), this, SLOT(updatePassword(QString)));
-	connect(this->mainDialog, SIGNAL(switchedToDir()), this, SLOT(switchToDir()));
-	connect(this->mainDialog, SIGNAL(switchedToURL()), this, SLOT(switchToURL()));
-	connect(this->mainDialog, SIGNAL(loadDataClicked()), this, SLOT(loadData()));
-	connect(this->mainDialog, SIGNAL(saveXMLclicked(QString)), this, SLOT(saveXML(QString)));
-	connect(this->mainDialog, SIGNAL(dirChanged(QDir)), this, SLOT(updateDir(QDir)));
-	connect(this->mainDialog, SIGNAL(resultsClicked()), this, SLOT(showResults()));
-
 	connect(this->mainDialog, SIGNAL(aboutClicked()), this->aboutDialog, SLOT(exec()));
-	connect(this->mainDialog, SIGNAL(statsClicked()), this, SLOT(showStats()));
+	connect(this->mainDialog, SIGNAL(testConnectionClicked()), this, SLOT(testConnection()));
 	connect(this->mainDialog, SIGNAL(settingsClicked()), this->settingsDialog, SLOT(exec()));
 
-	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableSave()));
-	connect(this->readDataController, SIGNAL(dataRead()), this, SLOT(enableActions()));
-
-	connect(this->resultsWindow, SIGNAL(newStandingNeeded()), this, SLOT(updateStanding()));
+	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
+	connect(apiManager, SIGNAL(contestDataLoaded(QJsonObject)), this, SLOT(processContestData(QJsonObject)));
 }
 
 MainController::~MainController() {
@@ -50,219 +38,181 @@ void MainController::showMainWindow() {
 	this->mainDialog->show();
 }
 
-void MainController::updateURL(QString url) {
-	this->readDataController->setUrl(url);
+void MainController::testConnection() {
+	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
+	apiManager->setConnectionInfo(this->mainDialog->getProtocol(), this->mainDialog->getURL(), this->mainDialog->getUsername(), this->mainDialog->getPassword());
+	apiManager->loadContestData();
 }
 
-void MainController::updateUsername(QString username) {
-	this->readDataController->setUsername(username);
+void MainController::processContestData(QJsonObject contestData) {
+	Model::Contest *contest = new Model::Contest(contestData);
+	qDebug() << contest->toString();
 }
 
-void MainController::updatePassword(QString password) {
-	this->readDataController->setPassword(password);
+void MainController::processContestLoadError() {
+
 }
 
-void MainController::switchToDir() {
-	this->readDataController->setOfDir(true);
-	this->mainDialog->setSaveXMLEnabled(false);
-	this->mainDialog->setActionsEnabled(false);
-}
+//void MainController::showStats() {
+//	QString stats;
 
-void MainController::switchToURL() {
-	this->readDataController->setOfDir(false);
-	this->mainDialog->setSaveXMLEnabled(false);
-	this->mainDialog->setActionsEnabled(false);
-}
+//	StatsController *statsController = new StatsController(this->readDataController->getScoreboard(), this->readDataController->getEvents());
 
-void MainController::loadData() {
-	this->readDataController->refresh();
-}
+//	stats += "Total number of submissions: " + QString::number(statsController->getTotalSubmissions()) + "\n";
+//	stats += "Total number of correct submissions: " + QString::number(statsController->getTotalCorrect()) + "\n";
+//	for (int i = 0; i < this->readDataController->getScoreboard()->getNumProblems(); i++) {
+//		QString problemid = this->readDataController->getScoreboard()->getProblem(i)->getId();
+//		stats += "\n== Problem " + problemid + " ==\n";
+//		stats += "Number of submissions: " + QString::number(statsController->getNumSubmissionsOfProblem(problemid)) + "\n";
+//		if (statsController->getNumSubmissionsOfProblem(problemid) > 0) {
+//			stats += "Last submission time: " + statsController->getLastSubmission(problemid).toString("dd-MM-yyyy hh:mm:ss") + "\n";
+//		}
+//		stats += "Is solved? " + QString(statsController->problemIsSolved(problemid) ? "Yes" : "No") + "\n";
+//		if (statsController->problemIsSolved(problemid)) {
+//			stats += "First solve time: " + statsController->getFirstSolved(problemid).toString("dd-MM-yyyy hh:mm:ss") + "\n";
+//			stats += "Number of correct submissions: " + QString::number(statsController->getNumCorrectofProblem(problemid)) + "\n";
+//		}
+//	}
 
-void MainController::enableSave() {
-	this->mainDialog->setSaveXMLEnabled(true);
-}
+//	delete statsController;
 
-void MainController::enableActions() {
-	QList<QString> categories;
-	Model::Scoreboard *scoreboard = this->readDataController->getScoreboard();
-	for (int i = 0; i < scoreboard->getNumCategories(); i++) {
-		categories.append(scoreboard->getCategory(i)->getName());
-	}
-	this->mainDialog->setCategories(categories);
-	this->mainDialog->selectParticipantsCategory();
-	this->mainDialog->setActionsEnabled(true);
-}
+//	this->statsDialog->setStats(stats);
+//	this->statsDialog->exec();
+//}
 
-void MainController::saveXML(QString dir) {
-	this->readDataController->saveXML(dir);
-}
+//void MainController::showResults() {
+//	if (this->standingsController) {
+//		delete this->standingsController;
+//		this->standingsController = NULL;
+//	}
+//	this->standingsController = new StandingsController(this->readDataController->getScoreboard(),
+//														this->readDataController->getEvents());
+//	this->standingsController->initStandings(this->mainDialog->getSelectedCategory());
+//	int curRank = 1;
+//	QList<ResultTeam> teams;
+//	QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
+//	for (int i = 0; i < ranking.size(); i++) {
+//		ResultTeam team;
+//		Model::RankedTeam *rankedTeam = ranking.at(i);
+//		team.name = rankedTeam->getName();
+//		team.id = rankedTeam->getId();
+//		team.solved = rankedTeam->getNumSolved();
+//		if (i > 0) {
+//			Model::RankedTeam *prevTeam = ranking.at(i - 1);
+//			if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
+//					&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
+//				team.rank = curRank;
+//			} else {
+//				curRank = i + 1;
+//				team.rank = curRank;
+//			}
+//		} else {
+//			team.rank = 1;
+//			curRank = 1;
+//		}
+//		team.time = rankedTeam->getTotalTime();
+//		QList<ResultProblem> problems;
+//		for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
+//			Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
+//			ResultProblem problem;
+//			problem.numTries = rankedProblem->tries;
+//			problem.state = rankedProblem->problemState;
+//			problem.problemId = rankedProblem->id;
+//			problem.time = rankedProblem->timeLastTry;
+//			problems.append(problem);
+//		}
+//		team.problems = problems;
+//		teams.append(team);
+//	}
+//	this->resultsWindow->stopAnimations();
+//	this->resultsWindow->reload();
+//	this->resultsWindow->setTeams(teams);
+//	this->resultsWindow->showFullScreen();
+//}
 
-void MainController::updateDir(QDir dir) {
-	this->mainDialog->setSaveXMLEnabled(false);
-	this->mainDialog->setActionsEnabled(false);
-	this->readDataController->setDir(dir);
-}
-
-void MainController::showStats() {
-	QString stats;
-
-	StatsController *statsController = new StatsController(this->readDataController->getScoreboard(), this->readDataController->getEvents());
-
-	stats += "Total number of submissions: " + QString::number(statsController->getTotalSubmissions()) + "\n";
-	stats += "Total number of correct submissions: " + QString::number(statsController->getTotalCorrect()) + "\n";
-	for (int i = 0; i < this->readDataController->getScoreboard()->getNumProblems(); i++) {
-		QString problemid = this->readDataController->getScoreboard()->getProblem(i)->getId();
-		stats += "\n== Problem " + problemid + " ==\n";
-		stats += "Number of submissions: " + QString::number(statsController->getNumSubmissionsOfProblem(problemid)) + "\n";
-		if (statsController->getNumSubmissionsOfProblem(problemid) > 0) {
-			stats += "Last submission time: " + statsController->getLastSubmission(problemid).toString("dd-MM-yyyy hh:mm:ss") + "\n";
-		}
-		stats += "Is solved? " + QString(statsController->problemIsSolved(problemid) ? "Yes" : "No") + "\n";
-		if (statsController->problemIsSolved(problemid)) {
-			stats += "First solve time: " + statsController->getFirstSolved(problemid).toString("dd-MM-yyyy hh:mm:ss") + "\n";
-			stats += "Number of correct submissions: " + QString::number(statsController->getNumCorrectofProblem(problemid)) + "\n";
-		}
-	}
-
-	delete statsController;
-
-	this->statsDialog->setStats(stats);
-	this->statsDialog->exec();
-}
-
-void MainController::showResults() {
-	if (this->standingsController) {
-		delete this->standingsController;
-		this->standingsController = NULL;
-	}
-	this->standingsController = new StandingsController(this->readDataController->getScoreboard(),
-														this->readDataController->getEvents());
-	this->standingsController->initStandings(this->mainDialog->getSelectedCategory());
-	int curRank = 1;
-	QList<ResultTeam> teams;
-	QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
-	for (int i = 0; i < ranking.size(); i++) {
-		ResultTeam team;
-		Model::RankedTeam *rankedTeam = ranking.at(i);
-		team.name = rankedTeam->getName();
-		team.id = rankedTeam->getId();
-		team.solved = rankedTeam->getNumSolved();
-		if (i > 0) {
-			Model::RankedTeam *prevTeam = ranking.at(i - 1);
-			if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
-					&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
-				team.rank = curRank;
-			} else {
-				curRank = i + 1;
-				team.rank = curRank;
-			}
-		} else {
-			team.rank = 1;
-			curRank = 1;
-		}
-		team.time = rankedTeam->getTotalTime();
-		QList<ResultProblem> problems;
-		for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
-			Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
-			ResultProblem problem;
-			problem.numTries = rankedProblem->tries;
-			problem.state = rankedProblem->problemState;
-			problem.problemId = rankedProblem->id;
-			problem.time = rankedProblem->timeLastTry;
-			problems.append(problem);
-		}
-		team.problems = problems;
-		teams.append(team);
-	}
-	this->resultsWindow->stopAnimations();
-	this->resultsWindow->reload();
-	this->resultsWindow->setTeams(teams);
-	this->resultsWindow->showFullScreen();
-}
-
-void MainController::updateStanding() {
-	if (this->standingsController->nextStanding()) {
-		QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
-		QList<ResultTeam> teams;
-		int curRank = 1;
-		for (int i = 0; i < ranking.size(); i++) {
-			ResultTeam team;
-			Model::RankedTeam *rankedTeam = ranking.at(i);
-			team.name = rankedTeam->getName();
-			team.id = rankedTeam->getId();
-			team.solved = rankedTeam->getNumSolved();
-			if (i > 0) {
-				Model::RankedTeam *prevTeam = ranking.at(i - 1);
-				if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
-						&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
-					team.rank = curRank;
-				} else {
-					curRank = i + 1;
-					team.rank = curRank;
-				}
-			} else {
-				team.rank = 1;
-				curRank = 1;
-			}
-			team.time = rankedTeam->getTotalTime();
-			QList<ResultProblem> problems;
-			for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
-				Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
-				ResultProblem problem;
-				problem.numTries = rankedProblem->tries;
-				problem.state = rankedProblem->problemState;
-				problem.problemId = rankedProblem->id;
-				problem.time = rankedProblem->timeLastTry;
-				problems.append(problem);
-			}
-			team.problems = problems;
-			teams.append(team);
-		}
-		this->resultsWindow->setTeams(teams, true,
-									  this->standingsController->getLastResolvedTeam(),
-									  this->standingsController->getLastResolvedProblem(),
-									  this->standingsController->getCurrentPos());
-	} else {
-		QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
-		QList<ResultTeam> teams;
-		int curRank = 1;
-		for (int i = 0; i < ranking.size(); i++) {
-			ResultTeam team;
-			Model::RankedTeam *rankedTeam = ranking.at(i);
-			team.name = rankedTeam->getName();
-			team.id = rankedTeam->getId();
-			team.solved = rankedTeam->getNumSolved();
-			if (i > 0) {
-				Model::RankedTeam *prevTeam = ranking.at(i - 1);
-				if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
-						&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
-					team.rank = curRank;
-				} else {
-					curRank = i + 1;
-					team.rank = curRank;
-				}
-			} else {
-				team.rank = 1;
-				curRank = 1;
-			}
-			team.time = rankedTeam->getTotalTime();
-			QList<ResultProblem> problems;
-			for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
-				Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
-				ResultProblem problem;
-				problem.numTries = rankedProblem->tries;
-				problem.state = rankedProblem->problemState;
-				problem.problemId = rankedProblem->id;
-				problem.time = rankedProblem->timeLastTry;
-				problems.append(problem);
-			}
-			team.problems = problems;
-			teams.append(team);
-		}
-		this->resultsWindow->setTeams(teams, false);
-		this->resultsWindow->setResolvDone();
-	}
-}
+//void MainController::updateStanding() {
+//	if (this->standingsController->nextStanding()) {
+//		QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
+//		QList<ResultTeam> teams;
+//		int curRank = 1;
+//		for (int i = 0; i < ranking.size(); i++) {
+//			ResultTeam team;
+//			Model::RankedTeam *rankedTeam = ranking.at(i);
+//			team.name = rankedTeam->getName();
+//			team.id = rankedTeam->getId();
+//			team.solved = rankedTeam->getNumSolved();
+//			if (i > 0) {
+//				Model::RankedTeam *prevTeam = ranking.at(i - 1);
+//				if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
+//						&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
+//					team.rank = curRank;
+//				} else {
+//					curRank = i + 1;
+//					team.rank = curRank;
+//				}
+//			} else {
+//				team.rank = 1;
+//				curRank = 1;
+//			}
+//			team.time = rankedTeam->getTotalTime();
+//			QList<ResultProblem> problems;
+//			for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
+//				Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
+//				ResultProblem problem;
+//				problem.numTries = rankedProblem->tries;
+//				problem.state = rankedProblem->problemState;
+//				problem.problemId = rankedProblem->id;
+//				problem.time = rankedProblem->timeLastTry;
+//				problems.append(problem);
+//			}
+//			team.problems = problems;
+//			teams.append(team);
+//		}
+//		this->resultsWindow->setTeams(teams, true,
+//									  this->standingsController->getLastResolvedTeam(),
+//									  this->standingsController->getLastResolvedProblem(),
+//									  this->standingsController->getCurrentPos());
+//	} else {
+//		QList<Model::RankedTeam *> ranking = this->standingsController->getCurrentRanking();
+//		QList<ResultTeam> teams;
+//		int curRank = 1;
+//		for (int i = 0; i < ranking.size(); i++) {
+//			ResultTeam team;
+//			Model::RankedTeam *rankedTeam = ranking.at(i);
+//			team.name = rankedTeam->getName();
+//			team.id = rankedTeam->getId();
+//			team.solved = rankedTeam->getNumSolved();
+//			if (i > 0) {
+//				Model::RankedTeam *prevTeam = ranking.at(i - 1);
+//				if (rankedTeam->getNumSolved() == prevTeam->getNumSolved()
+//						&& rankedTeam->getTotalTime() == prevTeam->getTotalTime()) {
+//					team.rank = curRank;
+//				} else {
+//					curRank = i + 1;
+//					team.rank = curRank;
+//				}
+//			} else {
+//				team.rank = 1;
+//				curRank = 1;
+//			}
+//			team.time = rankedTeam->getTotalTime();
+//			QList<ResultProblem> problems;
+//			for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
+//				Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
+//				ResultProblem problem;
+//				problem.numTries = rankedProblem->tries;
+//				problem.state = rankedProblem->problemState;
+//				problem.problemId = rankedProblem->id;
+//				problem.time = rankedProblem->timeLastTry;
+//				problems.append(problem);
+//			}
+//			team.problems = problems;
+//			teams.append(team);
+//		}
+//		this->resultsWindow->setTeams(teams, false);
+//		this->resultsWindow->setResolvDone();
+//	}
+//}
 
 } // namespace Controller
 } // namespace DJ

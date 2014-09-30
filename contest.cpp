@@ -1,12 +1,18 @@
 #include "contest.h"
 
+#include <QDebug>
+
 namespace DJ {
 namespace Model {
-Contest::Contest(QDateTime start, QDateTime end, QDateTime freeze, int id, QObject *parent) : QObject(parent) {
-	this->start = start;
-	this->end = end;
-	this->freeze = freeze;
-	this->id = id;
+Contest::Contest(QJsonObject contest, QObject *parent) : QObject(parent) {
+	this->id = contest.value("id").toInt(0);
+	this->name = contest.value("name").toString("Unknown");
+	this->penaltyMinutes = contest.value("penalty").toInt(0) / 60;
+
+	this->start = QDateTime::fromTime_t(qRound(contest.value("start").toString().toDouble(0)));
+	this->freeze = QDateTime::fromTime_t(qRound(contest.value("freeze").toString().toDouble(0)));
+	this->end = QDateTime::fromTime_t(qRound(contest.value("end").toString().toDouble(0)));
+	this->unfreeze = QDateTime::fromTime_t(qRound(contest.value("unfreeze").toString().toDouble(0)));
 }
 
 Contest::~Contest() {
@@ -25,6 +31,10 @@ QDateTime Contest::getFreeze() {
 	return this->freeze;
 }
 
+QDateTime Contest::getUnfreeze() {
+	return this->unfreeze;
+}
+
 QDateTime Contest::getEnd() {
 	return this->end;
 }
@@ -37,13 +47,19 @@ QString Contest::getName() {
 	return this->name;
 }
 
+int Contest::getPenaltyMinutes() {
+	return this->penaltyMinutes;
+}
+
 QString Contest::toString() {
 	QString s;
-	s += "  id     = " + QString::number(this->id) + "\n";
-	s += "  start  = " + this->start.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  freeze = " + this->freeze.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  end    = " + this->end.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  name   = " + this->name + "\n";
+	s += "  id       = " + QString::number(this->id) + "\n";
+	s += "  start    = " + this->start.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+	s += "  freeze   = " + this->freeze.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+	s += "  end      = " + this->end.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+	s += "  unfreeze = " + this->unfreeze.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+	s += "  penalty  = " + QString::number(this->penaltyMinutes) + "\n";
+	s += "  name     = " + this->name + "\n";
 	return s;
 }
 }

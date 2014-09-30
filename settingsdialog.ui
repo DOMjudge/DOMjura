@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
+    <width>642</width>
     <height>723</height>
    </rect>
   </property>
@@ -290,51 +290,13 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Penalty time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QSpinBox" name="spinBoxPenalty">
-           <property name="maximum">
-            <number>9999</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>minutes</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string>Height of header item</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="1" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_8">
          <item>
           <widget class="QSpinBox" name="spinBoxHeaderHeight">
@@ -365,14 +327,14 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_12">
          <property name="text">
           <string>Height of team item</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
           <widget class="QSpinBox" name="spinBoxTeamHeight">
@@ -403,7 +365,7 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
           <string>Space to leave
@@ -411,7 +373,7 @@ below lowest team</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="3" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
           <widget class="QSpinBox" name="spinBoxScrollBelowOffset">
@@ -442,7 +404,7 @@ below lowest team</string>
          </item>
         </layout>
        </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label_14">
          <property name="text">
           <string>Space to leave below
@@ -450,7 +412,7 @@ current resolving team</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="4" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
           <widget class="QSpinBox" name="spinBoxResovOffset">
@@ -481,14 +443,14 @@ current resolving team</string>
          </item>
         </layout>
        </item>
-       <item row="6" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Width of rank column</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="5" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_12">
          <item>
           <widget class="QSpinBox" name="spinBoxRankWidth">
@@ -519,7 +481,7 @@ current resolving team</string>
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_15">
          <property name="text">
           <string>Width of problems
@@ -527,7 +489,7 @@ solved column</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="6" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_13">
          <item>
           <widget class="QSpinBox" name="spinBoxSolvedWidth">
@@ -558,14 +520,14 @@ solved column</string>
          </item>
         </layout>
        </item>
-       <item row="8" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_16">
          <property name="text">
           <string>Width of time column</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="7" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_14">
          <item>
           <widget class="QSpinBox" name="spinBoxTimeWidth">
@@ -596,14 +558,14 @@ solved column</string>
          </item>
         </layout>
        </item>
-       <item row="9" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_17">
          <property name="text">
           <string>Left margin</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
+       <item row="8" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_15">
          <item>
           <widget class="QSpinBox" name="spinBoxLeftMargin">
@@ -634,14 +596,14 @@ solved column</string>
          </item>
         </layout>
        </item>
-       <item row="10" column="0">
+       <item row="9" column="0">
         <widget class="QLabel" name="label_18">
          <property name="text">
           <string>Right margin</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="1">
+       <item row="9" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_16">
          <item>
           <widget class="QSpinBox" name="spinBoxRightMargin">
@@ -672,14 +634,14 @@ solved column</string>
          </item>
         </layout>
        </item>
-       <item row="11" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="label_19">
          <property name="text">
           <string>Legenda offset</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="1">
+       <item row="10" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_17">
          <item>
           <widget class="QSpinBox" name="spinBoxLegendaRight">
@@ -724,7 +686,7 @@ solved column</string>
          </item>
         </layout>
        </item>
-       <item row="12" column="0">
+       <item row="11" column="0">
         <widget class="QLabel" name="label_22">
          <property name="text">
           <string>Horizontal space
@@ -732,7 +694,7 @@ between problems</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="1">
+       <item row="11" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_18">
          <item>
           <widget class="QSpinBox" name="spinBoxProbMargin">
@@ -763,7 +725,7 @@ between problems</string>
          </item>
         </layout>
        </item>
-       <item row="13" column="0">
+       <item row="12" column="0">
         <widget class="QLabel" name="label_23">
          <property name="text">
           <string>Space between
@@ -771,7 +733,7 @@ name and problems</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="1">
+       <item row="12" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_19">
          <item>
           <widget class="QSpinBox" name="spinBoxNameProbsMargin">
@@ -802,14 +764,14 @@ name and problems</string>
          </item>
         </layout>
        </item>
-       <item row="14" column="0">
+       <item row="13" column="0">
         <widget class="QLabel" name="label_24">
          <property name="text">
           <string>Space below problems</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="1">
+       <item row="13" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_20">
          <item>
           <widget class="QSpinBox" name="spinBoxProbsBelowMargin">
@@ -840,14 +802,14 @@ name and problems</string>
          </item>
         </layout>
        </item>
-       <item row="15" column="0">
+       <item row="14" column="0">
         <widget class="QLabel" name="label_54">
          <property name="text">
           <string>Brandig imag offset</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="1">
+       <item row="14" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_33">
          <item>
           <widget class="QSpinBox" name="spinBoxBrandingImagX">
@@ -892,7 +854,7 @@ name and problems</string>
          </item>
         </layout>
        </item>
-       <item row="16" column="0" colspan="2">
+       <item row="15" column="0" colspan="2">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1248,7 +1210,6 @@ name and problems</string>
   <tabstop>spinBoxSilver</tabstop>
   <tabstop>spinBoxBronze</tabstop>
   <tabstop>checkBoxOpenGL</tabstop>
-  <tabstop>spinBoxPenalty</tabstop>
   <tabstop>spinBoxHeaderHeight</tabstop>
   <tabstop>spinBoxTeamHeight</tabstop>
   <tabstop>spinBoxScrollBelowOffset</tabstop>
