@@ -1,9 +1,17 @@
 DOMjura (DOMjudge results application)
 ==================================================
 
-DOMjura is a [DOMjudge](http://domjudge.sourceforge.net/) plugin parser that makes å nice results presentation. Furthermore, it can generate statistics about a programming contest.
+DOMjura is a [DOMjudge](http://domjudge.sourceforge.net/) plugin parser that makes a nice results presentation.
 
-DOMjura is easy to use: you just specify the DOMjudge URL (or use a local saved version of the plugin XML) and you are good to go.
+DOMjura is easy to use: you just specify the DOMjudge URL and you are good to go.
+
+## Requirements
+
+DOMjura now requires the following software:
+
+* Qt5 or higher
+* DOMjudge 4.0.3 or higher or 4.1 or higher
+* The DejaVu Sans Mono font (bold and bold oblique)
 
 ## Compiling
 
@@ -15,9 +23,15 @@ make
 ./DOMjura
 ```
 
-Note that the last line may be different on Mac OS X and Windows
+Note that the last line may be different on Mac OS X and Windows.
+
+## Todo
+
+In the future, DOMjura will support a mode in which one can use it during the contest as a live scorebaord. This is still in the works and is thus disabled in the UI.
 
 ## Screenshots
+
+Note that these screenshots are now outdated, but the general idea still is the same
 
 __The main window__
 
