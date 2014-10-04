@@ -21,6 +21,10 @@
 #include "defines.h"
 
 namespace DJ {
+namespace Model {
+class Contest;
+}
+
 namespace View {
 
 /** The result window. Note this is actually a QGraphicsView.
@@ -43,6 +47,7 @@ public:
 	  */
 	void setTeams(QList<ResultTeam> teams, bool animated = false, int lastResolvedTeam = -1,
 				  int lastResolvedProblem = -1, int currentTeam = -1);
+	void setContest(Model::Contest *contest);
 	/** Stops all running animations and timers.
 	  */
 	void stopAnimations();

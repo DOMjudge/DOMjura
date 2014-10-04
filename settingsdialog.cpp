@@ -34,7 +34,6 @@ void SettingsDialog::on_buttonBox_clicked(QAbstractButton* button) {
 }
 
 void SettingsDialog::reloadSettings() {
-	this->ui->lineEditWinner->setText(WINNER_TEXT);
 	this->ui->lineEditBranding->setText(BRANDING_IMAGE);
 
 	if (!BRANDING_IMAGE.isEmpty()) {
@@ -107,7 +106,6 @@ void SettingsDialog::accept() {
 
 void SettingsDialog::applyChanges() {
 	settings.setValue("brandingImage", this->ui->lineEditBranding->text());
-	settings.setValue("winnerText", this->ui->lineEditWinner->text());
 	settings.setValue("useOpenGL", this->ui->checkBoxOpenGL->isChecked());
 
 	settings.setValue("gold", this->ui->spinBoxGold->value());

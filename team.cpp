@@ -1,31 +1,28 @@
 #include "team.h"
 
+#include <QJsonObject>
+
 #include "category.h"
-#include "affiliation.h"
-#include "scoreboard.h"
 
 namespace DJ {
 namespace Model {
-Team::Team(QString id, QString categoryid, QString affiliationid, QObject *parent) : QObject(parent) {
-	this->id = id;
-	this->categoryid = categoryid;
-	this->affiliationid = affiliationid;
-}
-
-void Team::updateIds(Scoreboard *scoreboard) {
-	this->category = scoreboard->getCategoryById(this->categoryid);
-	this->affiliation = scoreboard->getAffiliationById(this->affiliationid);
-}
-
-void Team::setName(QString name) {
-	this->name = name;
+Team::Team(QJsonObject team, QHash<int, Category *> categories, QObject *parent) : QObject(parent) {
+	this->id = team.value("id").toString("0").toInt();
+	this->name = team.value("name").toString("UNKNOWN");
+	int categoryId = team.value("category").toString("0").toInt();
+	if (categories.contains(categoryId)) {
+		this->category = categories[categoryId];
+		this->category->addTeam(this);
+	} else {
+		this->category = NULL;
+	}
 }
 
 QString Team::getName() {
 	return this->name;
 }
 
-QString Team::getId() {
+int Team::getId() {
 	return this->id;
 }
 
@@ -33,17 +30,11 @@ Category *Team::getCategory() {
 	return this->category;
 }
 
-Affiliation *Team::getAffiliation() {
-	return this->affiliation;
-}
-
 QString Team::toString() {
 	QString s;
-	s += "    id          = " + this->id + "\n";
-	s += "    category    = " + this->category->getId() + " (" + this->category->getName() + ")\n";
-	if (this->affiliation) {
-		s += "    affiliation = " + this->affiliation->getId() + " (" + this->affiliation->getName() + ")\n";
-	}
+	s += "    id          = " + QString::number(this->id) + "\n";
+	s += "    name        = " + this->name + "\n";
+	s += "    category    = " + QString::number(this->category->getId()) + " (" + this->category->getName() + ")\n";
 	return s;
 }
 }

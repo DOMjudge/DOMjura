@@ -1,102 +1,104 @@
 #include "standingscontroller.h"
 
 #include <QSet>
+#include <QDebug>
 
-#include "judgingevent.h"
-#include "submissionevent.h"
+#include "judging.h"
+#include "submission.h"
 
 namespace DJ {
 namespace Controller {
-StandingsController::StandingsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent) : QObject(parent) {
-	this->scoreboard = scoreboard;
-	this->events = events;
+StandingsController::StandingsController(Model::Contest *contest,
+										 QHash<int, Model::Team *> teams,
+										 QHash<int, Model::Problem *> problems,
+										 QList<Model::Judging *> judgings,
+										 QObject *parent) : QObject(parent) {
+	this->contest = contest;
+	this->teams = teams;
+	this->problems = problems;
+	this->judgings = judgings;
 }
 
-void StandingsController::initStandings(QString category) {
-	this->category = category;
+void StandingsController::initStandings() {
 	// First, clear
 	for (int i = 0; i < this->currentRanking.size(); i++) {
 		delete this->currentRanking[i];
 	}
 	this->currentRanking.clear();
 	// Then, add all the teams
-	for (int i = 0; i < this->scoreboard->getNumTeams(); i++) {
-		Model::Team *team = this->scoreboard->getTeam(i);
-		if (team->getCategory() && team->getCategory()->getName() == category) {
-			Model::RankedTeam *rankedTeam = new Model::RankedTeam(team->getId(), team->getName(), this);
-			// For each team, add the problems
-			for (int j = 0; j < this->scoreboard->getNumProblems(); j++) {
-				Model::Problem *problem = this->scoreboard->getProblem(j);
-				Model::RankedProblem *rankedProblem = new Model::RankedProblem();
-				rankedProblem->id = problem->getId();
-				rankedProblem->problemState = NOTSUBMITTED;
-				rankedProblem->tries = 0;
-				rankedProblem->timeLastTry = 0;
-				rankedTeam->setProblem(rankedProblem->id, rankedProblem);
-			}
-			this->currentRanking.append(rankedTeam);
+	QList<Model::Problem *> problems = this->problems.values();
+	qSort(problems.begin(), problems.end(), problemLessThan);
+	foreach (Model::Team *team, this->teams) {
+		Model::RankedTeam *rankedTeam = new Model::RankedTeam(team->getId(), team->getName(), this);
+		// For each team, add the problems
+		foreach (Model::Problem *problem, problems) {
+			Model::RankedProblem *rankedProblem = new Model::RankedProblem();
+			rankedProblem->id = problem->getId();
+			rankedProblem->shortname = problem->getShortName();
+			rankedProblem->problemState = NOTSUBMITTED;
+			rankedProblem->tries = 0;
+			rankedProblem->timeLastTry = 0;
+			rankedTeam->setProblem(rankedProblem->id, rankedProblem, this->contest);
 		}
+		this->currentRanking.append(rankedTeam);
 	}
 
 	// Then, walk through the events
-
 	// To keep track of the processed submissions
-	QSet<QString> processedSubmissions;
-	for (int i = 0; i < this->events->getNumEvents(); i++) {
-		Model::Event *event = this->events->getEvent(i);
+	QSet<int> processedSubmissions;
+	for (int i = 0; i < this->judgings.size(); i++) {
+		Model::Judging *judging = this->judgings.at(i);
+		Model::Submission *submission = judging->getSubmission();
 		// Ignore submission events and events that are too late (because we can use the judging events if we want to)
-		if (event->getType() == Model::JUDGINGEVENT && event->inTime(this->scoreboard)) {
-			Model::JudgingEvent *judgingEvent = (Model::JudgingEvent *)event;
-			Model::SubmissionEvent *submissionEvent = (Model::SubmissionEvent *)judgingEvent->getSubmissionEvent();
-			QString submissionId = submissionEvent->getSubmissionId();
-			QString problemId = submissionEvent->getProblem()->getId();
+		if (submission->inTime(this->contest)) {
+			int submissionId = submission->getId();
+			int problemId = submission->getProblem()->getId();
 			if (processedSubmissions.contains(submissionId)) {
 				// Already processed this, so the only thing that can happen is that it is now correct (or pending correct)
-				Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
+				Model::RankedTeam *team = this->getTeamById(submission->getTeam()->getId());
 				Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
-				if (submissionEvent->isInFreeze()) {
-					if (problem->problemState != PENDING_SOLVED && judgingEvent->isCorrect()) {
+				if (submission->inFreeze(contest)) {
+					if (problem->problemState != PENDING_SOLVED && judging->isCorrect()) {
 						problem->problemState = PENDING_SOLVED;
 					}
 				} else {
-					if (problem->problemState != SOLVED && judgingEvent->isCorrect()) {
+					if (problem->problemState != SOLVED && judging->isCorrect()) {
 						problem->problemState = SOLVED;
 					}
 				}
-				team->setProblem(problemId, problem);
+				team->setProblem(problemId, problem, this->contest);
 			} else {
 				// We always need to consider this event
-				Model::RankedTeam *team = this->getTeamById(submissionEvent->getTeam()->getId());
+				Model::RankedTeam *team = this->getTeamById(submission->getTeam()->getId());
 				if (!team) {
-					// team is of wrong category, skip
 					continue;
 				}
 				Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
 				if (!(problem->problemState == SOLVED || problem->problemState == PENDING_SOLVED)) {
-					if (submissionEvent->isInFreeze()) {
-						if (judgingEvent->isCorrect()) {
+					if (submission->inFreeze(this->contest)) {
+						if (judging->isCorrect()) {
 							problem->problemState = PENDING_SOLVED;
 							problem->tries++;
-							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
+							problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
 						} else {
 							problem->problemState = PENDING_FAILED;
 							problem->tries++;
-							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
+							problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
 						}
 					} else {
-						if (judgingEvent->isCorrect()) {
+						if (judging->isCorrect()) {
 							problem->problemState = SOLVED;
 							problem->tries++;
-							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
+							problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
 						} else {
 							problem->problemState = FAILED;
 							problem->tries++;
-							problem->timeLastTry = (this->scoreboard->getContest()->getStart().secsTo(submissionEvent->getDateTime()) - 0) / 60;
+							problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
 						}
 					}
 				}
 				processedSubmissions.insert(submissionId);
-				team->setProblem(problemId, problem);
+				team->setProblem(problemId, problem, this->contest);
 			}
 		}
 	}
@@ -122,7 +124,7 @@ bool StandingsController::nextStanding() {
 			this->lastResolvedTeam = this->currentPos;
 			this->lastResolvedProblem = this->currentProblem;
 			// Update problem
-			team->setProblem(problem->id, problem);
+			team->setProblem(problem->id, problem, this->contest);
 			qSort(this->currentRanking.begin(), this->currentRanking.end(), rankedTeamLessThan);
 			this->currentProblem = 0;
 			return true;
@@ -152,7 +154,7 @@ int StandingsController::getLastResolvedProblem() {
 QString StandingsController::toString() {
 	int curRank;
 	QString s;
-	s += "Current standings for " + this->category + ":\n";
+	s += "Current standings:\n";
 	for (int i = 0; i < this->currentRanking.size(); i++) {
 		Model::RankedTeam *team = this->currentRanking.at(i);
 		if (i > 0) {
@@ -171,7 +173,7 @@ QString StandingsController::toString() {
 		s += QString::number(team->getNumSolved()) + " " + QString::number(team->getTotalTime()) + "\n";
 		for (int j = 0; j < team->getNumProblems(); j++) {
 			Model::RankedProblem *problem = team->getProblem(j);
-			s += problem->id + ": " + QString::number(problem->tries) + " - " + QString::number(problem->timeLastTry) + " ";
+			s += problem->shortname + ": " + QString::number(problem->tries) + " - " + QString::number(problem->timeLastTry) + " ";
 			switch(problem->problemState) {
 			case NOTSUBMITTED:
 				s += "_";
@@ -195,7 +197,7 @@ QString StandingsController::toString() {
 	return s;
 }
 
-Model::RankedTeam *StandingsController::getTeamById(QString id) {
+Model::RankedTeam *StandingsController::getTeamById(int id) {
 	for (int i = 0; i < this->currentRanking.size(); i++) {
 		Model::RankedTeam *team = this->currentRanking.at(i);
 		if (team->getId() == id) {
@@ -223,6 +225,10 @@ bool rankedTeamLessThan(Model::RankedTeam *team1, Model::RankedTeam *team2) {
 	} else {
 		return team1->getNumSolved() > team2->getNumSolved();
 	}
+}
+
+bool problemLessThan(Model::Problem *problem1, Model::Problem *problem2) {
+	return problem1->getShortName() < problem2->getShortName();
 }
 
 } // namespace Controller

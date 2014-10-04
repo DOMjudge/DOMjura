@@ -1,17 +1,17 @@
 #include "problem.h"
 
+#include <QJsonObject>
+
 namespace DJ {
 namespace Model {
-Problem::Problem(QString id, QColor color, QObject *parent) : QObject(parent) {
-	this->id = id;
-	this->color = color;
+Problem::Problem(QJsonObject problem, QObject *parent) : QObject(parent) {
+	this->id = problem.value("id").toString("0").toInt();
+	this->color = problem.value("color").toString();
+	this->name = problem.value("name").toString("UNKNOWN");
+	this->shortname = problem.value("shortname").toString("?");
 }
 
-void Problem::setName(QString name) {
-	this->name = name;
-}
-
-QString Problem::getId() {
+int Problem::getId() {
 	return this->id;
 }
 
@@ -19,15 +19,20 @@ QString Problem::getName() {
 	return this->name;
 }
 
-QColor Problem::getColor() {
+QString Problem::getShortName() {
+	return this->shortname;
+}
+
+QString Problem::getColor() {
 	return this->color;
 }
 
 QString Problem::toString() {
 	QString s;
-	s += "    id = " + this->id + "\n";
-	s += "    color = " + this->color.name() + "\n";
-	s += "    name  = " + this->name + "\n";
+	s += "       id  = " + QString::number(this->id) + "\n";
+	s += "    color  = " + this->color + "\n";
+	s += "     name  = " + this->name + "\n";
+	s += "shortname  = " + this->shortname + "\n";
 	return s;
 }
 }

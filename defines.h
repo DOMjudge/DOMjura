@@ -22,10 +22,6 @@
 /** Defines how many pixels to leave below the team that is resolved to currently.
   */
 #define RESOLV_BELOW_OFFSET QSettings().value("resolvBelowOffset", 80).toInt()
-
-/** Defines the text to display for the winner.
-  */
-#define WINNER_TEXT QSettings().value("winnerText", "Winner programming contest").toString()
 /** Defines the filename of the branding image.
   */
 #define BRANDING_IMAGE QSettings().value("brandingImage", "").toString()

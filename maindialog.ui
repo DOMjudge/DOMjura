@@ -42,9 +42,9 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="buttonTestConnection">
+         <widget class="QPushButton" name="buttonConnect">
           <property name="text">
-           <string>Test connection</string>
+           <string>Connect</string>
           </property>
          </widget>
         </item>
@@ -116,7 +116,7 @@
         <item row="3" column="2">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>This machine needs the &quot;jury&quot; role on the DOMjudge server. If IP address authentication is used, you can also set up DOMjudge to allow this machine without username and password. In that case, the username and password fields can be left blank.</string>
+           <string>This machine needs the &quot;jury&quot; or &quot;admin&quot; role on the DOMjudge server. If IP address authentication is used, you can also set up DOMjudge to allow this machine without username and password. In that case, the username and password fields can be left blank.</string>
           </property>
           <property name="wordWrap">
            <bool>true</bool>
@@ -131,7 +131,7 @@
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,1">
      <item row="0" column="0">
-      <widget class="QGroupBox" name="groupBoxActions">
+      <widget class="QGroupBox" name="groupBoxContest">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -149,7 +149,7 @@
         <item row="0" column="1">
          <widget class="QLabel" name="labelContestName">
           <property name="text">
-           <string>Penalty time</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -163,7 +163,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="labelContestStart">
           <property name="text">
-           <string>Penalty time</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -177,7 +177,7 @@
         <item row="2" column="1">
          <widget class="QLabel" name="labelContestFreeze">
           <property name="text">
-           <string>Penalty time</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -191,7 +191,7 @@
         <item row="3" column="1">
          <widget class="QLabel" name="labelContestEnd">
           <property name="text">
-           <string>Penalty time</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -205,7 +205,7 @@
         <item row="4" column="1">
          <widget class="QLabel" name="labelContestUnfreeze">
           <property name="text">
-           <string>Penalty time</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -219,7 +219,7 @@
         <item row="5" column="1">
          <widget class="QLabel" name="labelContestPenalty">
           <property name="text">
-           <string>Penalty time</string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -234,7 +234,10 @@
        <property name="title">
         <string>3: Categories to display</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,1">
+       <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,1">
+        <item row="1" column="0">
+         <layout class="QGridLayout" name="gridLayoutCategories"/>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_8">
           <property name="text">
@@ -242,8 +245,18 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <layout class="QGridLayout" name="gridLayoutCategories"/>
+        <item row="2" column="0">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -263,16 +276,22 @@
        <layout class="QGridLayout" name="gridLayout_6" columnstretch="0,1">
         <item row="0" column="0">
          <widget class="QRadioButton" name="radioModeLive">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Live mode</string>
           </property>
           <property name="checked">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
         <item row="0" column="1">
          <widget class="QLabel" name="label_9">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Live mode can be used during the contest. It will display a live scoreboard</string>
           </property>
@@ -280,6 +299,9 @@
         </item>
         <item row="1" column="1">
          <widget class="QCheckBox" name="checkDuringFreeze">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Show submissions during freeze</string>
           </property>
@@ -289,6 +311,9 @@
          <widget class="QRadioButton" name="radioModeResults">
           <property name="text">
            <string>Results mode</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -392,7 +417,7 @@
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditUsername</tabstop>
   <tabstop>lineEditPassword</tabstop>
-  <tabstop>buttonTestConnection</tabstop>
+  <tabstop>buttonConnect</tabstop>
   <tabstop>buttonQuit</tabstop>
   <tabstop>buttonSettings</tabstop>
   <tabstop>buttonAbout</tabstop>
@@ -508,6 +533,54 @@
     <hint type="destinationlabel">
      <x>322</x>
      <y>540</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditURL</sender>
+   <signal>returnPressed()</signal>
+   <receiver>buttonConnect</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>540</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>792</x>
+     <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditUsername</sender>
+   <signal>returnPressed()</signal>
+   <receiver>buttonConnect</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>341</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>827</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditPassword</sender>
+   <signal>returnPressed()</signal>
+   <receiver>buttonConnect</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>524</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>784</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>

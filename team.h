@@ -9,31 +9,19 @@
 
 namespace DJ {
 namespace Model {
-class Scoreboard;
 class Category;
-class Affiliation;
 
-/** A team (from the scoreboard).
+/** A team (from the API).
   */
 class Team : public QObject {
 	Q_OBJECT
 public:
 	/** Constructs a new team.
-	  * \param id The unique ID of this team.
-	  * \param categoryid The ID of the category.
-	  * \param affiliationid The ID of the affiliation.
+	  * \param contest The team as returned from the DOMjudge API
 	  * \param parent The parent of this object.
 	  */
-	explicit Team(QString id, QString categoryid, QString affiliationid, QObject *parent = 0);
-	/** Updates the references (affiliation and category) of this team.
-	  * \param scoreboard The scoreboard to fetch the information from.
-	  */
-	void updateIds(Scoreboard *scoreboard);
+	explicit Team(QJsonObject team, QHash<int, Category *> categories, QObject *parent = 0);
 
-	/** Sets the name of this team.
-	  * \param name The name to set.
-	  */
-	void setName(QString name);
 	/** Returns the name of this team.
 	  * \return The name of this team.
 	  */
@@ -41,15 +29,11 @@ public:
 	/** Returns the ID of this team.
 	  * \return The ID of this team.
 	  */
-	QString getId();
+	int getId();
 	/** Returns the category of this team.
 	  * \return The category of this team.
 	  */
 	Category *getCategory();
-	/** Returns the affiliation of this team.
-	  * \return The affiliation of this team.
-	  */
-	Affiliation *getAffiliation();
 
 	/** Returns a string representing this team.
 	  * \return A string representation of this team.
@@ -58,11 +42,8 @@ public:
 	QString toString();
 
 private:
-	QString id;
-	QString categoryid;
+	int id;
 	Category *category;
-	QString affiliationid;
-	Affiliation* affiliation;
 	QString name;
 
 };

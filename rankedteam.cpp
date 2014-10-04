@@ -2,12 +2,12 @@
 
 namespace DJ {
 namespace Model {
-RankedTeam::RankedTeam(QString id, QString name, QObject *parent) : QObject(parent) {
+RankedTeam::RankedTeam(int id, QString name, QObject *parent) : QObject(parent) {
 	this->id = id;
 	this->name = name;
 }
 
-void RankedTeam::setProblem(QString id, RankedProblem *problem) {
+void RankedTeam::setProblem(int id, RankedProblem *problem, Contest *contest) {
 	if (problemsHash.contains(id)) {
 		// First remove old one
 		int idx = problemsHash[id];
@@ -18,17 +18,17 @@ void RankedTeam::setProblem(QString id, RankedProblem *problem) {
 		problems.append(problem);
 		problemsHash[id] = problems.size() - 1;
 	}
-	this->recalculateData();
+	this->recalculateData(contest);
 }
 
-void RankedTeam::recalculateData() {
+void RankedTeam::recalculateData(Contest *contest) {
 	this->numSolved = 0;
 	this->totalTime = 0;
 	for (int i = 0; i < this->problems.size(); i++) {
 		RankedProblem *problem = this->problems.at(i);
 		if (problem->problemState == SOLVED) {
 			this->numSolved++;
-			this->totalTime += problem->timeLastTry + (20 * (problem->tries - 1));
+			this->totalTime += problem->timeLastTry + (contest->getPenaltyMinutes() * (problem->tries - 1));
 		}
 	}
 }
@@ -45,7 +45,7 @@ QString RankedTeam::getName() {
 	return this->name;
 }
 
-QString RankedTeam::getId() {
+int RankedTeam::getId() {
 	return this->id;
 }
 
@@ -57,7 +57,7 @@ RankedProblem *RankedTeam::getProblem(int i) {
 	return this->problems.at(i);
 }
 
-RankedProblem *RankedTeam::getProblemById(QString id){
+RankedProblem *RankedTeam::getProblemById(int id){
 	return this->problems.at(this->problemsHash[id]);
 }
 } // namespace Model

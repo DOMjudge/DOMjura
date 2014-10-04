@@ -7,9 +7,11 @@
 
 #include <QObject>
 
-#include "scoreboard.h"
-#include "events.h"
 #include "rankedteam.h"
+#include "team.h"
+#include "problem.h"
+#include "judging.h"
+#include "contest.h"
 
 namespace DJ {
 namespace Controller {
@@ -19,15 +21,18 @@ class StandingsController : public QObject {
 	Q_OBJECT
 public:
 	/** Constructs a new standings controller.
-	  * \param scoreboard The scoreboard to use.
-	  * \param events The events to use.
+	  * \param teams The teams to use
+	  * \param problems The problems to use
 	  * \param parent The parent of this object.
 	  */
-	explicit StandingsController(Model::Scoreboard *scoreboard, Model::Events *events, QObject *parent = 0);
+	explicit StandingsController(Model::Contest *contest,
+								 QHash<int, Model::Team *> teams,
+								 QHash<int, Model::Problem *> problems,
+								 QList<Model::Judging *> judgings,
+								 QObject *parent = 0);
 	/** Initializes the standings.
-	  * \param category The category to use for the standings.
 	  */
-	void initStandings(QString category);
+	void initStandings();
 	/** Calculates the next standing.
 	  * \return true if and only if a next standing could be calculated.
 	  * If this value is false, there is no next standing anymore and thus
@@ -55,22 +60,23 @@ public:
 	  * \param id The ID to search for.
 	  * \return The team with the given ID, or NULL if not found.
 	  */
-	Model::RankedTeam *getTeamById(QString id);
+	Model::RankedTeam *getTeamById(int id);
 	/** Returns the current ranking.
 	  * \return The current ranking.
 	  */
 	QList<Model::RankedTeam *> getCurrentRanking();
 
 private:
-	Model::Scoreboard *scoreboard;
-	Model::Events *events;
+	Model::Contest *contest;
+	QHash<int, Model::Team *> teams;
+	QHash<int, Model::Problem *> problems;
+	QList<Model::Judging *> judgings;
 	QList<Model::RankedTeam *> currentRanking;
 	// Helper variable to speed up the searching for the next change
 	int currentPos;
 	int currentProblem;
 	int lastResolvedTeam;
 	int lastResolvedProblem;
-	QString category;
 };
 
 /** Used for sorting the ranking.
@@ -79,6 +85,13 @@ private:
   * \return true if and only if team1 is ranked higher than team2.
   */
 bool rankedTeamLessThan(Model::RankedTeam *team1, Model::RankedTeam *team2);
+
+/** Used for sorting the problems.
+  * \param problem1 The first problem.
+  * \param problem2 The second problem.
+  * \return true if and only if problem1 is less than problem2.
+  */
+bool problemLessThan(Model::Problem *problem1, Model::Problem *problem2);
 } // namespace Controller
 } // namespace DJ
 

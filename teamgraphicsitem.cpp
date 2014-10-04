@@ -22,11 +22,11 @@ TeamGraphicsItem::TeamGraphicsItem(QList<ProblemGraphicsItem *> problemItems, QG
 	this->highlighted = false;
 	this->setCacheMode(DeviceCoordinateCache);
 
-	QFont font("Courier new");
+	QFont font("DejaVu Sans Mono");
 	font.setPixelSize(24);
 	font.setBold(true);
 
-	QFont italicFont("Courier new");
+	QFont italicFont("DejaVu Sans Mono");
 	italicFont.setPixelSize(24);
 	italicFont.setItalic(true);
 	italicFont.setBold(true);
@@ -77,7 +77,7 @@ ProblemGraphicsItem *TeamGraphicsItem::getProblemGraphicsItem(int i) {
 }
 
 void TeamGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                             QWidget *) {
+							 QWidget *) {
 	painter->setClipRect(option->exposedRect);
 	if (this->highlighted) {
 		painter->drawPixmap(0, 0, screenWidth, TEAMITEM_HEIGHT,

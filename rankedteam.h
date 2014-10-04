@@ -9,13 +9,15 @@
 #include <QHash>
 
 #include "defines.h"
+#include "contest.h"
 
 namespace DJ {
 namespace Model {
 /** A ranked problem.
   */
 struct RankedProblem {
-	QString id; /**< The ID of this problem. */
+	int id; /**< The ID of this problem. */
+	QString shortname; /**< The short name of this problem. */
 	ProblemState problemState; /**< The state of this problem. */
 	int tries; /**< The number of tries for this problem. */
 	int timeLastTry; /**< The time of the last try for this problem. */
@@ -25,6 +27,7 @@ struct RankedProblem {
 	RankedProblem *copy() {
 		RankedProblem *c = new RankedProblem();
 		c->id = this->id;
+		c->shortname = this->shortname;
 		c->problemState = this->problemState;
 		c->tries = this->tries;
 		c->timeLastTry = this->timeLastTry;
@@ -42,12 +45,12 @@ public:
 	  * \param name The name of this team.
 	  * \param parent The parent of this object.
 	  */
-	explicit RankedTeam(QString id, QString name, QObject *parent = 0);
+	explicit RankedTeam(int id, QString name, QObject *parent = 0);
 	/** Adds / updates a problem.
 	  * \param id The ID of the problem to add / update.
 	  * \param problem The new problem.
 	  */
-	void setProblem(QString id, RankedProblem *problem);
+	void setProblem(int id, RankedProblem *problem, Contest *contest);
 
 	/** Returns the number of solved problems.
 	  * \return the number of solved problems.
@@ -64,7 +67,7 @@ public:
 	/** Returns the ID of this team.
 	  * \return The ID of this team.
 	  */
-	QString getId();
+	int getId();
 	/** Returns the number of problems.
 	  * \return The number of problems.
 	  */
@@ -79,15 +82,15 @@ public:
 	  * \pre The problem with the specified ID exists.
 	  * \return The problem for the given ID.
 	  */
-	RankedProblem *getProblemById(QString id);
+	RankedProblem *getProblemById(int id);
 
 private:
-	void recalculateData();
+	void recalculateData(Contest *contest);
 
 	QString name;
-	QString id;
+	int id;
 	QList<RankedProblem *> problems;
-	QHash<QString, int> problemsHash;
+	QHash<int, int> problemsHash;
 	int numSolved;
 	int totalTime;
 };

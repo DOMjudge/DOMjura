@@ -5,14 +5,13 @@
 #define MAINCONTROLLER_H
 
 #include <QObject>
+#include <QJsonDocument>
 
 #include "maindialog.h"
 #include "aboutdialog.h"
-#include "statsdialog.h"
 #include "resultswindow.h"
 #include "settingsdialog.h"
 
-#include "statscontroller.h"
 #include "standingscontroller.h"
 
 namespace DJ {
@@ -39,16 +38,28 @@ signals:
 private:
 	View::MainDialog *mainDialog;
 	View::AboutDialog *aboutDialog;
-	View::StatsDialog *statsDialog;
 	View::ResultsWindow *resultsWindow;
 	View::SettingsDialog *settingsDialog;
 
 	StandingsController *standingsController;
+	Model::Contest *contest;
+	QHash<int, Model::Category *> categories;
+	QHash<int, Model::Team *> teams;
+	QHash<int, Model::Problem *> problems;
+	QHash<int, Model::Submission *> submissions;
+	QList<Model::Judging *> judgings;
 
 private slots:
-	void testConnection();
-	void processContestData(QJsonObject contestData);
-	void processContestLoadError();
+	void connectToServer();
+	void processRoles(QJsonDocument roleData);
+	void processContestData(QJsonDocument contestData);
+	void processCategoriesData(QJsonDocument categoriesData);
+	void processTeamData(QJsonDocument teamData);
+	void processProblemData(QJsonDocument problemData);
+	void processSubmissionData(QJsonDocument submissionData);
+	void processJudgingData(QJsonDocument judgingData);
+	void processContestLoadError(QString error);
+	void processEventLoadError(QString error);
 //	void updateURL(QString url);
 //	void updateUsername(QString username);
 //	void updatePassword(QString password);
@@ -60,8 +71,8 @@ private slots:
 //	void enableActions();
 //	void saveXML(QString dir);
 //	void showStats();
-//	void showResults();
-//	void updateStanding();
+	void showResults();
+	void updateStanding();
 
 };
 } // namespace Controller

@@ -14,21 +14,7 @@ namespace View {
 WinnerGraphicsItem::WinnerGraphicsItem(QGraphicsItem *parent) :
 	QObject(), QGraphicsItem(parent) {
 	this->winner = "n2dg";
-	this->textItem1 = new QGraphicsSimpleTextItem(this);
-	this->textItem2 = new QGraphicsSimpleTextItem(this);
-	QFont font("Courier new");
-	font.setPixelSize(75);
-	font.setBold(true);
-	this->textItem1->setFont(font);
-	this->textItem2->setFont(font);
-	this->setCacheMode(DeviceCoordinateCache);
-	QPen pen;
-	pen.setColor(Qt::black);
-	pen.setWidth(3);
-	this->textItem1->setPen(pen);
-	this->textItem1->setBrush(QBrush(Qt::white));
-	this->textItem2->setPen(pen);
-	this->textItem2->setBrush(QBrush(Qt::white));
+	this->reAddItems();
 }
 
 QRectF WinnerGraphicsItem::boundingRect() const {
@@ -37,7 +23,7 @@ QRectF WinnerGraphicsItem::boundingRect() const {
 }
 
 void WinnerGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
-                               QWidget *) {
+							   QWidget *) {
 	QLinearGradient gradient(0, 0, 0, this->boundingRect().height());
 	gradient.setColorAt(0, QColor(111, 81, 19));
 	gradient.setColorAt(0.5, QColor(251, 247, 200));
@@ -47,18 +33,80 @@ void WinnerGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 	painter->setBrush(brush);
 	painter->setPen(Qt::NoPen);
 	painter->drawRect(this->boundingRect());
-	this->textItem1->setText(WINNER_TEXT);
-	this->textItem2->setText(this->winner);
-	QFontMetrics fm(this->textItem1->font());
-	int centerHeight = this->boundingRect().height() / 2;
-	int centerWidth = this->boundingRect().width() / 2;
-	this->textItem1->setPos(centerWidth - fm.width(this->textItem1->text()) / 2, centerHeight - fm.height());
-	this->textItem2->setPos(centerWidth - fm.width(this->textItem2->text()) / 2, centerHeight);
 }
 
 void WinnerGraphicsItem::setWinner(QString text) {
 	update();
 	this->winner = text;
+	this->reAddItems();
+}
+
+void WinnerGraphicsItem::setContestName(QString text) {
+	update();
+	this->contestName = text;
+	this->reAddItems();
+}
+
+void WinnerGraphicsItem::reAddItems() {
+	int centerHeight = this->boundingRect().height() / 2;
+	int centerWidth = this->boundingRect().width() / 2;
+
+	QFont font("DejaVu Sans Mono");
+	font.setPixelSize(75);
+	font.setBold(true);
+	QFontMetrics fm(font);
+
+	QString startingText = "Winner " + this->contestName;
+	QString currentLine = "";
+	int myWidth = this->boundingRect().width();
+	QStringList words = startingText.split(" ");
+	QStringList lines;
+	foreach (QString word, words) {
+		QString proposedLine = currentLine;
+		if (!proposedLine.isEmpty()) {
+			proposedLine += " ";
+		}
+		proposedLine += word;
+		int newWidth = fm.width(proposedLine);
+		if (newWidth <= myWidth) {
+			currentLine = proposedLine;
+		} else {
+			lines.append(currentLine);
+			currentLine = word;
+		}
+	}
+
+	if (!currentLine.isEmpty()) {
+		lines.append(currentLine);
+	}
+
+	lines.append("");
+	lines.append(this->winner);
+
+	qDeleteAll(this->textItems);
+	this->textItems.clear();
+	this->setCacheMode(DeviceCoordinateCache);
+
+	int i = 0;
+	int total = lines.size();
+	foreach (QString line, lines) {
+		QGraphicsSimpleTextItem *textItem = new QGraphicsSimpleTextItem(this);
+		textItem->setFont(font);
+		QPen pen;
+		pen.setColor(Qt::black);
+		pen.setWidth(3);
+		textItem->setPen(pen);
+		textItem->setBrush(QBrush(Qt::white));
+
+		textItem->setText(line);
+
+		int offsetFromCenter = -((total * fm.height()) / 2) + (i * fm.height());
+
+		textItem->setPos(centerWidth - fm.width(textItem->text()) / 2, centerHeight + offsetFromCenter);
+
+		this->textItems.append(textItem);
+		++i;
+	}
 }
 
 } // namespace View

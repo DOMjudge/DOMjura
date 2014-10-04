@@ -6,37 +6,35 @@
 #define PROBLEM_H
 
 #include <QObject>
-#include <QColor>
 
 namespace DJ {
 namespace Model {
-/** A problem (from the scoreboard).
+/** A problem (from the API).
   */
 class Problem : public QObject {
 	Q_OBJECT
 public:
 	/** Constructs a new problem.
-	  * \param id The unique ID of this problem.
-	  * \param color The color for this problem.
+	  * \param problem The problem as returned from the DOMjudge API
 	  * \param parent The parent of this object.
 	  */
-	explicit Problem(QString id, QColor color, QObject *parent = 0);
-	/** Sets the name of this problem.
-	  * \param name The name to set.
-	  */
-	void setName(QString name);
+	explicit Problem(QJsonObject problem, QObject *parent = 0);
 	/** Returns the ID of this problem.
 	  * \return The ID of this problem.
 	  */
-	QString getId();
+	int getId();
 	/** Returns the name of this problem.
 	  * \return The name of this problem.
 	  */
 	QString getName();
+	/** Returns the short name of this problem.
+	  * \return The short name of this problem.
+	  */
+	QString getShortName();
 	/** Returns the color of this problem.
 	  * \return The color of this problem.
 	  */
-	QColor getColor();
+	QString getColor();
 	/** Returns a string representing this problem.
 	  * \return A string representation of this problem.
 	  * Useful for debug printing.
@@ -44,9 +42,10 @@ public:
 	QString toString();
 
 private:
-	QString id;
-	QColor color;
+	int id;
+	QString color;
 	QString name;
+	QString shortname;
 };
 }
 }

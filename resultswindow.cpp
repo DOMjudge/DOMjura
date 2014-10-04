@@ -11,6 +11,7 @@
 
 #include "gradientcache.h"
 #include "defines.h"
+#include "contest.h"
 
 namespace DJ {
 namespace View {
@@ -178,17 +179,17 @@ void ResultsWindow::setTeams(QList<ResultTeam> teams, bool animated, int lastRes
 
 void ResultsWindow::keyPressEvent(QKeyEvent *event) {
 	switch (event->key()) {
-	case Qt::Key_Escape:
-	case Qt::Key_Q:
-	case Qt::Key_X:
-		close();
-		break;
-	case Qt::Key_Enter:
-	case Qt::Key_Return:
-	case Qt::Key_Space:
-		if (this->canDoNextStep) {
-			doNextStep();
-		}
+		case Qt::Key_Escape:
+		case Qt::Key_Q:
+		case Qt::Key_X:
+			close();
+			break;
+		case Qt::Key_Enter:
+		case Qt::Key_Return:
+		case Qt::Key_Space:
+			if (this->canDoNextStep) {
+				doNextStep();
+			}
 	}
 }
 
@@ -307,8 +308,12 @@ void ResultsWindow::doNextStep() {
 		}
 	} else if (this->resolvDone) {
 		this->canDoNextStep = false;
-		ResultTeam winningTeam = this->teams.at(0);
-		this->winnerItem->setWinner(winningTeam.name);
+		if (this->teams.isEmpty()) {
+			this->winnerItem->setWinner("No teams selected");
+		} else {
+			ResultTeam winningTeam = this->teams.at(0);
+			this->winnerItem->setWinner(winningTeam.name);
+		}
 		QPropertyAnimation *winnerAnim = new QPropertyAnimation(this->winnerItem, "opacity");
 		winnerAnim->setDuration(TIME_FOR_WINNER);
 		winnerAnim->setStartValue(0);
@@ -516,6 +521,10 @@ int ResultsWindow::getCurrentResolvIndex() {
 
 ResultTeam ResultsWindow::getResultTeam(int i) {
 	return this->teams.at(i);
+}
+
+void ResultsWindow::setContest(Model::Contest *contest) {
+	this->winnerItem->setContestName(contest->getName());
 }
 
 } // namespace View

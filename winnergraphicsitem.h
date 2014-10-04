@@ -38,11 +38,17 @@ public:
 	  * \param text The text to display.
 	  */
 	void setWinner(QString text);
+	/** Sets the contest name to display.
+	  * \param text The contest name to display.
+	  */
+	void setContestName(QString text);
 
 private:
-	QGraphicsSimpleTextItem *textItem1;
-	QGraphicsSimpleTextItem *textItem2;
+	void reAddItems();
+
+	QList<QGraphicsSimpleTextItem *> textItems;
 	QString winner;
+	QString contestName;
 
 };
 
