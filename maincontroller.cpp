@@ -31,8 +31,8 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	connect(this->mainDialog, &View::MainDialog::startClicked, this, &MainController::showResults);
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	connect(apiManager, &Shared::DomjudgeApiManager::rolesLoaded, this, &MainController::processRoles);
-	connect(apiManager, &Shared::DomjudgeApiManager::roleDataFailedLoading, this, &MainController::processContestLoadError);
+	connect(apiManager, &Shared::DomjudgeApiManager::userLoaded, this, &MainController::processUser);
+	connect(apiManager, &Shared::DomjudgeApiManager::userDataFailedLoading, this, &MainController::processContestLoadError);
 	connect(apiManager, &Shared::DomjudgeApiManager::contestDataLoaded, this, &MainController::processContestData);
 	connect(apiManager, &Shared::DomjudgeApiManager::contestDataFailedLoading, this, &MainController::processContestLoadError);
 	connect(apiManager, &Shared::DomjudgeApiManager::categoriesDataLoaded, this, &MainController::processCategoriesData);
@@ -96,11 +96,12 @@ void MainController::connectToServer() {
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
 	apiManager->setConnectionInfo(this->mainDialog->getProtocol(), this->mainDialog->getURL(), this->mainDialog->getUsername(), this->mainDialog->getPassword());
-	apiManager->loadRoleData();
+	apiManager->loadUserData();
 }
 
-void MainController::processRoles(QJsonDocument roleData) {
-	auto roles = roleData.array();
+void MainController::processUser(QJsonDocument userData) {
+	QJsonObject user = userData.object();
+	QJsonArray roles = user.value("roles").toArray();
 	if (!roles.contains("admin") && !roles.contains("jury")) {
 		this->processContestLoadError("You need at least the jury or admin role. Did you forget to enter a username / password?");
 	} else {
@@ -137,14 +138,12 @@ void MainController::processCategoriesData(QJsonDocument categoriesData) {
 void MainController::processTeamData(QJsonDocument teamData) {
 	foreach (auto teamValue, teamData.array()) {
 		auto teamObject = teamValue.toObject();
-		if (teamObject.value("enabled").toBool(false)) {
-			Model::Team *team = new Model::Team(teamObject, this->categories);
-			if (team->getCategory()) {
-				// Only teams in a category are useful
-				this->teams[team->getId()] = team;
-			} else {
-				delete team;
-			}
+		Model::Team *team = new Model::Team(teamObject, this->categories);
+		if (team->getCategory()) {
+			// Only teams in a category are useful
+			this->teams[team->getId()] = team;
+		} else {
+			delete team;
 		}
 	}
 

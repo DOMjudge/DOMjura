@@ -51,7 +51,7 @@ private:
 
 private slots:
 	void connectToServer();
-	void processRoles(QJsonDocument roleData);
+	void processUser(QJsonDocument userData);
 	void processContestData(QJsonDocument contestData);
 	void processCategoriesData(QJsonDocument categoriesData);
 	void processTeamData(QJsonDocument teamData);

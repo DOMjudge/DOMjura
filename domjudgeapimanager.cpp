@@ -16,9 +16,9 @@ void DomjudgeApiManager::setConnectionInfo(QString protocol, QString url, QStrin
 	this->password = password;
 }
 
-void DomjudgeApiManager::loadRoleData() {
-	DomjudgeApiRequest request("roles");
-	this->roleRequests.append(request);
+void DomjudgeApiManager::loadUserData() {
+	DomjudgeApiRequest request("user");
+	this->userRequests.append(request);
 
 	this->accessManager->get(request);
 }
@@ -106,9 +106,9 @@ void DomjudgeApiManager::replyFinished(QNetworkReply *reply) {
 	DomjudgeApiManager *apiManager = DomjudgeApiManager::sharedApiManager();
 
 	// Process all types of replies
-	if (this->processReply(reply, &apiManager->roleRequests,
-						   &DomjudgeApiManager::roleDataFailedLoading,
-						   &DomjudgeApiManager::rolesLoaded)) {
+	if (this->processReply(reply, &apiManager->userRequests,
+						   &DomjudgeApiManager::userDataFailedLoading,
+						   &DomjudgeApiManager::userLoaded)) {
 		return;
 	}
 	if (this->processReply(reply, &apiManager->contestRequests,

@@ -29,7 +29,7 @@ public:
 	}
 
 	void setConnectionInfo(QString protocol, QString url, QString username, QString password);
-	void loadRoleData();
+	void loadUserData();
 	void loadContestData();
 	void loadCategoriesData();
 	void loadTeamData();
@@ -48,7 +48,7 @@ private:
 	QString protocol, url, username, password;
 	QNetworkAccessManager *accessManager;
 
-	QList<QNetworkRequest> roleRequests;
+	QList<QNetworkRequest> userRequests;
 	QList<QNetworkRequest> contestRequests;
 	QList<QNetworkRequest> categoriesRequests;
 	QList<QNetworkRequest> teamsRequests;
@@ -63,8 +63,8 @@ private:
 					  void(DomjudgeApiManager::*successFunc)(ArgsSuccess...args));
 
 signals:
-	void rolesLoaded(QJsonDocument roles);
-	void roleDataFailedLoading(QString error);
+	void userLoaded(QJsonDocument user);
+	void userDataFailedLoading(QString error);
 
 	void contestDataLoaded(QJsonDocument contestData);
 	void contestDataFailedLoading(QString error);
