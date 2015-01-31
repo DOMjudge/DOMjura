@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QUrlQuery>
 #include <QJsonParseError>
+#include <functional>
 
 namespace DJ
 {
