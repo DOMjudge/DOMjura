@@ -102,7 +102,7 @@ void MainController::connectToServer() {
 void MainController::processUser(QJsonDocument userData) {
 	QJsonObject user = userData.object();
 	QJsonArray roles = user.value("roles").toArray();
-	if (!roles.contains("admin") && !roles.contains("jury")) {
+	if (!roles.contains(QString("admin")) && !roles.contains(QString("jury"))) {
 		this->processContestLoadError("You need at least the jury or admin role. Did you forget to enter a username / password?");
 	} else {
 		Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
