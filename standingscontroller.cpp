@@ -152,7 +152,7 @@ int StandingsController::getLastResolvedProblem() {
 }
 
 QString StandingsController::toString() {
-	int curRank;
+	int curRank = 0;
 	QString s;
 	s += "Current standings:\n";
 	for (int i = 0; i < this->currentRanking.size(); i++) {
