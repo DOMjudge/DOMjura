@@ -32,7 +32,10 @@ void DomjudgeApiManager::loadContestData() {
 }
 
 void DomjudgeApiManager::loadCategoriesData() {
-	DomjudgeApiRequest request("categories");
+	QList<QPair<QString, QString>> arguments;
+	arguments.append(QPair<QString, QString>("public", QString::number(1)));
+
+	DomjudgeApiRequest request("categories", arguments);
 	this->categoriesRequests.append(request);
 
 	this->accessManager->get(request);
@@ -45,8 +48,11 @@ void DomjudgeApiManager::loadTeamData() {
 	this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadProblemData() {
-	DomjudgeApiRequest request("problems");
+void DomjudgeApiManager::loadProblemData(int cid) {
+	QList<QPair<QString, QString>> arguments;
+	arguments.append(QPair<QString, QString>("cid", QString::number(cid)));
+
+	DomjudgeApiRequest request("problems", arguments);
 	this->problemRequests.append(request);
 
 	this->accessManager->get(request);
@@ -149,7 +155,8 @@ bool DomjudgeApiManager::processReply(QNetworkReply *reply,
 									  QList<QNetworkRequest> *requests,
 									  void(DomjudgeApiManager::*errorFunc)(ArgsError...args),
 									  void(DomjudgeApiManager::*successFunc)(ArgsSuccess...args)) {
-	if (requests->contains(reply->request())) {
+	foreach (QNetworkRequest r, *requests) {
+		if (r.url() != reply->url()) continue;
 		DomjudgeApiManager *apiManager = DomjudgeApiManager::sharedApiManager();
 
 		// See if we must do a redirect and if so, do one
