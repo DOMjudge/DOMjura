@@ -125,10 +125,8 @@ void MainController::processContestLoadError(QString error) {
 void MainController::processCategoriesData(QJsonDocument categoriesData) {
 	foreach (auto categoryValue, categoriesData.array()) {
 		auto categoryObject = categoryValue.toObject();
-		if (categoryObject.value("visible").toBool(false)) {
-			Model::Category *category = new Model::Category(categoryObject);
-			this->categories[category->getId()] = category;
-		}
+		Model::Category *category = new Model::Category(categoryObject);
+		this->categories[category->getId()] = category;
 	}
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
@@ -148,7 +146,7 @@ void MainController::processTeamData(QJsonDocument teamData) {
 	}
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	apiManager->loadProblemData();
+	apiManager->loadProblemData(this->contest->getId());
 }
 
 void MainController::processProblemData(QJsonDocument problemData) {

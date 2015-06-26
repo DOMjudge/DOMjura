@@ -33,7 +33,7 @@ public:
 	void loadContestData();
 	void loadCategoriesData();
 	void loadTeamData();
-	void loadProblemData();
+	void loadProblemData(int cid);
 	void loadSubmissions(int fromId = -1);
 	void loadJudgings(int fromId = -1);
 
