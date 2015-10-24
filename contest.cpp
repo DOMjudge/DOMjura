@@ -9,10 +9,10 @@ Contest::Contest(QJsonObject contest, QObject *parent) : QObject(parent) {
 	this->name = contest.value("name").toString("Unknown");
 	this->penaltyMinutes = contest.value("penalty").toInt(0) / 60;
 
-	this->start = QDateTime::fromTime_t(qRound(contest.value("start").toString().toDouble(0)));
-	this->freeze = QDateTime::fromTime_t(qRound(contest.value("freeze").toString().toDouble(0)));
-	this->end = QDateTime::fromTime_t(qRound(contest.value("end").toString().toDouble(0)));
-	this->unfreeze = QDateTime::fromTime_t(qRound(contest.value("unfreeze").toString().toDouble(0)));
+	this->start = QDateTime::fromTime_t(qRound(contest.value("start").toDouble(0)));
+	this->freeze = QDateTime::fromTime_t(qRound(contest.value("freeze").toDouble(0)));
+	this->end = QDateTime::fromTime_t(qRound(contest.value("end").toDouble(0)));
+	this->unfreeze = QDateTime::fromTime_t(qRound(contest.value("unfreeze").toDouble(0)));
 }
 
 Contest::~Contest() {

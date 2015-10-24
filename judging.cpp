@@ -11,8 +11,8 @@ Judging::Judging(QJsonObject judging,
 				 QHash<int, Submission *> submissions,
 				 QObject *parent) : QObject(parent)
 {
-	this->id = judging.value("id").toString("0").toInt();
-	int submissionId = judging.value("submission").toString("0").toInt();
+	this->id = judging.value("id").toInt();
+	int submissionId = judging.value("submission").toInt();
 	if (submissions.contains(submissionId)) {
 		this->submission = submissions[submissionId];
 	} else {

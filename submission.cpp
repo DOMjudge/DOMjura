@@ -13,22 +13,22 @@ Submission::Submission(QJsonObject submission,
 					   QHash<int, Team *> teams,
 					   QHash<int, Problem *> problems,
 					   QObject *parent) : QObject(parent) {
-	this->id = submission.value("id").toString("0").toInt();
-	int problemId = submission.value("problem").toString("0").toInt();
+	this->id = submission.value("id").toInt();
+	int problemId = submission.value("problem").toInt();
 	if (problems.contains(problemId)) {
 		this->problem = problems[problemId];
 	} else {
 		this->problem = NULL;
 	}
 
-	int teamId = submission.value("team").toString("0").toInt();
+	int teamId = submission.value("team").toInt();
 	if (teams.contains(teamId)) {
 		this->team = teams[teamId];
 	} else {
 		this->team = NULL;
 	}
 
-	this->time = QDateTime::fromTime_t(qRound(submission.value("time").toString().toDouble(0)));
+	this->time = QDateTime::fromTime_t(qRound(submission.value("time").toDouble(0)));
 }
 
 int Submission::getId() {
