@@ -7,9 +7,9 @@
 namespace DJ {
 namespace Model {
 Team::Team(QJsonObject team, QHash<int, Category *> categories, QObject *parent) : QObject(parent) {
-	this->id = team.value("id").toString("0").toInt();
+	this->id = team.value("id").toInt();
 	this->name = team.value("name").toString("UNKNOWN");
-	int categoryId = team.value("category").toString("0").toInt();
+	int categoryId = team.value("category").toInt();
 	if (categories.contains(categoryId)) {
 		this->category = categories[categoryId];
 		this->category->addTeam(this);

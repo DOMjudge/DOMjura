@@ -5,7 +5,7 @@
 namespace DJ {
 namespace Model {
 Problem::Problem(QJsonObject problem, QObject *parent) : QObject(parent) {
-	this->id = problem.value("id").toString("0").toInt();
+	this->id = problem.value("id").toInt();
 	this->color = problem.value("color").toString();
 	this->name = problem.value("name").toString("UNKNOWN");
 	this->shortname = problem.value("shortname").toString("?");

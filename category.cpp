@@ -7,7 +7,7 @@
 namespace DJ {
 namespace Model {
 Category::Category(QJsonObject category, QObject *parent) : QObject(parent) {
-	this->id = category.value("categoryid").toString("0").toInt();
+	this->id = category.value("categoryid").toInt();
 	this->color = category.value("color").toString("");
 	this->name = category.value("name").toString("UNKNOWN");
 }
