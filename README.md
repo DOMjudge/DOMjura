@@ -44,3 +44,9 @@ __The settings dialog__
 __The results presentation__
 
 <img width="800" src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Results.png" />
+
+## License
+
+DOMjura is licensed under the [MIT License](LICENSE).
+
+Copyright 2011-2015 Nicky Gerritsen.
