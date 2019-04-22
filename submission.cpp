@@ -10,28 +10,28 @@ namespace DJ {
 namespace Model {
 
 Submission::Submission(QJsonObject submission,
-					   QHash<int, Team *> teams,
-					   QHash<int, Problem *> problems,
+                       QHash<QString, Team *> teams,
+                       QHash<QString, Problem *> problems,
 					   QObject *parent) : QObject(parent) {
-	this->id = submission.value("id").toInt();
-	int problemId = submission.value("problem").toInt();
+    this->id = submission.value("id").toString();
+    QString problemId = submission.value("problem_id").toString();
 	if (problems.contains(problemId)) {
 		this->problem = problems[problemId];
 	} else {
-		this->problem = NULL;
+        this->problem = nullptr;
 	}
 
-	int teamId = submission.value("team").toInt();
+    QString teamId = submission.value("team_id").toString();
 	if (teams.contains(teamId)) {
 		this->team = teams[teamId];
 	} else {
-		this->team = NULL;
+        this->team = nullptr;
 	}
 
-	this->time = QDateTime::fromTime_t(qRound(submission.value("time").toDouble(0)));
+    this->time = QDateTime::fromString(submission.value("time").toString(), Qt::DateFormat::ISODate);
 }
 
-int Submission::getId() {
+QString Submission::getId() {
 	return this->id;
 }
 

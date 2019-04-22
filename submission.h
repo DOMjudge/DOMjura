@@ -15,11 +15,11 @@ class Submission : public QObject
 	Q_OBJECT
 public:
 	explicit Submission(QJsonObject submission,
-						QHash<int, Team *> teams,
-						QHash<int, Problem *> problems,
-						QObject *parent = 0);
+                        QHash<QString, Team *> teams,
+                        QHash<QString, Problem *> problems,
+                        QObject *parent = nullptr);
 
-	int getId();
+    QString getId();
 	Problem *getProblem();
 	Team *getTeam();
 	QDateTime getTime();
@@ -31,7 +31,7 @@ signals:
 public slots:
 
 private:
-	int id;
+    QString id;
 	Problem *problem;
 	Team *team;
 	QDateTime time;

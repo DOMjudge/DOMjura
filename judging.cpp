@@ -8,19 +8,19 @@ namespace DJ {
 namespace Model {
 
 Judging::Judging(QJsonObject judging,
-				 QHash<int, Submission *> submissions,
+                 QHash<QString, Submission *> submissions,
 				 QObject *parent) : QObject(parent)
 {
 	this->id = judging.value("id").toInt();
-	int submissionId = judging.value("submission").toInt();
+    QString submissionId = judging.value("submission_id").toString();
 	if (submissions.contains(submissionId)) {
 		this->submission = submissions[submissionId];
 	} else {
-		this->submission = NULL;
+        this->submission = nullptr;
 	}
 
-	QString outcome = judging.value("outcome").toString("?");
-	this->correct = outcome == "correct";
+    QString outcome = judging.value("judgement_type_id").toString("?");
+    this->correct = outcome == "AC";
 }
 
 int Judging::getId() {

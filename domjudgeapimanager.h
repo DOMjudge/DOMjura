@@ -30,12 +30,11 @@ public:
 
 	void setConnectionInfo(QString protocol, QString url, QString username, QString password);
 	void loadUserData();
-	void loadContestData();
-	void loadCategoriesData();
-	void loadTeamData();
-	void loadProblemData(int cid);
-	void loadSubmissions(int fromId = -1);
-	void loadJudgings(int fromId = -1);
+    void loadContestData(QString contestId);
+    void loadTeamData(QString cid);
+    void loadProblemData(QString cid);
+    void loadSubmissions(QString cid);
+    void loadJudgings(QString cid);
 
 protected:
 	class DomjudgeApiRequest : public QNetworkRequest {
@@ -49,8 +48,7 @@ private:
 	QNetworkAccessManager *accessManager;
 
 	QList<QNetworkRequest> userRequests;
-	QList<QNetworkRequest> contestRequests;
-	QList<QNetworkRequest> categoriesRequests;
+    QList<QNetworkRequest> contestRequests;
 	QList<QNetworkRequest> teamsRequests;
 	QList<QNetworkRequest> problemRequests;
 	QList<QNetworkRequest> submissionRequests;

@@ -42,18 +42,16 @@ private:
 	View::SettingsDialog *settingsDialog;
 
 	StandingsController *standingsController;
-	Model::Contest *contest;
-	QHash<int, Model::Category *> categories;
-	QHash<int, Model::Team *> teams;
-	QHash<int, Model::Problem *> problems;
-	QHash<int, Model::Submission *> submissions;
+    Model::Contest *contest;
+    QHash<QString, Model::Team *> teams;
+    QHash<QString, Model::Problem *> problems;
+    QHash<QString, Model::Submission *> submissions;
 	QList<Model::Judging *> judgings;
 
 private slots:
 	void connectToServer();
 	void processUser(QJsonDocument userData);
-	void processContestData(QJsonDocument contestData);
-	void processCategoriesData(QJsonDocument categoriesData);
+    void processContestData(QJsonDocument contestData);
 	void processTeamData(QJsonDocument teamData);
 	void processProblemData(QJsonDocument problemData);
 	void processSubmissionData(QJsonDocument submissionData);

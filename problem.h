@@ -22,7 +22,7 @@ public:
 	/** Returns the ID of this problem.
 	  * \return The ID of this problem.
 	  */
-	int getId();
+    QString getId();
 	/** Returns the name of this problem.
 	  * \return The name of this problem.
 	  */
@@ -35,6 +35,10 @@ public:
 	  * \return The color of this problem.
 	  */
 	QString getColor();
+    /** Returns the rgb of this problem.
+      * \return The rgb of this problem.
+      */
+    QString getRGB();
 	/** Returns a string representing this problem.
 	  * \return A string representation of this problem.
 	  * Useful for debug printing.
@@ -42,10 +46,11 @@ public:
 	QString toString();
 
 private:
-	int id;
-	QString color;
+    QString id;
 	QString name;
 	QString shortname;
+    QString color;
+    QString rgb;
 };
 }
 }

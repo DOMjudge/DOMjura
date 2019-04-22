@@ -41,15 +41,11 @@ public:
 	/** Returns the end time of the contest.
 	  * \return The end time of the contest.
 	  */
-	QDateTime getEnd();
-	/** Returns the freeze time of the contest.
-	  * \return The freeze time of the contest.
-	  */
-	QDateTime getUnfreeze();
+    QDateTime getEnd();
 	/** Returns the ID of this contest.
 	  * \return The ID of this contest.
 	  */
-	int getId();
+    QString getId();
 	/** Returns the name of this contest.
 	  * \return The name of this contest.
 	  */
@@ -66,10 +62,10 @@ public:
 	QString toString();
 
 private:
+    QString id;
 	QString name;
-	QDateTime start, end, freeze, unfreeze;
-	int id;
-	int penaltyMinutes;
+    QDateTime start_time, end_time, freeze_time;
+    int penaltyMinutes;
 };
 }
 }

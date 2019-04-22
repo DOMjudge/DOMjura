@@ -13,8 +13,8 @@ class Judging : public QObject
 	Q_OBJECT
 public:
 	explicit Judging(QJsonObject judging,
-					 QHash<int, Submission *> submissions,
-					 QObject *parent = 0);
+                     QHash<QString, Submission *> submissions,
+                     QObject *parent = nullptr);
 
 	int getId();
 	Submission *getSubmission();
