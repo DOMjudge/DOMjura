@@ -43,6 +43,7 @@ private:
 
     StandingsController *standingsController;
     Model::Contest *contest;
+    QHash<QString, Model::Group *> groups;
     QHash<QString, Model::Team *> teams;
     QHash<QString, Model::Problem *> problems;
     QHash<QString, Model::Submission *> submissions;
@@ -52,6 +53,7 @@ private slots:
     void connectToServer();
     void processUser(QJsonDocument userData);
     void processContestData(QJsonDocument contestData);
+    void processGroupData(QJsonDocument groupData);
     void processTeamData(QJsonDocument teamData);
     void processProblemData(QJsonDocument problemData);
     void processSubmissionData(QJsonDocument submissionData);
