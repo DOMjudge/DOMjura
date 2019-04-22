@@ -10,23 +10,23 @@ class Submission;
 
 class Judging : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit Judging(QJsonObject judging,
+    explicit Judging(QJsonObject judging,
                      QHash<QString, Submission *> submissions,
                      QObject *parent = nullptr);
 
-	int getId();
-	Submission *getSubmission();
-	bool isCorrect();
+    int getId();
+    Submission *getSubmission();
+    bool isCorrect();
 signals:
 
 public slots:
 
 private:
-	int id;
-	Submission *submission;
-	bool correct;
+    int id;
+    Submission *submission;
+    bool correct;
 };
 
 } // namespace Model

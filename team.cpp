@@ -16,7 +16,7 @@ QString Team::getId() {
 }
 
 QString Team::getName() {
-	return this->name;
+    return this->name;
 }
 
 QString Team::getAffilation() {
@@ -28,12 +28,12 @@ QString Team::getNationality() {
 }
 
 QString Team::toString() {
-	QString s;
+    QString s;
     s += "    id          = " + this->id + "\n";
-	s += "    name        = " + this->name + "\n";
+    s += "    name        = " + this->name + "\n";
     s += "    affilation  = " + this->affilation + "\n";
     s += "    nationality = " + this->nationality + "\n";
-	return s;
+    return s;
 }
 }
 }

@@ -11,27 +11,27 @@ namespace DJ {
 namespace View {
 
 namespace Ui {
-	class AboutDialog;
+    class AboutDialog;
 }
 
 /** The about dialog. This uses a Qt Designer form.
   */
 class AboutDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	/** Construts an about dialog.
-	  * \param parent The parent of this dialog.
-	  */
-	explicit AboutDialog(QWidget *parent = 0);
+    /** Construts an about dialog.
+      * \param parent The parent of this dialog.
+      */
+    explicit AboutDialog(QWidget *parent = nullptr);
 
-	/** Destructs an about dialog.
-	  */
-	~AboutDialog();
+    /** Destructs an about dialog.
+      */
+    ~AboutDialog();
 
 private:
-	Ui::AboutDialog *ui;
+    Ui::AboutDialog *ui;
 };
 
 

@@ -120,42 +120,42 @@ namespace DJ {
 /** State of a problem.
   */
 enum ProblemState {
-	NOTSUBMITTED, /**< Problem is not submitted. */
-	SOLVED, /**< Problem is solved. */
-	FAILED, /**< Problem is submitted, but not solved. */
-	PENDING_SOLVED, /**< Problem is solved, but after the freeze time. */
-	PENDING_FAILED /**< Problem is submitted after the freeze time and not solved. */
+    NOTSUBMITTED, /**< Problem is not submitted. */
+    SOLVED, /**< Problem is solved. */
+    FAILED, /**< Problem is submitted, but not solved. */
+    PENDING_SOLVED, /**< Problem is solved, but after the freeze time. */
+    PENDING_FAILED /**< Problem is submitted after the freeze time and not solved. */
 };
 
 /** What medal this team earned.
   */
 enum Medal {
-	NO_MEDAL, /**< This team earned no medal at al. */
-	GOLD_MEDAL, /**< This team earned a gold medal. */
-	SILVER_MEDAL, /**< This team earned a silver medal. */
-	BRONZE_MEDAL /**< This team earned a bronze medal. */
+    NO_MEDAL, /**< This team earned no medal at al. */
+    GOLD_MEDAL, /**< This team earned a gold medal. */
+    SILVER_MEDAL, /**< This team earned a silver medal. */
+    BRONZE_MEDAL /**< This team earned a bronze medal. */
 };
 
 /** Struct for keeping track of info for a problem.
   * This struct is used in the standings controller.
   */
 struct ResultProblem {
-	ProblemState state; /**< State for this problem. */
-	int numTries; /**< Number of tries for this problem. */
-	int time; /**< Time of the last try. */
-	QString problemId; /**< ID for this problem. */
+    ProblemState state; /**< State for this problem. */
+    int numTries; /**< Number of tries for this problem. */
+    int time; /**< Time of the last try. */
+    QString problemId; /**< ID for this problem. */
 };
 
 /** Struct for keeping track of info for a team.
   * This struct is used in the standings controller.
   */
 struct ResultTeam {
-	QString name; /**< Name of this team. */
-	QString id; /**< ID for this team. */
-	int rank; /**< Current rank of this team. */
-	int solved; /**< How many problems this team solved. */
-	int time; /**< The total time for this team. */
-	QList<ResultProblem> problems; /**< The list of problems for this team. */
+    QString name; /**< Name of this team. */
+    QString id; /**< ID for this team. */
+    int rank; /**< Current rank of this team. */
+    int solved; /**< How many problems this team solved. */
+    int time; /**< The total time for this team. */
+    QList<ResultProblem> problems; /**< The list of problems for this team. */
 };
 }
 

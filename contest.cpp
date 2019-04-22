@@ -6,7 +6,7 @@ namespace DJ {
 namespace Model {
 Contest::Contest(QJsonObject contest, QObject *parent) : QObject(parent) {
     this->id = contest.value("id").toString();
-	this->name = contest.value("name").toString("Unknown");
+    this->name = contest.value("name").toString("Unknown");
     this->penaltyMinutes = contest.value("penalty_time").toInt();
 
     this->start_time = QDateTime::fromString(contest.value("start_time").toString(), Qt::DateFormat::ISODate);
@@ -30,7 +30,7 @@ QString Contest::getId() {
 }
 
 void Contest::setName(QString name) {
-	this->name = name;
+    this->name = name;
 }
 
 QDateTime Contest::getStart() {
@@ -46,22 +46,22 @@ QDateTime Contest::getEnd() {
 }
 
 QString Contest::getName() {
-	return this->name;
+    return this->name;
 }
 
 int Contest::getPenaltyMinutes() {
-	return this->penaltyMinutes;
+    return this->penaltyMinutes;
 }
 
 QString Contest::toString() {
-	QString s;
+    QString s;
     s += "  id       = " + this->id + "\n";
     s += "  start    = " + this->start_time.toString("yyyy-MM-dd hh:mm:ss") + "\n";
     s += "  freeze   = " + this->freeze_time.toString("yyyy-MM-dd hh:mm:ss") + "\n";
     s += "  end      = " + this->end_time.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  penalty  = " + QString::number(this->penaltyMinutes) + "\n";
-	s += "  name     = " + this->name + "\n";
-	return s;
+    s += "  penalty  = " + QString::number(this->penaltyMinutes) + "\n";
+    s += "  name     = " + this->name + "\n";
+    return s;
 }
 }
 }
