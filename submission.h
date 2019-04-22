@@ -12,19 +12,19 @@ class Contest;
 
 class Submission : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit Submission(QJsonObject submission,
+    explicit Submission(QJsonObject submission,
                         QHash<QString, Team *> teams,
                         QHash<QString, Problem *> problems,
                         QObject *parent = nullptr);
 
     QString getId();
-	Problem *getProblem();
-	Team *getTeam();
-	QDateTime getTime();
-	bool inTime(Contest *contest);
-	bool inFreeze(Contest *contest);
+    Problem *getProblem();
+    Team *getTeam();
+    QDateTime getTime();
+    bool inTime(Contest *contest);
+    bool inFreeze(Contest *contest);
 
 signals:
 
@@ -32,9 +32,9 @@ public slots:
 
 private:
     QString id;
-	Problem *problem;
-	Team *team;
-	QDateTime time;
+    Problem *problem;
+    Team *team;
+    QDateTime time;
 
 };
 

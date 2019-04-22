@@ -5,13 +5,13 @@ namespace DJ {
 namespace View {
 
 AboutDialog::AboutDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::AboutDialog) {
-	ui->setupUi(this);
+    QDialog(parent),
+    ui(new Ui::AboutDialog) {
+    ui->setupUi(this);
 }
 
 AboutDialog::~AboutDialog() {
-	delete ui;
+    delete ui;
 }
 
 } // namespace View

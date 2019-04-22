@@ -1,5 +1,5 @@
 /** \file main.cpp
-	\brief The main file for the DOMjura application
+    \brief The main file for the DOMjura application
 */
 
 /** \namespace DJ
@@ -33,16 +33,16 @@
   * \return 0 on success, another value otherwise.
   */
 int main(int argc, char *argv[]) {
-	QApplication a(argc, argv);
-	QApplication::setOrganizationName("Nicky Gerritsen");
-	QApplication::setOrganizationDomain("nickygerritsen.github.com");
-	QApplication::setApplicationName("DOMjura");
-	QApplication::setApplicationVersion("1.0");
+    QApplication a(argc, argv);
+    QApplication::setOrganizationName("Nicky Gerritsen");
+    QApplication::setOrganizationDomain("nickygerritsen.github.com");
+    QApplication::setApplicationName("DOMjura");
+    QApplication::setApplicationVersion("1.0");
 
-	QPixmapCache::setCacheLimit(1024*1024);
+    QPixmapCache::setCacheLimit(1024*1024);
 
-	DJ::Controller::MainController mc;
-	mc.showMainWindow();
+    DJ::Controller::MainController mc;
+    mc.showMainWindow();
 
-	return a.exec();
+    return a.exec();
 }

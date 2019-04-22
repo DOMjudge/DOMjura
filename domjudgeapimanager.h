@@ -16,20 +16,20 @@ namespace Shared
 
 class DomjudgeApiManager : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	static DomjudgeApiManager *sharedApiManager() {
-		static DomjudgeApiManager *_instance = NULL;
+    static DomjudgeApiManager *sharedApiManager() {
+        static DomjudgeApiManager *_instance = NULL;
 
-		if (!_instance) {
-			_instance = new DomjudgeApiManager();
-		}
+        if (!_instance) {
+            _instance = new DomjudgeApiManager();
+        }
 
-		return _instance;
-	}
+        return _instance;
+    }
 
-	void setConnectionInfo(QString protocol, QString url, QString username, QString password);
-	void loadUserData();
+    void setConnectionInfo(QString protocol, QString url, QString username, QString password);
+    void loadUserData();
     void loadContestData(QString contestId);
     void loadTeamData(QString cid);
     void loadProblemData(QString cid);
@@ -37,53 +37,53 @@ public:
     void loadJudgings(QString cid);
 
 protected:
-	class DomjudgeApiRequest : public QNetworkRequest {
-		friend class DomjudgeApiManager;
-		explicit DomjudgeApiRequest(QString method, QList<QPair<QString, QString>> arguments = QList<QPair<QString, QString> >());
-	};
+    class DomjudgeApiRequest : public QNetworkRequest {
+        friend class DomjudgeApiManager;
+        explicit DomjudgeApiRequest(QString method, QList<QPair<QString, QString>> arguments = QList<QPair<QString, QString> >());
+    };
 
 private:
-	explicit DomjudgeApiManager();
-	QString protocol, url, username, password;
-	QNetworkAccessManager *accessManager;
+    explicit DomjudgeApiManager();
+    QString protocol, url, username, password;
+    QNetworkAccessManager *accessManager;
 
-	QList<QNetworkRequest> userRequests;
+    QList<QNetworkRequest> userRequests;
     QList<QNetworkRequest> contestRequests;
-	QList<QNetworkRequest> teamsRequests;
-	QList<QNetworkRequest> problemRequests;
-	QList<QNetworkRequest> submissionRequests;
-	QList<QNetworkRequest> judgingRequests;
+    QList<QNetworkRequest> teamsRequests;
+    QList<QNetworkRequest> problemRequests;
+    QList<QNetworkRequest> submissionRequests;
+    QList<QNetworkRequest> judgingRequests;
 
-	template<typename... ArgsError, typename... ArgsSuccess>
-	bool processReply(QNetworkReply *reply,
-					  QList<QNetworkRequest> *requests,
-					  void(DomjudgeApiManager::*errorFunc)(ArgsError...args),
-					  void(DomjudgeApiManager::*successFunc)(ArgsSuccess...args));
+    template<typename... ArgsError, typename... ArgsSuccess>
+    bool processReply(QNetworkReply *reply,
+                      QList<QNetworkRequest> *requests,
+                      void(DomjudgeApiManager::*errorFunc)(ArgsError...args),
+                      void(DomjudgeApiManager::*successFunc)(ArgsSuccess...args));
 
 signals:
-	void userLoaded(QJsonDocument user);
-	void userDataFailedLoading(QString error);
+    void userLoaded(QJsonDocument user);
+    void userDataFailedLoading(QString error);
 
-	void contestDataLoaded(QJsonDocument contestData);
-	void contestDataFailedLoading(QString error);
+    void contestDataLoaded(QJsonDocument contestData);
+    void contestDataFailedLoading(QString error);
 
-	void categoriesDataLoaded(QJsonDocument data);
-	void categoriesDataFailedLoading(QString error);
+    void categoriesDataLoaded(QJsonDocument data);
+    void categoriesDataFailedLoading(QString error);
 
-	void teamsDataLoaded(QJsonDocument data);
-	void teamsDataFailedLoading(QString error);
+    void teamsDataLoaded(QJsonDocument data);
+    void teamsDataFailedLoading(QString error);
 
-	void problemsDataLoaded(QJsonDocument data);
-	void problemsDataFailedLoading(QString error);
+    void problemsDataLoaded(QJsonDocument data);
+    void problemsDataFailedLoading(QString error);
 
-	void submissionsDataLoaded(QJsonDocument data);
-	void submissionsDataFailedLoading(QString error);
+    void submissionsDataLoaded(QJsonDocument data);
+    void submissionsDataFailedLoading(QString error);
 
-	void judgingsDataLoaded(QJsonDocument data);
-	void judgingsDataFailedLoading(QString error);
+    void judgingsDataLoaded(QJsonDocument data);
+    void judgingsDataFailedLoading(QString error);
 
 private slots:
-	void replyFinished(QNetworkReply *reply);
+    void replyFinished(QNetworkReply *reply);
 
 };
 
