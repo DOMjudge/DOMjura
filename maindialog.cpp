@@ -5,6 +5,7 @@
 #include <QDebug>
 
 #include "contest.h"
+#include "group.h"
 
 namespace DJ {
 namespace View {
@@ -36,6 +37,7 @@ void MainDialog::on_buttonStart_clicked() {
 }
 
 void MainDialog::hideContest() {
+    this->ui->groupBoxGroups->setEnabled(false);
     this->ui->groupBoxContest->setEnabled(false);
     this->ui->groupBoxMode->setEnabled(false);
 
@@ -45,9 +47,16 @@ void MainDialog::hideContest() {
     this->ui->labelContestEnd->setText("");
     this->ui->labelContestPenalty->setText("");
 
+    qDeleteAll(this->groupCheckboxes);
+    this->groupCheckboxes.clear();
+    this->selectedGroupsHash.clear();
 }
 
-void MainDialog::displayContest(Model::Contest *contest) {
+void MainDialog::displayContest(Model::Contest *contest, QHash<QString, Model::Group *> groups) {
+    qDeleteAll(this->groupCheckboxes);
+    this->groupCheckboxes.clear();
+
+    this->ui->groupBoxGroups->setEnabled(true);
     this->ui->groupBoxContest->setEnabled(true);
     this->ui->groupBoxMode->setEnabled(true);
 
@@ -56,6 +65,41 @@ void MainDialog::displayContest(Model::Contest *contest) {
     this->ui->labelContestFreeze->setText(contest->getFreeze().toString("yyyy-MM-dd hh:mm:ss"));
     this->ui->labelContestEnd->setText(contest->getEnd().toString("yyyy-MM-dd hh:mm:ss"));
     this->ui->labelContestPenalty->setText(QString::number(contest->getPenaltyMinutes()) + " minutes");
+
+    int row = 0;
+    foreach (auto group, groups) {
+        QString groupText = group->getName();
+        groupText += " (";
+        int numTeams = group->numTeams();
+        groupText += QString::number(numTeams);
+        groupText += " ";
+        groupText += (numTeams == 1) ? "team)" : "teams)";
+        QCheckBox *checkbox = new QCheckBox(groupText);
+        checkbox->setProperty("group", QVariant::fromValue(group));
+        this->ui->gridLayoutGroups->addWidget(checkbox, row, 0);
+        this->groupCheckboxes.append(checkbox);
+        ++row;
+
+        connect(checkbox, &QCheckBox::clicked, this, &MainDialog::groupCheckboxClicked);
+    }
+}
+
+void MainDialog::groupCheckboxClicked(bool checked) {
+    QCheckBox *sender = (QCheckBox *)this->sender();
+    Model::Group *group = sender->property("group").value<Model::Group *>();
+    if (checked) {
+        this->selectedGroupsHash[group->getId()] = group;
+        this->ui->groupBoxMode->setEnabled(true);
+    } else {
+        this->selectedGroupsHash.remove(group->getId());
+        if (this->selectedGroupsHash.isEmpty()) {
+            this->ui->groupBoxMode->setEnabled(false);
+        }
+    }
+}
+
+QHash<QString, Model::Group *> MainDialog::selectedGroups() {
+    return this->selectedGroupsHash;
 }
 
 QString MainDialog::getProtocol() {

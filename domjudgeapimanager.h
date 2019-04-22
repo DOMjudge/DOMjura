@@ -32,6 +32,7 @@ public:
     void loadUserData();
     void loadContestData(QString contestId);
     void loadTeamData(QString cid);
+    void loadGroupsData(QString cid);
     void loadProblemData(QString cid);
     void loadSubmissions(QString cid);
     void loadJudgings(QString cid);
@@ -50,6 +51,7 @@ private:
     QList<QNetworkRequest> userRequests;
     QList<QNetworkRequest> contestRequests;
     QList<QNetworkRequest> teamsRequests;
+    QList<QNetworkRequest> groupsRequests;
     QList<QNetworkRequest> problemRequests;
     QList<QNetworkRequest> submissionRequests;
     QList<QNetworkRequest> judgingRequests;
@@ -67,8 +69,8 @@ signals:
     void contestDataLoaded(QJsonDocument contestData);
     void contestDataFailedLoading(QString error);
 
-    void categoriesDataLoaded(QJsonDocument data);
-    void categoriesDataFailedLoading(QString error);
+    void groupsDataLoaded(QJsonDocument data);
+    void groupsDataFailedLoading(QString error);
 
     void teamsDataLoaded(QJsonDocument data);
     void teamsDataFailedLoading(QString error);

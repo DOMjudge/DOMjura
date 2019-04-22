@@ -30,6 +30,13 @@ void DomjudgeApiManager::loadContestData(QString cid) {
     this->accessManager->get(request);
 }
 
+void DomjudgeApiManager::loadGroupsData(QString cid) {
+    DomjudgeApiRequest request("contests/" + cid + "/groups");
+    this->groupsRequests.append(request);
+
+    this->accessManager->get(request);
+}
+
 void DomjudgeApiManager::loadTeamData(QString cid) {
     DomjudgeApiRequest request("contests/" + cid + "/teams");
     this->teamsRequests.append(request);
@@ -96,6 +103,11 @@ void DomjudgeApiManager::replyFinished(QNetworkReply *reply) {
     if (this->processReply(reply, &apiManager->contestRequests,
                            &DomjudgeApiManager::contestDataFailedLoading,
                            &DomjudgeApiManager::contestDataLoaded)) {
+        return;
+    }
+    if (this->processReply(reply, &apiManager->groupsRequests,
+                           &DomjudgeApiManager::groupsDataFailedLoading,
+                           &DomjudgeApiManager::groupsDataLoaded)) {
         return;
     }
     if (this->processReply(reply, &apiManager->teamsRequests,

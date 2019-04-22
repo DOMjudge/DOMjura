@@ -32,7 +32,8 @@ SOURCES += main.cpp \
         gradientcache.cpp \
         domjudgeapimanager.cpp \
     submission.cpp \
-    judging.cpp
+    judging.cpp \
+    group.cpp
 
 HEADERS  += problemgraphicsitem.h \
         defines.h \
@@ -53,7 +54,8 @@ HEADERS  += problemgraphicsitem.h \
         gradientcache.h \
         domjudgeapimanager.h \
     submission.h \
-    judging.h
+    judging.h \
+    group.h
 
 FORMS += \
         maindialog.ui \

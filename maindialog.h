@@ -10,6 +10,7 @@
 namespace DJ {
 namespace Model {
 class Contest;
+class Group;
 }
 
 namespace View {
@@ -34,7 +35,7 @@ public:
     /** Constructs a new main dialog and initializes its widgets.
       * \param parent The parent of this widget.
       */
-    explicit MainDialog(QWidget *parent = 0);
+    explicit MainDialog(QWidget *parent = nullptr);
     /** Destructs the main dialog.
       */
     ~MainDialog();
@@ -47,7 +48,8 @@ public:
     DisplayMode getDisplayMode();
 
     void hideContest();
-    void displayContest(Model::Contest *contest);
+    void displayContest(Model::Contest *contest, QHash<QString, Model::Group *> groups);
+    QHash<QString, Model::Group *> selectedGroups();
 
 signals:
     void aboutClicked();
@@ -60,9 +62,12 @@ private slots:
     void on_buttonSettings_clicked();
     void on_buttonConnect_clicked();
     void on_buttonStart_clicked();
+    void groupCheckboxClicked(bool checked);
 
 private:
     Ui::MainDialog *ui;
+    QList<QCheckBox *> groupCheckboxes;
+    QHash<QString, Model::Group *> selectedGroupsHash;
 };
 
 
