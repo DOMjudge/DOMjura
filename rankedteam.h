@@ -16,7 +16,7 @@ namespace Model {
 /** A ranked problem.
   */
 struct RankedProblem {
-	int id; /**< The ID of this problem. */
+    QString id; /**< The ID of this problem. */
 	QString shortname; /**< The short name of this problem. */
 	ProblemState problemState; /**< The state of this problem. */
 	int tries; /**< The number of tries for this problem. */
@@ -45,12 +45,12 @@ public:
 	  * \param name The name of this team.
 	  * \param parent The parent of this object.
 	  */
-	explicit RankedTeam(int id, QString name, QObject *parent = 0);
+    explicit RankedTeam(QString id, QString name, QObject *parent = 0);
 	/** Adds / updates a problem.
 	  * \param id The ID of the problem to add / update.
 	  * \param problem The new problem.
 	  */
-	void setProblem(int id, RankedProblem *problem, Contest *contest);
+    void setProblem(QString id, RankedProblem *problem, Contest *contest);
 
 	/** Returns the number of solved problems.
 	  * \return the number of solved problems.
@@ -67,7 +67,7 @@ public:
 	/** Returns the ID of this team.
 	  * \return The ID of this team.
 	  */
-	int getId();
+    QString getId();
 	/** Returns the number of problems.
 	  * \return The number of problems.
 	  */
@@ -82,15 +82,15 @@ public:
 	  * \pre The problem with the specified ID exists.
 	  * \return The problem for the given ID.
 	  */
-	RankedProblem *getProblemById(int id);
+    RankedProblem *getProblemById(QString id);
 
 private:
 	void recalculateData(Contest *contest);
 
 	QString name;
-	int id;
+    QString id;
 	QList<RankedProblem *> problems;
-	QHash<int, int> problemsHash;
+    QHash<QString, int> problemsHash;
 	int numSolved;
 	int totalTime;
 };

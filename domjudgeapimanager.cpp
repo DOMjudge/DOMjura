@@ -1,6 +1,5 @@
 #include "domjudgeapimanager.h"
 
-#include <QDebug>
 #include <QUrlQuery>
 #include <QJsonParseError>
 #include <functional>
@@ -24,61 +23,37 @@ void DomjudgeApiManager::loadUserData() {
 	this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadContestData() {
-	DomjudgeApiRequest request("contest");
+void DomjudgeApiManager::loadContestData(QString cid) {
+    DomjudgeApiRequest request("contests/" + cid);
 	this->contestRequests.append(request);
 
 	this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadCategoriesData() {
-	QList<QPair<QString, QString>> arguments;
-	arguments.append(QPair<QString, QString>("public", QString::number(1)));
-
-	DomjudgeApiRequest request("categories", arguments);
-	this->categoriesRequests.append(request);
-
-	this->accessManager->get(request);
-}
-
-void DomjudgeApiManager::loadTeamData() {
-	DomjudgeApiRequest request("teams");
+void DomjudgeApiManager::loadTeamData(QString cid) {
+    DomjudgeApiRequest request("contests/" + cid + "/teams");
 	this->teamsRequests.append(request);
 
 	this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadProblemData(int cid) {
-	QList<QPair<QString, QString>> arguments;
-	arguments.append(QPair<QString, QString>("cid", QString::number(cid)));
-
-	DomjudgeApiRequest request("problems", arguments);
+void DomjudgeApiManager::loadProblemData(QString cid) {
+    DomjudgeApiRequest request("contests/" + cid + "/problems");
 	this->problemRequests.append(request);
 
 	this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadSubmissions(int fromId)
-{
-	QList<QPair<QString, QString>> arguments;
-	if (fromId >= 0) {
-		arguments.append(QPair<QString, QString>("fromid", QString::number(fromId)));
-	}
+void DomjudgeApiManager::loadSubmissions(QString cid) {
 
-	DomjudgeApiRequest request("submissions", arguments);
+    DomjudgeApiRequest request("contests/" + cid + "/submissions");
 	this->submissionRequests.append(request);
 
 	this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadJudgings(int fromId)
-{
-	QList<QPair<QString, QString>> arguments;
-	if (fromId >= 0) {
-		arguments.append(QPair<QString, QString>("fromid", QString::number(fromId)));
-	}
-
-	DomjudgeApiRequest request("judgings", arguments);
+void DomjudgeApiManager::loadJudgings(QString cid) {
+    DomjudgeApiRequest request("contests/" + cid + "/judgements");
 	this->judgingRequests.append(request);
 
 	this->accessManager->get(request);
@@ -121,11 +96,6 @@ void DomjudgeApiManager::replyFinished(QNetworkReply *reply) {
 	if (this->processReply(reply, &apiManager->contestRequests,
 						   &DomjudgeApiManager::contestDataFailedLoading,
 						   &DomjudgeApiManager::contestDataLoaded)) {
-		return;
-	}
-	if (this->processReply(reply, &apiManager->categoriesRequests,
-						   &DomjudgeApiManager::categoriesDataFailedLoading,
-						   &DomjudgeApiManager::categoriesDataLoaded)) {
 		return;
 	}
 	if (this->processReply(reply, &apiManager->teamsRequests,

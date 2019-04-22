@@ -9,7 +9,6 @@
 
 namespace DJ {
 namespace Model {
-class Category;
 
 /** A team (from the API).
   */
@@ -20,7 +19,7 @@ public:
 	  * \param contest The team as returned from the DOMjudge API
 	  * \param parent The parent of this object.
 	  */
-	explicit Team(QJsonObject team, QHash<int, Category *> categories, QObject *parent = 0);
+    explicit Team(QJsonObject team, QObject *parent = 0);
 
 	/** Returns the name of this team.
 	  * \return The name of this team.
@@ -29,11 +28,17 @@ public:
 	/** Returns the ID of this team.
 	  * \return The ID of this team.
 	  */
-	int getId();
-	/** Returns the category of this team.
-	  * \return The category of this team.
+    QString getId();
+
+    /** Returns the nationality of this team.
+      * \return The nationality of this team.
 	  */
-	Category *getCategory();
+    QString getNationality();
+
+    /** Returns the affilation of this team.
+      * \return The affilation of this team.
+      */
+    QString getAffilation();
 
 	/** Returns a string representing this team.
 	  * \return A string representation of this team.
@@ -42,9 +47,10 @@ public:
 	QString toString();
 
 private:
-	int id;
-	Category *category;
+    QString id;
 	QString name;
+    QString affilation;
+    QString nationality;
 
 };
 }

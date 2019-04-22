@@ -9,8 +9,8 @@
 namespace DJ {
 namespace Controller {
 StandingsController::StandingsController(Model::Contest *contest,
-										 QHash<int, Model::Team *> teams,
-										 QHash<int, Model::Problem *> problems,
+                                         QHash<QString, Model::Team *> teams,
+                                         QHash<QString, Model::Problem *> problems,
 										 QList<Model::Judging *> judgings,
 										 QObject *parent) : QObject(parent) {
 	this->contest = contest;
@@ -45,14 +45,14 @@ void StandingsController::initStandings() {
 
 	// Then, walk through the events
 	// To keep track of the processed submissions
-	QSet<int> processedSubmissions;
+    QSet<QString> processedSubmissions;
 	for (int i = 0; i < this->judgings.size(); i++) {
 		Model::Judging *judging = this->judgings.at(i);
 		Model::Submission *submission = judging->getSubmission();
 		// Ignore submission events and events that are too late (because we can use the judging events if we want to)
 		if (submission->inTime(this->contest)) {
-			int submissionId = submission->getId();
-			int problemId = submission->getProblem()->getId();
+            QString submissionId = submission->getId();
+            QString problemId = submission->getProblem()->getId();
 			if (processedSubmissions.contains(submissionId)) {
 				// Already processed this, so the only thing that can happen is that it is now correct (or pending correct)
 				Model::RankedTeam *team = this->getTeamById(submission->getTeam()->getId());
@@ -197,14 +197,14 @@ QString StandingsController::toString() {
 	return s;
 }
 
-Model::RankedTeam *StandingsController::getTeamById(int id) {
+Model::RankedTeam *StandingsController::getTeamById(QString id) {
 	for (int i = 0; i < this->currentRanking.size(); i++) {
 		Model::RankedTeam *team = this->currentRanking.at(i);
 		if (team->getId() == id) {
 			return team;
 		}
 	}
-	return NULL;
+    return nullptr;
 }
 
 QList<Model::RankedTeam *> StandingsController::getCurrentRanking() {

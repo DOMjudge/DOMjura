@@ -10,7 +10,6 @@
 namespace DJ {
 namespace Model {
 class Contest;
-class Category;
 }
 
 namespace View {
@@ -44,12 +43,11 @@ public:
 	QString getURL();
 	QString getUsername();
 	QString getPassword();
+    QString getContestId();
 	DisplayMode getDisplayMode();
 
 	void hideContest();
-	void displayContest(Model::Contest *contest, QHash<int, Model::Category *> categories);
-
-	QHash<int, Model::Category *> selectedCategories();
+    void displayContest(Model::Contest *contest);
 
 signals:
 	void aboutClicked();
@@ -61,14 +59,10 @@ private slots:
 	void on_buttonAbout_clicked();
 	void on_buttonSettings_clicked();
 	void on_buttonConnect_clicked();
-	void on_buttonStart_clicked();
-	void categoryCheckboxClicked(bool checked);
+    void on_buttonStart_clicked();
 
 private:
 	Ui::MainDialog *ui;
-
-	QList<QCheckBox *> categoryCheckboxes;
-	QHash<int, Model::Category *> selectedCategoriesHash;
 };
 
 

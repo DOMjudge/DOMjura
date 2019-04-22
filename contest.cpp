@@ -5,18 +5,28 @@
 namespace DJ {
 namespace Model {
 Contest::Contest(QJsonObject contest, QObject *parent) : QObject(parent) {
-	this->id = contest.value("id").toInt(0);
+    this->id = contest.value("id").toString();
 	this->name = contest.value("name").toString("Unknown");
-	this->penaltyMinutes = contest.value("penalty").toInt(0) / 60;
+    this->penaltyMinutes = contest.value("penalty_time").toInt();
 
-	this->start = QDateTime::fromTime_t(qRound(contest.value("start").toDouble(0)));
-	this->freeze = QDateTime::fromTime_t(qRound(contest.value("freeze").toDouble(0)));
-	this->end = QDateTime::fromTime_t(qRound(contest.value("end").toDouble(0)));
-	this->unfreeze = QDateTime::fromTime_t(qRound(contest.value("unfreeze").toDouble(0)));
+    this->start_time = QDateTime::fromString(contest.value("start_time").toString(), Qt::DateFormat::ISODate);
+    this->end_time = QDateTime::fromString(contest.value("end_time").toString(), Qt::DateFormat::ISODate);
+    this->freeze_time = QDateTime(this->end_time);
+
+    QString freeze_duration = contest.value("scoreboard_freeze_duration").toString();
+    freeze_duration = freeze_duration.size() < 12 ? "0" + freeze_duration : freeze_duration;
+    QTime freeze = QTime::fromString(freeze_duration, Qt::ISODateWithMs);
+    this->freeze_time.setTime(QTime(this->freeze_time.time().hour()-freeze.hour(),
+                                    this->freeze_time.time().minute()-freeze.minute(),
+                                    this->freeze_time.time().second()-freeze.second()));
 }
 
 Contest::~Contest() {
 
+}
+
+QString Contest::getId() {
+    return this->id;
 }
 
 void Contest::setName(QString name) {
@@ -24,23 +34,15 @@ void Contest::setName(QString name) {
 }
 
 QDateTime Contest::getStart() {
-	return this->start;
+    return this->start_time;
 }
 
 QDateTime Contest::getFreeze() {
-	return this->freeze;
-}
-
-QDateTime Contest::getUnfreeze() {
-	return this->unfreeze;
+    return this->freeze_time;
 }
 
 QDateTime Contest::getEnd() {
-	return this->end;
-}
-
-int Contest::getId() {
-	return this->id;
+    return this->end_time;
 }
 
 QString Contest::getName() {
@@ -53,11 +55,10 @@ int Contest::getPenaltyMinutes() {
 
 QString Contest::toString() {
 	QString s;
-	s += "  id       = " + QString::number(this->id) + "\n";
-	s += "  start    = " + this->start.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  freeze   = " + this->freeze.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  end      = " + this->end.toString("yyyy-MM-dd hh:mm:ss") + "\n";
-	s += "  unfreeze = " + this->unfreeze.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+    s += "  id       = " + this->id + "\n";
+    s += "  start    = " + this->start_time.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+    s += "  freeze   = " + this->freeze_time.toString("yyyy-MM-dd hh:mm:ss") + "\n";
+    s += "  end      = " + this->end_time.toString("yyyy-MM-dd hh:mm:ss") + "\n";
 	s += "  penalty  = " + QString::number(this->penaltyMinutes) + "\n";
 	s += "  name     = " + this->name + "\n";
 	return s;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>773</height>
+    <width>900</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,251 +19,268 @@
   <property name="windowTitle">
    <string>DOMjura</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_8">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>1: Source</string>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="horizontalGroupBox">
+     <property name="enabled">
+      <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="1" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="buttonConnect">
-          <property name="text">
-           <string>Connect</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="maximumSize">
+         <size>
+          <width>526</width>
+          <height>256</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>1: Source</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="1" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="buttonConnect">
+             <property name="text">
+              <string>Connect</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="1">
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="3" column="0" alignment="Qt::AlignRight">
+            <widget class="QLabel" name="labelContestId">
+             <property name="text">
+              <string>Contest Id</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLineEdit" name="lineEditURL"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="labelDOMjudgePath">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="text">
+                <string>/api</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="labelPassword">
+             <property name="text">
+              <string>Password</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="lineEditPassword">
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLineEdit" name="lineEditUsername"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QComboBox" name="comboProtocol">
+             <item>
+              <property name="text">
+               <string>http://</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>https://</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="lineEditContestId"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="labelUsername">
+             <property name="text">
+              <string>Username</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLabel" name="label_2">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>29</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This machine needs the &amp;quot;jury&amp;quot; or &amp;quot;admin&amp;quot; role on the DOMjudge server.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
       </item>
-      <item row="0" column="1">
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEditPassword">
-          <property name="echoMode">
-           <enum>QLineEdit::Password</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="labelPassword">
-          <property name="text">
-           <string>Password</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="labelUsername">
-          <property name="text">
-           <string>Username</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEditUsername"/>
-        </item>
-        <item row="0" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLineEdit" name="lineEditURL"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelDOMjudgePath">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>/api</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0">
-         <widget class="QComboBox" name="comboProtocol">
-          <item>
-           <property name="text">
-            <string>http://</string>
+      <item>
+       <widget class="QGroupBox" name="groupBoxContest">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="title">
+         <string>2: Contest information</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>16777215</height>
+            </size>
            </property>
-          </item>
-          <item>
            <property name="text">
-            <string>https://</string>
+            <string>Name</string>
            </property>
-          </item>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>This machine needs the &quot;jury&quot; or &quot;admin&quot; role on the DOMjudge server. If IP address authentication is used, you can also set up DOMjudge to allow this machine without username and password. In that case, the username and password fields can be left blank.</string>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Penalty time</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>End</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Start</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="labelContestName">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="labelContestFreeze">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="labelContestStart">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="labelContestPenalty">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Freeze</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="labelContestEnd">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,1">
-     <item row="0" column="0">
-      <widget class="QGroupBox" name="groupBoxContest">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="title">
-        <string>2: Contest information</string>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Name</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="labelContestName">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Start</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="labelContestStart">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Freeze</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLabel" name="labelContestFreeze">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>End</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLabel" name="labelContestEnd">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Unfreeze</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="labelContestUnfreeze">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Penalty time</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLabel" name="labelContestPenalty">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QGroupBox" name="groupBoxCategories">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="title">
-        <string>3: Categories to display</string>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,1">
-        <item row="1" column="0">
-         <layout class="QGridLayout" name="gridLayoutCategories"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Select the categories to display</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0">
+   <item>
     <widget class="QGroupBox" name="groupBoxMode">
      <property name="enabled">
       <bool>false</bool>
@@ -359,7 +376,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -372,7 +389,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer">
@@ -388,13 +405,6 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="buttonQuit">
-       <property name="text">
-        <string>Quit</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="buttonSettings">
        <property name="text">
         <string>Settings</string>
@@ -408,6 +418,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="buttonQuit">
+       <property name="text">
+        <string>Quit</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -417,8 +434,12 @@
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditUsername</tabstop>
   <tabstop>lineEditPassword</tabstop>
+  <tabstop>lineEditContestId</tabstop>
   <tabstop>buttonConnect</tabstop>
-  <tabstop>buttonQuit</tabstop>
+  <tabstop>radioModeLive</tabstop>
+  <tabstop>checkDuringFreeze</tabstop>
+  <tabstop>radioModeResults</tabstop>
+  <tabstop>buttonStart</tabstop>
   <tabstop>buttonSettings</tabstop>
   <tabstop>buttonAbout</tabstop>
  </tabstops>
@@ -431,7 +452,7 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>690</x>
+     <x>870</x>
      <y>760</y>
     </hint>
     <hint type="destinationlabel">
@@ -447,12 +468,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>482</y>
+     <x>125</x>
+     <y>330</y>
     </hint>
     <hint type="destinationlabel">
-     <x>218</x>
-     <y>503</y>
+     <x>482</x>
+     <y>358</y>
     </hint>
    </hints>
   </connection>
@@ -463,12 +484,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>92</x>
-     <y>541</y>
+     <x>122</x>
+     <y>386</y>
     </hint>
     <hint type="destinationlabel">
-     <x>262</x>
-     <y>506</y>
+     <x>526</x>
+     <y>358</y>
     </hint>
    </hints>
   </connection>
@@ -479,12 +500,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>116</x>
-     <y>479</y>
+     <x>125</x>
+     <y>330</y>
     </hint>
     <hint type="destinationlabel">
-     <x>198</x>
-     <y>479</y>
+     <x>462</x>
+     <y>330</y>
     </hint>
    </hints>
   </connection>
@@ -495,12 +516,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>487</y>
+     <x>125</x>
+     <y>330</y>
     </hint>
     <hint type="destinationlabel">
-     <x>212</x>
-     <y>544</y>
+     <x>476</x>
+     <y>386</y>
     </hint>
    </hints>
   </connection>
@@ -511,12 +532,12 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>113</x>
-     <y>536</y>
+     <x>125</x>
+     <y>386</y>
     </hint>
     <hint type="destinationlabel">
-     <x>388</x>
-     <y>477</y>
+     <x>652</x>
+     <y>330</y>
     </hint>
    </hints>
   </connection>
@@ -527,12 +548,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>130</x>
-     <y>536</y>
+     <x>125</x>
+     <y>386</y>
     </hint>
     <hint type="destinationlabel">
-     <x>322</x>
-     <y>540</y>
+     <x>586</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditContestId</sender>
+   <signal>returnPressed()</signal>
+   <receiver>buttonConnect</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>592</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>699</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -543,28 +580,12 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>540</x>
-     <y>49</y>
+     <x>649</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
-     <x>792</x>
-     <y>209</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>lineEditUsername</sender>
-   <signal>returnPressed()</signal>
-   <receiver>buttonConnect</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>341</x>
-     <y>80</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>827</x>
-     <y>202</y>
+     <x>699</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>
@@ -575,12 +596,28 @@
    <slot>click()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>524</x>
-     <y>111</y>
+     <x>699</x>
+     <y>151</y>
     </hint>
     <hint type="destinationlabel">
-     <x>784</x>
-     <y>199</y>
+     <x>699</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditUsername</sender>
+   <signal>returnPressed()</signal>
+   <receiver>buttonConnect</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>449</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>699</x>
+     <y>255</y>
     </hint>
    </hints>
   </connection>

@@ -26,10 +26,10 @@ public:
 	  * \param parent The parent of this object.
 	  */
 	explicit StandingsController(Model::Contest *contest,
-								 QHash<int, Model::Team *> teams,
-								 QHash<int, Model::Problem *> problems,
+                                 QHash<QString, Model::Team *> teams,
+                                 QHash<QString, Model::Problem *> problems,
 								 QList<Model::Judging *> judgings,
-								 QObject *parent = 0);
+                                 QObject *parent = nullptr);
 	/** Initializes the standings.
 	  */
 	void initStandings();
@@ -60,7 +60,7 @@ public:
 	  * \param id The ID to search for.
 	  * \return The team with the given ID, or NULL if not found.
 	  */
-	Model::RankedTeam *getTeamById(int id);
+    Model::RankedTeam *getTeamById(QString id);
 	/** Returns the current ranking.
 	  * \return The current ranking.
 	  */
@@ -68,8 +68,8 @@ public:
 
 private:
 	Model::Contest *contest;
-	QHash<int, Model::Team *> teams;
-	QHash<int, Model::Problem *> problems;
+    QHash<QString, Model::Team *> teams;
+    QHash<QString, Model::Problem *> problems;
 	QList<Model::Judging *> judgings;
 	QList<Model::RankedTeam *> currentRanking;
 	// Helper variable to speed up the searching for the next change

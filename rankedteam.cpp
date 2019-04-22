@@ -2,12 +2,12 @@
 
 namespace DJ {
 namespace Model {
-RankedTeam::RankedTeam(int id, QString name, QObject *parent) : QObject(parent) {
+RankedTeam::RankedTeam(QString id, QString name, QObject *parent) : QObject(parent) {
 	this->id = id;
 	this->name = name;
 }
 
-void RankedTeam::setProblem(int id, RankedProblem *problem, Contest *contest) {
+void RankedTeam::setProblem(QString id, RankedProblem *problem, Contest *contest) {
 	if (problemsHash.contains(id)) {
 		// First remove old one
 		int idx = problemsHash[id];
@@ -45,7 +45,7 @@ QString RankedTeam::getName() {
 	return this->name;
 }
 
-int RankedTeam::getId() {
+QString RankedTeam::getId() {
 	return this->id;
 }
 
@@ -57,7 +57,7 @@ RankedProblem *RankedTeam::getProblem(int i) {
 	return this->problems.at(i);
 }
 
-RankedProblem *RankedTeam::getProblemById(int id){
+RankedProblem *RankedTeam::getProblemById(QString id){
 	return this->problems.at(this->problemsHash[id]);
 }
 } // namespace Model

@@ -1,5 +1,5 @@
 #include "maincontroller.h"
-
+#include <iostream>
 #include <QMessageBox>
 #include <QDebug>
 
@@ -7,11 +7,12 @@
 
 #include "domjudgeapimanager.h"
 #include "contest.h"
-#include "category.h"
 #include "team.h"
 #include "problem.h"
 #include "submission.h"
 #include "judging.h"
+
+using namespace std;
 
 namespace DJ {
 namespace Controller {
@@ -22,8 +23,8 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	this->aboutDialog = new View::AboutDialog(this->mainDialog);
 	this->settingsDialog = new View::SettingsDialog(this->mainDialog);
 	this->resultsWindow = new View::ResultsWindow;
-	this->standingsController = NULL;
-	this->contest = NULL;
+    this->standingsController = nullptr;
+    this->contest = nullptr;
 
 	connect(this->mainDialog, &View::MainDialog::aboutClicked, this->aboutDialog, &View::AboutDialog::exec);
 	connect(this->mainDialog, &View::MainDialog::connectClicked, this, &MainController::connectToServer);
@@ -34,9 +35,7 @@ MainController::MainController(QObject *parent) : QObject(parent) {
 	connect(apiManager, &Shared::DomjudgeApiManager::userLoaded, this, &MainController::processUser);
 	connect(apiManager, &Shared::DomjudgeApiManager::userDataFailedLoading, this, &MainController::processContestLoadError);
 	connect(apiManager, &Shared::DomjudgeApiManager::contestDataLoaded, this, &MainController::processContestData);
-	connect(apiManager, &Shared::DomjudgeApiManager::contestDataFailedLoading, this, &MainController::processContestLoadError);
-	connect(apiManager, &Shared::DomjudgeApiManager::categoriesDataLoaded, this, &MainController::processCategoriesData);
-	connect(apiManager, &Shared::DomjudgeApiManager::categoriesDataFailedLoading, this, &MainController::processContestLoadError);
+    connect(apiManager, &Shared::DomjudgeApiManager::contestDataFailedLoading, this, &MainController::processContestLoadError);
 	connect(apiManager, &Shared::DomjudgeApiManager::teamsDataLoaded, this, &MainController::processTeamData);
 	connect(apiManager, &Shared::DomjudgeApiManager::teamsDataFailedLoading, this, &MainController::processContestLoadError);
 	connect(apiManager, &Shared::DomjudgeApiManager::problemsDataLoaded, this, &MainController::processProblemData);
@@ -55,7 +54,7 @@ MainController::~MainController() {
 	delete this->mainDialog;
 	if (this->standingsController) {
 		delete this->standingsController;
-		this->standingsController = NULL;
+        this->standingsController = nullptr;
 	}
 }
 
@@ -66,17 +65,12 @@ void MainController::showMainWindow() {
 void MainController::connectToServer() {
 	if (this->contest) {
 		delete this->contest;
-		this->contest = NULL;
+        this->contest = nullptr;
 	}
 
 	if (!this->teams.empty()) {
 		qDeleteAll(this->teams);
 		this->teams.clear();
-	}
-
-	if (!this->categories.empty()) {
-		qDeleteAll(this->categories);
-		this->categories.clear();
 	}
 
 	if (!this->problems.empty()) {
@@ -106,14 +100,14 @@ void MainController::processUser(QJsonDocument userData) {
 		this->processContestLoadError("You need at least the jury or admin role. Did you forget to enter a username / password?");
 	} else {
 		Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-		apiManager->loadContestData();
+        apiManager->loadContestData(this->mainDialog->getContestId());
 	}
 }
 
 void MainController::processContestData(QJsonDocument contestData) {
 	this->contest = new Model::Contest(contestData.object());
-	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	apiManager->loadCategoriesData();
+    Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
+    apiManager->loadTeamData(this->mainDialog->getContestId());
 }
 
 void MainController::processContestLoadError(QString error) {
@@ -122,31 +116,17 @@ void MainController::processContestLoadError(QString error) {
 	this->mainDialog->hideContest();
 }
 
-void MainController::processCategoriesData(QJsonDocument categoriesData) {
-	foreach (auto categoryValue, categoriesData.array()) {
-		auto categoryObject = categoryValue.toObject();
-		Model::Category *category = new Model::Category(categoryObject);
-		this->categories[category->getId()] = category;
-	}
-
-	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	apiManager->loadTeamData();
-}
-
 void MainController::processTeamData(QJsonDocument teamData) {
 	foreach (auto teamValue, teamData.array()) {
 		auto teamObject = teamValue.toObject();
-		Model::Team *team = new Model::Team(teamObject, this->categories);
-		if (team->getCategory()) {
-			// Only teams in a category are useful
-			this->teams[team->getId()] = team;
-		} else {
-			delete team;
-		}
+        Model::Team *team = new Model::Team(teamObject);
+        this->teams[team->getId()] = team;
 	}
+    cout << teamData.array().size() << endl;
+    cout << this->teams.size() << endl;
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	apiManager->loadProblemData(this->contest->getId());
+    apiManager->loadProblemData(this->mainDialog->getContestId());
 }
 
 void MainController::processProblemData(QJsonDocument problemData) {
@@ -156,7 +136,7 @@ void MainController::processProblemData(QJsonDocument problemData) {
 		this->problems[problem->getId()] = problem;
 	}
 
-	this->mainDialog->displayContest(this->contest, this->categories);
+    this->mainDialog->displayContest(this->contest);
 }
 
 void MainController::processEventLoadError(QString error) {
@@ -177,14 +157,14 @@ void MainController::processSubmissionData(QJsonDocument submissionData) {
 	}
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	apiManager->loadJudgings();
+    apiManager->loadJudgings(this->mainDialog->getContestId());
 }
 
-void MainController::processJudgingData(QJsonDocument judgingData) {
+void MainController::   processJudgingData(QJsonDocument judgingData) {
 	foreach (QJsonValue judgingValue, judgingData.array()) {
 		QJsonObject judgingObject = judgingValue.toObject();
 		Model::Judging *judging = new Model::Judging(judgingObject,
-													 this->submissions);
+                                                     this->submissions);
 		if (judging->getSubmission()) {
 			this->judgings.append(judging);
 		} else {
@@ -194,15 +174,17 @@ void MainController::processJudgingData(QJsonDocument judgingData) {
 
 	if (this->standingsController) {
 		delete this->standingsController;
-		this->standingsController = NULL;
+        this->standingsController = nullptr;
 	}
 
-	QHash<int, Model::Team *> selectedTeams;
-	QList<int> selectedCategories = this->mainDialog->selectedCategories().keys();
-	foreach (Model::Team *team, this->teams) {
-		if (selectedCategories.contains(team->getCategory()->getId())) {
-			selectedTeams[team->getId()] = team;
-		}
+    cout << this->teams.size() << endl;
+    cout << this->submissions.size() << endl;
+    cout << this->problems.size() << endl;
+    cout << this->judgings.size() << endl;
+
+    QHash<QString, Model::Team *> selectedTeams;
+    foreach (Model::Team *team, this->teams) {
+        selectedTeams[team->getId()] = team;
 	}
 
 	this->standingsController = new StandingsController(this->contest,
@@ -294,7 +276,7 @@ void MainController::showResults() {
 	}
 
 	Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-	apiManager->loadSubmissions();
+    apiManager->loadSubmissions(this->mainDialog->getContestId());
 }
 
 void MainController::updateStanding() {

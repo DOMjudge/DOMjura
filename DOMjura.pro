@@ -17,7 +17,6 @@ SOURCES += main.cpp \
         problemgraphicsitem.cpp \
         contest.cpp \
         problem.cpp \
-        category.cpp \
         team.cpp \
         maincontroller.cpp \
         standingscontroller.cpp \
@@ -39,7 +38,6 @@ HEADERS  += problemgraphicsitem.h \
         defines.h \
         contest.h \
         problem.h \
-        category.h \
         team.h \
         maincontroller.h \
         standingscontroller.h \
