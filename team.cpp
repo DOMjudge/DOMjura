@@ -12,13 +12,14 @@ Team::Team(QJsonObject team, QHash<QString, Group *> groups, QObject *parent) : 
     this->name = team.value("name").toString("UNKNOWN");
     this->affilation = team.value("affilation").toString("UNKNOWN");
     this->nationality = team.value("nationality").toString("UNKNOWN");
+    this->group = nullptr;
     QJsonArray groups_ids = team.value("group_ids").toArray();
-    QString groupId = groups_ids[0].toString();
-    if (groups.contains(groupId)) {
-        this->group = groups[groupId];
-        this->group->addTeam(this);
-    } else {
-        this->group = nullptr;
+    if (groups_ids.size() > 0){
+        QString groupId = groups_ids[0].toString();
+        if (groups.contains(groupId)) {
+            this->group = groups[groupId];
+            this->group->addTeam(this);
+        }
     }
 }
 
@@ -48,7 +49,7 @@ QString Team::toString() {
     s += "    name        = " + this->name + "\n";
     s += "    affilation  = " + this->affilation + "\n";
     s += "    nationality = " + this->nationality + "\n";
-    s += "    group       = " + this->group->getId() + " (" + this->group->getName() + ")\n";
+    s += "    group       = " + (this->group ? this->group->getId() + " (" + this->group->getName() + ")\n" : "NONE\n");
     return s;
 }
 }
