@@ -238,10 +238,15 @@ void MainController::processJudgingData(QJsonDocument judgingData) {
         for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
             Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
             ResultProblem problem;
-            problem.numTries = rankedProblem->tries;
             problem.state = rankedProblem->problemState;
             problem.problemId = rankedProblem->shortname;
-            problem.time = rankedProblem->timeLastTry;
+            if (rankedProblem->problemState == SOLVED){
+                problem.time = rankedProblem->timeFirstCorrectTry;
+                problem.numTries = rankedProblem->tries;
+            } else {
+                problem.time = rankedProblem->timeLastTry;
+                problem.numTries = rankedProblem->total_tries;
+            }
             problems.append(problem);
         }
         team.problems = problems;
@@ -326,10 +331,15 @@ void MainController::updateStanding() {
             for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
                 Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
                 ResultProblem problem;
-                problem.numTries = rankedProblem->tries;
                 problem.state = rankedProblem->problemState;
                 problem.problemId = rankedProblem->shortname;
-                problem.time = rankedProblem->timeLastTry;
+                if (rankedProblem->problemState == SOLVED){
+                    problem.time = rankedProblem->timeFirstCorrectTry;
+                    problem.numTries = rankedProblem->tries;
+                } else {
+                    problem.time = rankedProblem->timeLastTry;
+                    problem.numTries = rankedProblem->total_tries;
+                }
                 problems.append(problem);
             }
             team.problems = problems;
@@ -367,10 +377,15 @@ void MainController::updateStanding() {
             for (int j = 0; j < rankedTeam->getNumProblems(); j++) {
                 Model::RankedProblem *rankedProblem = rankedTeam->getProblem(j);
                 ResultProblem problem;
-                problem.numTries = rankedProblem->tries;
                 problem.state = rankedProblem->problemState;
                 problem.problemId = rankedProblem->shortname;
-                problem.time = rankedProblem->timeLastTry;
+                if (rankedProblem->problemState == SOLVED){
+                    problem.time = rankedProblem->timeFirstCorrectTry;
+                    problem.numTries = rankedProblem->tries;
+                } else {
+                    problem.time = rankedProblem->timeLastTry;
+                    problem.numTries = rankedProblem->total_tries;
+                }
                 problems.append(problem);
             }
             team.problems = problems;

@@ -19,8 +19,10 @@ struct RankedProblem {
     QString id; /**< The ID of this problem. */
     QString shortname; /**< The short name of this problem. */
     ProblemState problemState; /**< The state of this problem. */
-    int tries; /**< The number of tries for this problem. */
+    int tries; /**< The number of tries for this problem until correct one. */
+    int total_tries; /**< The number of total tries for this problem. */
     int timeLastTry; /**< The time of the last try for this problem. */
+    int timeFirstCorrectTry; /**< The time of the last (propably) correct try for this problem. */
 
     /** Makes a copy of a ranked problem.
       */
@@ -30,7 +32,9 @@ struct RankedProblem {
         c->shortname = this->shortname;
         c->problemState = this->problemState;
         c->tries = this->tries;
+        c->total_tries = this->total_tries;
         c->timeLastTry = this->timeLastTry;
+        c->timeFirstCorrectTry = this->timeFirstCorrectTry;
         return c;
     }
 };
