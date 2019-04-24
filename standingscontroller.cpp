@@ -37,7 +37,9 @@ void StandingsController::initStandings() {
             rankedProblem->shortname = problem->getShortName();
             rankedProblem->problemState = NOTSUBMITTED;
             rankedProblem->tries = 0;
+            rankedProblem->total_tries = 0;
             rankedProblem->timeLastTry = 0;
+            rankedProblem->timeFirstCorrectTry = 0;
             rankedTeam->setProblem(rankedProblem->id, rankedProblem, this->contest);
         }
         this->currentRanking.append(rankedTeam);
@@ -74,26 +76,26 @@ void StandingsController::initStandings() {
                     continue;
                 }
                 Model::RankedProblem *problem = team->getProblemById(problemId)->copy();
+                problem->total_tries++;
+                problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
                 if (!(problem->problemState == SOLVED || problem->problemState == PENDING_SOLVED)) {
                     if (submission->inFreeze(this->contest)) {
                         if (judging->isCorrect()) {
                             problem->problemState = PENDING_SOLVED;
                             problem->tries++;
-                            problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
+                            problem->timeFirstCorrectTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
                         } else {
                             problem->problemState = PENDING_FAILED;
                             problem->tries++;
-                            problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
                         }
                     } else {
                         if (judging->isCorrect()) {
                             problem->problemState = SOLVED;
                             problem->tries++;
-                            problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
+                            problem->timeFirstCorrectTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
                         } else {
                             problem->problemState = FAILED;
                             problem->tries++;
-                            problem->timeLastTry = (this->contest->getStart().secsTo(submission->getTime()) - 0) / 60;
                         }
                     }
                 }
