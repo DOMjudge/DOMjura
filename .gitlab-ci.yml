@@ -1,0 +1,17 @@
+stages:
+  - test
+  - build
+
+include:
+  - template: SAST.gitlab-ci.yml
+
+build for linux:
+  stage: build
+  image: hadim/docker-qt
+  script:
+    - qmake
+    - make -j8
+  artifacts:
+    name: DOMjura-linux-build-${CI_COMMIT_SHA}
+    paths:
+      - DOMjura

@@ -1,7 +1,7 @@
 DOMjura (DOMjudge results application)
 ==================================================
 
-DOMjura is a [DOMjudge](https://domjudge.org/) plugin parser that makes a nice results presentation.
+DOMjura is a [DOMjudge](https://domjudge.org/) API parser that makes a nice results presentation.
 
 DOMjura is easy to use: you just specify the DOMjudge URL and you are good to go.
 
@@ -10,7 +10,7 @@ DOMjura is easy to use: you just specify the DOMjudge URL and you are good to go
 DOMjura now requires the following software:
 
 * Qt5 or higher
-* DOMjudge 5.0 or higher
+* DOMjudge 6.0 or higher
 * The DejaVu Sans Mono font (bold and bold oblique)
 
 ## Compiling
@@ -49,4 +49,4 @@ __The results presentation__
 
 DOMjura is licensed under the [MIT License](LICENSE).
 
-Copyright 2011-2015 Nicky Gerritsen.
+Copyright (c) 2004 - 2019 by the DOMjudge developers and all respective contributors.
