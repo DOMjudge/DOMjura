@@ -36,6 +36,22 @@ void MainDialog::on_buttonStart_clicked() {
     emit startClicked();
 }
 
+void MainDialog::on_loadContestsButton_clicked()
+{
+    this->ui->buttonConnect->setDisabled(true);
+    this->ui->contestsComboBox->setDisabled(true);
+    this->ui->contestsComboBox->clear();
+    emit loadContestsClicked();
+}
+
+void MainDialog::setContestsComboboxData(QHash<QString, Model::Contest *> contests) {
+    this->ui->contestsComboBox->setEnabled(true);
+    this->ui->buttonConnect->setEnabled(true);
+    foreach (auto contest, contests){
+        this->ui->contestsComboBox->addItem(contest->getName(), QVariant::fromValue(contest));
+    }
+}
+
 void MainDialog::hideContest() {
     this->ui->groupBoxGroups->setEnabled(false);
     this->ui->groupBoxContest->setEnabled(false);
@@ -118,8 +134,8 @@ QString MainDialog::getPassword() {
     return this->ui->lineEditPassword->text();
 }
 
-QString MainDialog::getContestId() {
-    return this->ui->lineEditContestId->text();
+Model::Contest* MainDialog::getContest() {
+    return this->ui->contestsComboBox->currentData().value<Model::Contest *>();
 }
 
 MainDialog::DisplayMode MainDialog::getDisplayMode() {

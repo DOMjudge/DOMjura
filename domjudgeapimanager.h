@@ -19,7 +19,7 @@ class DomjudgeApiManager : public QObject
     Q_OBJECT
 public:
     static DomjudgeApiManager *sharedApiManager() {
-        static DomjudgeApiManager *_instance = NULL;
+        static DomjudgeApiManager *_instance = nullptr;
 
         if (!_instance) {
             _instance = new DomjudgeApiManager();
@@ -30,7 +30,7 @@ public:
 
     void setConnectionInfo(QString protocol, QString url, QString username, QString password);
     void loadUserData();
-    void loadContestData(QString contestId);
+    void loadContestsData();
     void loadTeamData(QString cid);
     void loadGroupsData(QString cid);
     void loadProblemData(QString cid);
@@ -49,7 +49,7 @@ private:
     QNetworkAccessManager *accessManager;
 
     QList<QNetworkRequest> userRequests;
-    QList<QNetworkRequest> contestRequests;
+    QList<QNetworkRequest> contestsRequests;
     QList<QNetworkRequest> teamsRequests;
     QList<QNetworkRequest> groupsRequests;
     QList<QNetworkRequest> problemRequests;
@@ -66,8 +66,8 @@ signals:
     void userLoaded(QJsonDocument user);
     void userDataFailedLoading(QString error);
 
-    void contestDataLoaded(QJsonDocument contestData);
-    void contestDataFailedLoading(QString error);
+    void contestsDataLoaded(QJsonDocument contestsData);
+    void contestsDataFailedLoading(QString error);
 
     void groupsDataLoaded(QJsonDocument data);
     void groupsDataFailedLoading(QString error);

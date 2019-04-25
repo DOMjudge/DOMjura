@@ -49,6 +49,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="buttonConnect">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Connect</string>
           </property>
@@ -58,6 +61,13 @@
       </item>
       <item row="0" column="1">
        <layout class="QGridLayout" name="gridLayout">
+        <item row="3" column="0" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Contests</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="2">
          <widget class="QLineEdit" name="lineEditPassword">
           <property name="echoMode">
@@ -73,50 +83,6 @@
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="labelPassword">
-          <property name="text">
-           <string>Password</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLineEdit" name="lineEditURL"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelDOMjudgePath">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>/api</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="lineEditUsername"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QComboBox" name="comboProtocol">
-          <item>
-           <property name="text">
-            <string>http://</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>https://</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item row="4" column="2">
@@ -135,15 +101,73 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
-         <widget class="QLineEdit" name="lineEditContestId"/>
-        </item>
-        <item row="3" column="0" alignment="Qt::AlignRight">
-         <widget class="QLabel" name="label_11">
+        <item row="2" column="0">
+         <widget class="QLabel" name="labelPassword">
           <property name="text">
-           <string>Contest Id</string>
+           <string>Password</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="lineEditUsername"/>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="lineEditURL"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="labelDOMjudgePath">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>/api</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <widget class="QComboBox" name="comboProtocol">
+          <item>
+           <property name="text">
+            <string>http://</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>https://</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QComboBox" name="contestsComboBox">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadContestsButton">
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Load</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -428,7 +452,6 @@
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditUsername</tabstop>
   <tabstop>lineEditPassword</tabstop>
-  <tabstop>lineEditContestId</tabstop>
   <tabstop>buttonConnect</tabstop>
   <tabstop>radioModeLive</tabstop>
   <tabstop>checkDuringFreeze</tabstop>
