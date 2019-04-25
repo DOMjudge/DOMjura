@@ -29,18 +29,19 @@ MainController::MainController(QObject *parent) : QObject(parent) {
     connect(this->mainDialog, &View::MainDialog::connectClicked, this, &MainController::connectToServer);
     connect(this->mainDialog, &View::MainDialog::settingsClicked, this->settingsDialog, &View::SettingsDialog::exec);
     connect(this->mainDialog, &View::MainDialog::startClicked, this, &MainController::showResults);
+    connect(this->mainDialog, &View::MainDialog::loadContestsClicked, this, &MainController::loadContest);
 
     Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
     connect(apiManager, &Shared::DomjudgeApiManager::userLoaded, this, &MainController::processUser);
-    connect(apiManager, &Shared::DomjudgeApiManager::userDataFailedLoading, this, &MainController::processContestLoadError);
-    connect(apiManager, &Shared::DomjudgeApiManager::contestDataLoaded, this, &MainController::processContestData);
-    connect(apiManager, &Shared::DomjudgeApiManager::contestDataFailedLoading, this, &MainController::processContestLoadError);
+    connect(apiManager, &Shared::DomjudgeApiManager::userDataFailedLoading, this, &MainController::processUserLoadError);
+    connect(apiManager, &Shared::DomjudgeApiManager::contestsDataLoaded, this, &MainController::processContestsData);
+    connect(apiManager, &Shared::DomjudgeApiManager::contestsDataFailedLoading, this, &MainController::processContestsLoadError);
     connect(apiManager, &Shared::DomjudgeApiManager::teamsDataLoaded, this, &MainController::processTeamData);
-    connect(apiManager, &Shared::DomjudgeApiManager::teamsDataFailedLoading, this, &MainController::processContestLoadError);
+    connect(apiManager, &Shared::DomjudgeApiManager::teamsDataFailedLoading, this, &MainController::processTeamsLoadError);
     connect(apiManager, &Shared::DomjudgeApiManager::groupsDataLoaded, this, &MainController::processGroupData);
-    connect(apiManager, &Shared::DomjudgeApiManager::groupsDataFailedLoading, this, &MainController::processContestLoadError);
+    connect(apiManager, &Shared::DomjudgeApiManager::groupsDataFailedLoading, this, &MainController::processGroupsLoadError);
     connect(apiManager, &Shared::DomjudgeApiManager::problemsDataLoaded, this, &MainController::processProblemData);
-    connect(apiManager, &Shared::DomjudgeApiManager::problemsDataFailedLoading, this, &MainController::processContestLoadError);
+    connect(apiManager, &Shared::DomjudgeApiManager::problemsDataFailedLoading, this, &MainController::processProblemsLoadError);
 
     connect(apiManager, &Shared::DomjudgeApiManager::submissionsDataLoaded, this, &MainController::processSubmissionData);
     connect(apiManager, &Shared::DomjudgeApiManager::submissionsDataFailedLoading, this, &MainController::processEventLoadError);
@@ -64,10 +65,7 @@ void MainController::showMainWindow() {
 }
 
 void MainController::connectToServer() {
-    if (this->contest) {
-        delete this->contest;
-        this->contest = nullptr;
-    }
+    this->contest = this->mainDialog->getContest();
 
     if (!this->groups.empty()) {
         qDeleteAll(this->groups);
@@ -94,6 +92,8 @@ void MainController::connectToServer() {
         this->submissions.clear();
     }
 
+    this->mainDialog->hideContest();
+
     Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
     apiManager->setConnectionInfo(this->mainDialog->getProtocol(), this->mainDialog->getURL(), this->mainDialog->getUsername(), this->mainDialog->getPassword());
     apiManager->loadUserData();
@@ -103,21 +103,31 @@ void MainController::processUser(QJsonDocument userData) {
     QJsonObject user = userData.object();
     QJsonArray roles = user.value("roles").toArray();
     if (!roles.contains(QString("admin")) && !roles.contains(QString("jury"))) {
-        this->processContestLoadError("You need at least the jury or admin role. Did you forget to enter a username / password?");
+        this->processUserLoadError("You need at least the jury or admin role. Did you forget to enter a username / password?");
     } else {
         Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-        apiManager->loadContestData(this->mainDialog->getContestId());
+        apiManager->loadGroupsData(this->contest->getId());
     }
 }
 
-void MainController::processContestData(QJsonDocument contestData) {
-    this->contest = new Model::Contest(contestData.object());
-    Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-    apiManager->loadGroupsData(this->mainDialog->getContestId());
+void MainController::processUserLoadError(QString error){
+    QMessageBox::warning(this->mainDialog, "DOMjura failed loading data", "Failed loading user data: " + error);
+
+    this->mainDialog->hideContest();
 }
 
-void MainController::processContestLoadError(QString error) {
-    QMessageBox::warning(this->mainDialog, "DOMjura failed loading data", "Failed loading contest data: " + error);
+void MainController::processContestsData(QJsonDocument contestsData) {
+    foreach (auto contestValue, contestsData.array()) {
+        auto contestObject = contestValue.toObject();
+        Model::Contest *contest = new Model::Contest(contestObject);
+        this->contests[contest->getId()] = contest;
+    }
+
+    this->mainDialog->setContestsComboboxData(this->contests);
+}
+
+void MainController::processContestsLoadError(QString error) {
+    QMessageBox::warning(this->mainDialog, "DOMjura failed loading data", "Failed loading contests data: " + error);
 
     this->mainDialog->hideContest();
 }
@@ -130,7 +140,13 @@ void MainController::processGroupData(QJsonDocument groupsData) {
     }
 
     Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-    apiManager->loadTeamData(this->mainDialog->getContestId());
+    apiManager->loadTeamData(this->contest->getId());
+}
+
+void MainController::processGroupsLoadError(QString error){
+    QMessageBox::warning(this->mainDialog, "DOMjura failed loading data", "Failed loading groups data: " + error);
+
+    this->mainDialog->hideContest();
 }
 
 void MainController::processTeamData(QJsonDocument teamData) {
@@ -146,7 +162,13 @@ void MainController::processTeamData(QJsonDocument teamData) {
     }
 
     Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-    apiManager->loadProblemData(this->mainDialog->getContestId());
+    apiManager->loadProblemData(this->contest->getId());
+}
+
+void MainController::processTeamsLoadError(QString error){
+    QMessageBox::warning(this->mainDialog, "DOMjura failed loading data", "Failed loading teams data: " + error);
+
+    this->mainDialog->hideContest();
 }
 
 void MainController::processProblemData(QJsonDocument problemData) {
@@ -157,6 +179,12 @@ void MainController::processProblemData(QJsonDocument problemData) {
     }
 
     this->mainDialog->displayContest(this->contest, this->groups);
+}
+
+void MainController::processProblemsLoadError(QString error){
+    QMessageBox::warning(this->mainDialog, "DOMjura failed loading data", "Failed loading problems data: " + error);
+
+    this->mainDialog->hideContest();
 }
 
 void MainController::processEventLoadError(QString error) {
@@ -177,7 +205,7 @@ void MainController::processSubmissionData(QJsonDocument submissionData) {
     }
 
     Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-    apiManager->loadJudgings(this->mainDialog->getContestId());
+    apiManager->loadJudgings(this->contest->getId());
 }
 
 void MainController::processJudgingData(QJsonDocument judgingData) {
@@ -287,6 +315,17 @@ void MainController::processJudgingData(QJsonDocument judgingData) {
 //    this->statsDialog->exec();
 //}
 
+void MainController::loadContest(){
+    if (!this->contests.empty()){
+        qDeleteAll(this->contests);
+        this->contests.clear();
+    }
+
+    Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
+    apiManager->setConnectionInfo(this->mainDialog->getProtocol(), this->mainDialog->getURL(), this->mainDialog->getUsername(), this->mainDialog->getPassword());
+    apiManager->loadContestsData();
+}
+
 void MainController::showResults() {
     if (!this->judgings.empty()) {
         qDeleteAll(this->judgings);
@@ -299,7 +338,7 @@ void MainController::showResults() {
     }
 
     Shared::DomjudgeApiManager *apiManager = Shared::DomjudgeApiManager::sharedApiManager();
-    apiManager->loadSubmissions(this->mainDialog->getContestId());
+    apiManager->loadSubmissions(this->contest->getId());
 }
 
 void MainController::updateStanding() {

@@ -23,9 +23,9 @@ void DomjudgeApiManager::loadUserData() {
     this->accessManager->get(request);
 }
 
-void DomjudgeApiManager::loadContestData(QString cid) {
-    DomjudgeApiRequest request("contests/" + cid);
-    this->contestRequests.append(request);
+void DomjudgeApiManager::loadContestsData(){
+    DomjudgeApiRequest request("contests");
+    this->contestsRequests.append(request);
 
     this->accessManager->get(request);
 }
@@ -100,9 +100,9 @@ void DomjudgeApiManager::replyFinished(QNetworkReply *reply) {
                            &DomjudgeApiManager::userLoaded)) {
         return;
     }
-    if (this->processReply(reply, &apiManager->contestRequests,
-                           &DomjudgeApiManager::contestDataFailedLoading,
-                           &DomjudgeApiManager::contestDataLoaded)) {
+    if (this->processReply(reply, &apiManager->contestsRequests,
+                           &DomjudgeApiManager::contestsDataFailedLoading,
+                           &DomjudgeApiManager::contestsDataLoaded)) {
         return;
     }
     if (this->processReply(reply, &apiManager->groupsRequests,

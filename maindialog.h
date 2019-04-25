@@ -44,11 +44,12 @@ public:
     QString getURL();
     QString getUsername();
     QString getPassword();
-    QString getContestId();
+    Model::Contest* getContest();
     DisplayMode getDisplayMode();
 
     void hideContest();
     void displayContest(Model::Contest *contest, QHash<QString, Model::Group *> groups);
+    void setContestsComboboxData(QHash<QString, Model::Contest *> contests);
     QHash<QString, Model::Group *> selectedGroups();
 
 signals:
@@ -56,12 +57,14 @@ signals:
     void settingsClicked();
     void connectClicked();
     void startClicked();
+    void loadContestsClicked();
 
 private slots:
     void on_buttonAbout_clicked();
     void on_buttonSettings_clicked();
     void on_buttonConnect_clicked();
     void on_buttonStart_clicked();
+    void on_loadContestsButton_clicked();
     void groupCheckboxClicked(bool checked);
 
 private:
