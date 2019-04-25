@@ -74,7 +74,6 @@ void MainDialog::displayContest(Model::Contest *contest, QHash<QString, Model::G
 
     this->ui->groupBoxGroups->setEnabled(true);
     this->ui->groupBoxContest->setEnabled(true);
-    this->ui->groupBoxMode->setEnabled(true);
 
     this->ui->labelContestName->setText(contest->getName());
     this->ui->labelContestStart->setText(contest->getStart().toString("yyyy-MM-dd hh:mm:ss"));

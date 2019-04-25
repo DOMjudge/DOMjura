@@ -452,13 +452,15 @@
   <tabstop>lineEditURL</tabstop>
   <tabstop>lineEditUsername</tabstop>
   <tabstop>lineEditPassword</tabstop>
+  <tabstop>loadContestsButton</tabstop>
+  <tabstop>contestsComboBox</tabstop>
   <tabstop>buttonConnect</tabstop>
   <tabstop>radioModeLive</tabstop>
   <tabstop>checkDuringFreeze</tabstop>
   <tabstop>radioModeResults</tabstop>
   <tabstop>buttonStart</tabstop>
-  <tabstop>buttonQuit</tabstop>
   <tabstop>buttonSettings</tabstop>
+  <tabstop>buttonQuit</tabstop>
   <tabstop>buttonAbout</tabstop>
  </tabstops>
  <resources/>
