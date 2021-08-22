@@ -35,15 +35,15 @@ Note that these screenshots are now outdated, but the general idea still is the 
 
 __The main window__
 
-<img src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Mainwindow.png" />
+<img src="https://github.com/DOMjudge/DOMjura/raw/main/resources/Screenshots/Mainwindow.png" alt="Screenshot showing the startup window with basic configuration options">
 
 __The settings dialog__
 
-<img src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Settings.png" />
+<img src="https://github.com/DOMjudge/DOMjura/raw/main/resources/Screenshots/Settings.png" "Screenshot showing a dialog with various settings">
 
 __The results presentation__
 
-<img width="800" src="https://github.com/nickygerritsen/DOMjura/raw/master/resources/Screenshots/Results.png" />
+<img width="800" src="https://github.com/DOMjudge/DOMjura/raw/main/resources/Screenshots/Results.png" alt="Screenshot showing the results of a contest">
 
 ## License
 
