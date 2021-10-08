@@ -39,7 +39,7 @@ __The main window__
 
 __The settings dialog__
 
-<img src="https://github.com/DOMjudge/DOMjura/raw/main/resources/Screenshots/Settings.png" "Screenshot showing a dialog with various settings">
+<img src="https://github.com/DOMjudge/DOMjura/raw/main/resources/Screenshots/Settings.png" alt="Screenshot showing a dialog with various settings">
 
 __The results presentation__
 
